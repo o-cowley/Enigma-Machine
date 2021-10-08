@@ -45,7 +45,7 @@ public class InUseRotors {
             x = r.shiftLetter(x, false);
         }
         x = reflector.shiftLetter(x, true);
-        for (int y = (inUse.size() - 1); i >= 0; i--) {
+        for (int y = (inUse.size() - 1); y >= 0; y--) {
             x = inUse.get(y).shiftLetter(x, true);
         }
         return x;
@@ -56,6 +56,20 @@ public class InUseRotors {
         List<Integer> originalSettings = new ArrayList<>();
         for (Rotor r: inUse) {
             originalSettings.add(r.getStartPoint());
+        }
+        return originalSettings;
+    }
+
+    //Effects: returns number of rotors "installed" so far
+    public Integer getRotorCount() {
+        return inUse.size();
+    }
+
+    //Effects: Returns the current step setting of each rotor in the array
+    public List<Integer> returnCurrentSettings() {
+        List<Integer> originalSettings = new ArrayList<>();
+        for (Rotor r: inUse) {
+            originalSettings.add(r.getSteps());
         }
         return originalSettings;
     }

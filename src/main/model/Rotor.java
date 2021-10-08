@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Rotor {
     private final RotorCase rotorCase = new RotorCase();
 
+    private int label;
     private int steps;
     private int startPoint;
     private ArrayList<Integer> rotorOutData; //rotor pass before reflection
@@ -13,6 +14,7 @@ public class Rotor {
 
     //Effects: Constructs a Rotor with the required Out and Return arrays for encryption
     public Rotor(Integer i) {
+        this.label = i;
         this.steps = 0;
         this.startPoint = 0;
         this.rotorOutData = rotorCase.getRotorArray((2 * i - 2));

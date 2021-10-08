@@ -24,13 +24,13 @@ public class RotorCaseTest {
         List<Integer> rotor4 = rc.getRotorArray(3);
         assertEquals(26, rotor4.size());
         List<Integer> rotorReflector = rc.getReflector();
-        assertEquals(5, rotorReflector.size());
+        assertEquals(26, rotorReflector.size());
     }
 
     @Test
     public void testValuesInRotor() {
         List<Integer> rotor4 = rc.getRotorArray(0);
-        List<Integer> expectedData = new ArrayList(Arrays.asList(4, 8, 9, 2, 6, 1, -3, 8, 12, 16, 3, 8, 2, 9,
+        List<Integer> expectedData = new ArrayList(Arrays.asList(4, 8, 9, 2, 6, 1, -3, 8, 13, 16, 3, 8, 2, 9,
                 10, -8, 7, 3, 0, -4, -20, -13, -21, -6, -22, -16));
         for (int i = 0 ; i < rotor4.size() ; i++) {
             assertEquals(expectedData.get(i), rotor4.get(i));

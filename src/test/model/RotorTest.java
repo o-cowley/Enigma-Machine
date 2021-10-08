@@ -21,7 +21,7 @@ class RotorTest {
         rotor = new Rotor(2);
         assertEquals(9, rotor.getRotorOutData(1));
         assertEquals(8, rotor.getRotorReturnData(1));
-        assertEquals(232323232, reflector.getRotorOutData(4));
+        assertEquals(0, reflector.getRotorOutData(4));
     }
     @Test
     public void testRotorSetting() {
@@ -52,7 +52,7 @@ class RotorTest {
         assertEquals(3, testInt);
         rotor.setRotor(2);
         testInt = reflector.shiftLetter(2, false);
-        assertEquals(9, testInt);
+        assertEquals(2, testInt);
     }
 
     @Test

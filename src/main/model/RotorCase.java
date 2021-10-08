@@ -20,7 +20,8 @@ public class RotorCase {
     private static final ArrayList<Integer> rotor3Return = new ArrayList(Arrays.asList(19, -1, 4, -2, 11, -3, 12, -4,
             8, -5, 10, -6, 9, 0, 11, -8, 8, -9, 5, -10, 2, -10, -5, -13, -10, -13));
 
-    private final ArrayList<Integer> staticReflector = new ArrayList(Arrays.asList(1,2,7,4,232323232));
+    private final ArrayList<Integer> staticReflector = new ArrayList(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
     private ArrayList<ArrayList<Integer>> rotorBox = new ArrayList<>();
 
