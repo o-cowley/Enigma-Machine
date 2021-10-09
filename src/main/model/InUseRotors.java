@@ -73,4 +73,13 @@ public class InUseRotors {
         }
         return originalSettings;
     }
+
+    //Effects: Returns the rotor type of each rotor in the array
+    public List<Integer> returnRotorNames() {
+        List<Integer> rotorLabels = new ArrayList<>();
+        for (Rotor r: inUse) {
+            rotorLabels.add(r.getLabel());
+        }
+        return rotorLabels;
+    }
 }

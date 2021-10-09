@@ -73,6 +73,10 @@ public class Rotor {
         return this.startPoint;
     }
 
+    public int getLabel() {
+        return label;
+    }
+
     public int getRotorOutData(int i) {
         return rotorOutData.get(i);
     }
