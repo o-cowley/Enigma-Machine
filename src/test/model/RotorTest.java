@@ -19,9 +19,10 @@ class RotorTest {
     @Test
     public void testRotorConstructor() {
         rotor = new Rotor(2);
-        assertEquals(9, rotor.getRotorOutData(1));
+        assertEquals(8, rotor.getRotorOutData(1));
         assertEquals(8, rotor.getRotorReturnData(1));
-        assertEquals(0, reflector.getRotorOutData(4));
+        assertEquals(-4, reflector.getRotorOutData(4));
+        assertEquals(2, rotor.getLabel());
     }
     @Test
     public void testRotorSetting() {
@@ -37,11 +38,11 @@ class RotorTest {
     public void testLetterEncryption() {
         assertEquals(4, rotor.shiftLetter(0, false));
         rotor.stepRotor();
-        assertEquals(8, rotor.shiftLetter(0, false));
+        assertEquals(9, rotor.shiftLetter(0, false));
         rotor.stepRotor();
         rotor.stepRotor();
         rotor.stepRotor();
-        assertEquals(6, rotor.shiftLetter(0, false));
+        assertEquals(7, rotor.shiftLetter(0, false));
         rotor.setRotor(25);
         assertEquals(10, rotor.shiftLetter(0, false));
         rotor.setRotor(16);
@@ -52,7 +53,7 @@ class RotorTest {
         assertEquals(3, testInt);
         rotor.setRotor(2);
         testInt = reflector.shiftLetter(2, false);
-        assertEquals(2, testInt);
+        assertEquals(12, testInt);
     }
 
     @Test

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class InUseRotors {
 
@@ -51,6 +52,40 @@ public class InUseRotors {
         return x;
     }
 
+    public String encooooode(String str) {
+        List<Integer> convertedForEncoding = getValuesToEncode(str);
+        for (int i = 0; i < convertedForEncoding.size(); i++) {
+            this.stepRotors();
+            int a = this.encode(convertedForEncoding.get(i));
+            convertedForEncoding.set(i, a);
+        }
+        return returnEncodedToString(convertedForEncoding);
+    }
+
+    private static List<Integer> getValuesToEncode(String str) {
+        String strNoSpaces = str.toUpperCase().replaceAll("\\s", "");
+        List<Integer> toConvert = new ArrayList<>();
+        for (int i = 0; i < strNoSpaces.length(); i++) {
+            int value = strNoSpaces.charAt(i);
+            value -= 65;
+            toConvert.add(value);
+        }
+        return toConvert;
+    }
+
+    // website used to help for conversion of a list of characters (stored as integer values) back to a single string
+    // https://stackoverflow.com/questions/6324826/converting-arraylist-of-characters-to-a-string
+    private static String returnEncodedToString(List<Integer> list) {
+        StringBuilder builder = new StringBuilder(list.size());
+        for (int i: list) {
+            int shiftedBack = i + 65;
+            char c = (char) shiftedBack;
+            builder.append(c);
+        }
+        return builder.toString();
+    }
+
+
     //Effects: returns an ordered list of start points for the rotors used in the encryption
     public List<Integer> returnStartPoints() {
         List<Integer> originalSettings = new ArrayList<>();
@@ -82,4 +117,23 @@ public class InUseRotors {
         }
         return rotorLabels;
     }
+
+
+
+//    public static void main(String[] args) {
+//        InUseRotors iu = new InUseRotors();
+//        List<Integer> list = getValuesToEncode("Ahi  DEFGH IJKLMNOPQR STUVWXYZ");
+//        for (int i = 0; i < list.size(); i++) {
+//            System.out.println(list.get(i));
+//        }
+//        String str = returnEncodedToString(list);
+//        System.out.println(str);
+//        iu.addRotor(1,0);
+//        String abc = iu.encooooode("XUVBMKPWDYHEDARKABXLVCKTTW");
+//
+//        System.out.println(abc);
+//
+//    }
+
+
 }
