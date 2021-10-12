@@ -2,32 +2,30 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class InUseRotors {
 
     private ArrayList<Rotor> inUse = new ArrayList<>();
     private Rotor reflector;
 
-    //Effects: Constructs an empty inUse ArrayList with the static reflector included separately
+    //EFFECTS: Constructs an empty inUse ArrayList and initializes its static reflector
     public InUseRotors() {
         this.reflector = new Rotor();
         reflector.setReflector();
     }
 
-    //Requires: i is between 0 and #ofAvailableRotors inclusive, setting is between 0 and 25 inclusive
-    //Modifies: this
-    //Effects: adds a new Rotor to inUse with the desired start setting
+    //REQUIRES: i is between 1 and #ofAvailableRotors inclusive, setting is between 0 and 25 inclusive
+    //MODIFIES: this
+    //EFFECTS: adds a new Rotor to the end of inUse with setting as initial steps setting
     public void addRotor(Integer i, Integer setting) {
         Rotor rotor = new Rotor(i);
         rotor.setRotor(setting);
         inUse.add(rotor);
     }
 
-    //Requires: At least one rotor is in the inUse rotor array
-    //Modifies: this
-    //Effects: step all rotors if the preceding rotor has completed a rotation, to be done before every
-    //instance of encode
+    //REQUIRES: At least one rotor is in the inUse rotor array
+    //MODIFIES: this
+    //EFFECTS: step all rotors, if a rotor has completes a rotation then the next rotor is also stepped etc.
     public void stepRotors() {
         inUse.get(0).stepRotor();
         if ((inUse.size() > 1) && (inUse.get(0).getSteps() == 0)) {
@@ -40,7 +38,9 @@ public class InUseRotors {
         }
     }
 
-    public int encode(Integer i) {
+    //EFFECTS: passes given Integer through each rotor, then reflector, and back again, shifting value
+    // according to each rotor's given pattern
+    public int encodeSingle(Integer i) {
         int x = i;
         for (Rotor r: inUse) {
             x = r.shiftLetter(x, false);
@@ -52,17 +52,24 @@ public class InUseRotors {
         return x;
     }
 
-    public String encooooode(String str) {
-        List<Integer> convertedForEncoding = getValuesToEncode(str);
+    //REQUIRES: at least one rotor in inUse array
+    //MODIFIES: this
+    //EFFECTS: Encodes the string according to Rotor encryption, stepping rotors before encrypting each letter,
+    // returns encrypted string in all caps, with spaces removed
+    public String encodeFullMessage(String str) {
+        List<Integer> convertedForEncoding = changeStringToIntArray(str);
         for (int i = 0; i < convertedForEncoding.size(); i++) {
             this.stepRotors();
-            int a = this.encode(convertedForEncoding.get(i));
+            int a = this.encodeSingle(convertedForEncoding.get(i));
             convertedForEncoding.set(i, a);
         }
-        return returnEncodedToString(convertedForEncoding);
+        return returnIntArrayToString(convertedForEncoding);
     }
 
-    private static List<Integer> getValuesToEncode(String str) {
+    //REQUIRES: no characters other than alphabetic and spaces
+    //EFFECTS: creates a List<Integer> where each entry is the equivalent character value 0-25 (A-Z) of each character
+    // in String str, in the order that they appeared, spaces are not included in the List
+    private static List<Integer> changeStringToIntArray(String str) {
         String strNoSpaces = str.toUpperCase().replaceAll("\\s", "");
         List<Integer> toConvert = new ArrayList<>();
         for (int i = 0; i < strNoSpaces.length(); i++) {
@@ -73,9 +80,13 @@ public class InUseRotors {
         return toConvert;
     }
 
-    // website used to help for conversion of a list of characters (stored as integer values) back to a single string
+    // website used to understand conversion of a list of characters (stored as their integer values) back to
+    // a single string:
     // https://stackoverflow.com/questions/6324826/converting-arraylist-of-characters-to-a-string
-    private static String returnEncodedToString(List<Integer> list) {
+    //EFFECTS: takes the List<Integer> list, which contains alphabetic values 0-25, shifts back to the required
+    // unicode range(Capital letters), then converts back to a character, appends it to builder and converts
+    // to a single string
+    private static String returnIntArrayToString(List<Integer> list) {
         StringBuilder builder = new StringBuilder(list.size());
         for (int i: list) {
             int shiftedBack = i + 65;
@@ -86,7 +97,7 @@ public class InUseRotors {
     }
 
 
-    //Effects: returns an ordered list of start points for the rotors used in the encryption
+    //EFFECTS: returns an ordered list of start points for the rotors used in the encryption
     public List<Integer> returnStartPoints() {
         List<Integer> originalSettings = new ArrayList<>();
         for (Rotor r: inUse) {
@@ -95,12 +106,13 @@ public class InUseRotors {
         return originalSettings;
     }
 
-    //Effects: returns number of rotors "installed" so far
+    //EFFECTS: returns number of rotors in inUse array
     public Integer getRotorCount() {
         return inUse.size();
     }
 
-    //Effects: Returns the current step setting of each rotor in the array
+    //EFFECTS: Returns the current step setting of each rotor in the array as a List<Integer>
+    // will always be same length as result of returnRotorNames()
     public List<Integer> returnCurrentSettings() {
         List<Integer> originalSettings = new ArrayList<>();
         for (Rotor r: inUse) {
@@ -109,7 +121,8 @@ public class InUseRotors {
         return originalSettings;
     }
 
-    //Effects: Returns the rotor type of each rotor in the array
+    //EFFECTS: Returns the rotor label of each rotor in the array, as a List<Integer>
+    // will always be same length as result of returnCurrentSettings()
     public List<Integer> returnRotorNames() {
         List<Integer> rotorLabels = new ArrayList<>();
         for (Rotor r: inUse) {
@@ -117,23 +130,4 @@ public class InUseRotors {
         }
         return rotorLabels;
     }
-
-
-
-//    public static void main(String[] args) {
-//        InUseRotors iu = new InUseRotors();
-//        List<Integer> list = getValuesToEncode("Ahi  DEFGH IJKLMNOPQR STUVWXYZ");
-//        for (int i = 0; i < list.size(); i++) {
-//            System.out.println(list.get(i));
-//        }
-//        String str = returnEncodedToString(list);
-//        System.out.println(str);
-//        iu.addRotor(1,0);
-//        String abc = iu.encooooode("XUVBMKPWDYHEDARKABXLVCKTTW");
-//
-//        System.out.println(abc);
-//
-//    }
-
-
 }

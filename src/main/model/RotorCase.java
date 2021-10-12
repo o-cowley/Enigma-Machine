@@ -38,14 +38,14 @@ public class RotorCase {
         rotorBox.add(rotor3Return);
     }
 
-    //Requires: an integer between 0 and #ofAvailableArrays * 2
+    //Requires: an integer between 0 and #ofAvailableArrays - 1
     //Effects: returns the required array of integers based on the input request
     public ArrayList<Integer> getRotorArray(Integer i) {
         return rotorBox.get(i);
     }
 
-    //Effects: returns the designated static reflector array that contains the shift data to make the enigma
-    //work to both encrypt and decrypt
+    //Effects: returns the designated static reflector array, this array has different behaviour and as such is stored
+    // in a different way from the main encryption arrays
     public ArrayList<Integer> getReflector() {
         return staticReflector;
     }

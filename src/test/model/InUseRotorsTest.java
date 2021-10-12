@@ -18,18 +18,18 @@ public class InUseRotorsTest {
     @Test
     void testConstructor() {
         assertEquals(0, testCase.getRotorCount());
-        int i = testCase.encode(0);
+        int i = testCase.encodeSingle(0);
         assertEquals(4, i);
     }
 
     @Test
     void testAddRotorSingle() {
         testCase.addRotor(1,0);
-        int i = testCase.encode(0);
+        int i = testCase.encodeSingle(0);
         assertEquals(20, i);
-        i= testCase.encode(1);
+        i= testCase.encodeSingle(1);
         assertEquals(13, i);
-        i = testCase.encode(12);
+        i = testCase.encodeSingle(12);
         assertEquals(7, i);
     }
 
@@ -39,7 +39,7 @@ public class InUseRotorsTest {
         testCase.addRotor(2,0);
         testCase.addRotor(1,0);
         testCase.addRotor(2,0);
-        int i = testCase.encode(0);
+        int i = testCase.encodeSingle(0);
         assertEquals(8, i);
         assertEquals(4, testCase.getRotorCount());
     }

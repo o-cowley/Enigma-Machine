@@ -12,7 +12,9 @@ public class Rotor {
     private ArrayList<Integer> rotorReturnData; //rotor pass after reflection
 
 
-    //Effects: Constructs a Rotor with the required Out and Return arrays for encryption
+    //REQUIRES: Integer between 0 and # of valid data arrays (each diff. rotor has two sets of data in RotorCase)
+    //EFFECTS: Constructs a Rotor with the required Out and Return data arrays, sets steps, start point to 0 as
+    // default and sets the label indicating which rotor was requested
     public Rotor(Integer i) {
         this.label = i;
         this.steps = 0;
@@ -21,31 +23,30 @@ public class Rotor {
         this.rotorReturnData = rotorCase.getRotorArray((2 * i - 1));
     }
 
-    //Requires: Constructor only called for the reflector rotor
-    //Modifies: this
-    //Effects: empty constructor only used for initializing the static reflector
+    //REQUIRES: called only to initialize the reflector rotor
+    //MODIFIES: this
+    //EFFECTS: empty constructor only used for initializing the static reflector, label is unnecessary
     public Rotor() {
         setRotor(0);
     }
 
-    //Requires: i = number % 26 and >=0
-    //Modifies: this
-    //Effects: sets the step and startPoint fields of the rotor
+    //REQUIRES: i is a number % 26 and >=0
+    //MODIFIES: this
+    //EFFECTS: sets the step and startPoint fields of the rotor
     public void setRotor(Integer i) {
         this.steps = i;
         this.startPoint = i;
     }
 
-    //Modifies: this
-    //Effects: Gets the Reflector data for the given rotor to be used as the reflector in the
-    // encryption process
+    //MODIFIES: this
+    //EFFECTS: Sets the required Reflector array for this rotor to be used as the reflector
     public void setReflector() {
         this.rotorOutData = rotorCase.getReflector();
         this.rotorReturnData = rotorCase.getReflector();
     }
 
-    //Requires: i is between 0 and 25 inclusive
-    //Effects: returns the given integer shifted (+/-) according to the data array and the number of steps
+    //REQUIRES: i is between 0 and 25 inclusive
+    //EFFECTS: returns the given integer shifted (+/-) according to the data array and the number of steps
     //taking into account the number of steps the array has gone through up to this point and the direction
     //through the machine (passes through rotorOutData first, rotorBackData after reflector
     public int shiftLetter(Integer i, Boolean direction) {
@@ -59,8 +60,8 @@ public class Rotor {
         return letterOut;
     }
 
-    //Modifies: this
-    //Effects: steps the rotor once, modulo 26
+    //MODIFIES: this
+    //EFFECTS: increases the rotor steps by 1, modulo 26
     public void stepRotor() {
         this.steps = (this.steps + 1) % 26;
     }
