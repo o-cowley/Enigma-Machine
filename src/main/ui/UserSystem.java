@@ -5,6 +5,7 @@ import model.InUseRotors;
 import java.util.List;
 import java.util.Scanner;
 
+//User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
 public class UserSystem {
     private Scanner scanner;
     private InUseRotors encryptionBox;

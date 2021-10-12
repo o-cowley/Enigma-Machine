@@ -105,4 +105,57 @@ public class InUseRotorsTest {
         assertEquals(4, startPoints.get(2));
         assertEquals(25, startPoints.get(3));
     }
+
+    @Test
+    void testEncodeFullStringNoSpaces() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,25);
+        String test = "ABCDEFGHIJKL";
+
+        String output = testCase.encodeFullMessage(test);
+        assertEquals("KYEVFCRRFSLO", output);
+        List<Integer> returnSettings = testCase.returnCurrentSettings();
+        assertEquals(11, returnSettings.get(0));
+        assertEquals(0, returnSettings.get(1));
+    }
+
+    @Test
+    void testEncodeStringWithSpaces() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,25);
+        String test = "ABCDE FGH IJK L";
+
+        String output = testCase.encodeFullMessage(test);
+        assertEquals("KYEVFCRRFSLO", output);
+        List<Integer> returnSettings = testCase.returnCurrentSettings();
+        assertEquals(11, returnSettings.get(0));
+        assertEquals(0, returnSettings.get(1));
+    }
+
+    @Test
+    void testReturnRotorData() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,16);
+        testCase.addRotor(3,12);
+        testCase.addRotor(2,3);
+
+        List<Integer> testNameReturn = testCase.returnRotorNames();
+        assertEquals(1, testNameReturn.get(0));
+        assertEquals(2, testNameReturn.get(1));
+        assertEquals(3, testNameReturn.get(2));
+        assertEquals(2, testNameReturn.get(3));
+
+        testCase.stepRotors();
+        List<Integer> testSettingReturn = testCase.returnCurrentSettings();
+        assertEquals(0, testSettingReturn.get(0));
+        assertEquals(17, testSettingReturn.get(1));
+        assertEquals(12, testSettingReturn.get(2));
+        assertEquals(3, testSettingReturn.get(3));
+
+        List<Integer> testStartReturn = testCase.returnStartPoints();
+        assertEquals(25, testStartReturn.get(0));
+        assertEquals(16, testStartReturn.get(1));
+        assertEquals(12, testStartReturn.get(2));
+        assertEquals(3, testStartReturn.get(3));
+    }
 }

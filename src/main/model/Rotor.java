@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+//This represents a single rotor with the required methods to pass a letter in and receive the encrypted/decrypted
+// version back. The field data includes its rotation point so that the necessary shifting of the rotor can be
+// simulated in the encryption process
 public class Rotor {
     private final RotorCase rotorCase = new RotorCase();
 

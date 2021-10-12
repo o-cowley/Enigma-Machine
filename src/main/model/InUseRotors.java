@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+//this is a representation of the active rotors that are being used for the encryption process. Functioning as if a
+// user would pick rotors from the RotorCase and add them to the InUseRotor to be actively used in the letter
+// shifting process
 public class InUseRotors {
 
     private ArrayList<Rotor> inUse = new ArrayList<>();
