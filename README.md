@@ -21,19 +21,20 @@ machine would be a very compelling way of learning the ins and outs of Java.
 
 ##The User Stories:
 - **Xs to Y**
-  - as a user I want the ability to add an arbitrary number of encryption Rotors to the InUseRotors "box"<p>
-  that will be used to encrypt a message in question
+  - as a user I want the ability to add an arbitrary number of Rotors to InUseRotors 
 - **X to Y**
-  - as a user I want to be able to assign the starting point to each of the rotors to create more encryption <p>
-  settings and to allow me to share the rotor settings to be passed along with the encrypted message
+  - as a user I want to be able to assign the starting point to each of the added rotors
 - **X to Y**
-  - as a user I want to be able to decrypt a message using the settings that were provided by the person who <p>
-  gave me the message
+  - as a user I want to be able to use this encryption method repeatedly to encode the same message with it  
+    producing different outcomes based on the initial settings
 - **X to Y**
-  - as a user I want to be able to view the initial settings upon completion of encryption 
+  - as a user I want to be able to decrypt a message using the same settings that were used to encrypt the message,  
+  and then simply passing the ciphertext through the program 
 - **X to Y**
-  - as a user I want to be able to use this encryption method repeatedly to encode the same message with it <p>
-  producing different outcomes based on the initial settings
+  - as a user I want the option to review my initial selected settings, upon completion of encryption 
+
+
+
 
 A *bulleted* list:
 - item 1
