@@ -19,7 +19,7 @@ very appealing to me. In the past, I have written some small programs that use s
 encryption algorithms that protect our data today. When the project was announced, I felt like modelling the Enigma  
 machine would be a very compelling way of learning the ins and outs of Java.
 
-##The User Stories:
+## The User Stories:
 - **Xs to Y**
   - as a user I want the ability to add an arbitrary number of Rotors to InUseRotors 
 - **X to Y**
