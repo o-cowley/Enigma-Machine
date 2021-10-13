@@ -16,6 +16,7 @@ public class UserSystem {
         scanner = new Scanner(System.in);
         encryptionBox = new InUseRotors();
         installRotors();
+        verifyRotorSettings();
         getAndEncryptInput();
         returnSettingsToUser();
     }
@@ -57,6 +58,62 @@ public class UserSystem {
             output = scanner.nextInt();
         }
         return output;
+    }
+
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS:
+    private void verifyRotorSettings() {
+        System.out.println("Here are your current rotor settings:");
+        printRotorsAndStartData();
+        changeInstalledRotors();
+    }
+
+    //TODO#1: add the int range guard function to the different input things
+    //TODO#2: add necessary details so that the user knows what the options are for edit and delete (rotor counts etc)
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS:
+    private void changeInstalledRotors() {
+        while (true) {
+            System.out.println("Enter 'edit' to change the setting of a rotor, 'delete' to remove a rotor, 'add' "
+                    + "to continue adding rotors, or 'done' to move on to encryption");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("edit")) {
+                changeRotorSetting();
+            } else if (input.equalsIgnoreCase("delete")) {
+                removeRotor();
+            } else if (input.equalsIgnoreCase("add")) {
+                installRotors();
+            } else if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+            System.out.println("Make sure to give pick a valid input: edit, delete, add, or done");
+        }
+    }
+
+    private void changeRotorSetting() {
+        if (encryptionBox.getRotorCount() == 0) {
+            System.out.println("Sorry, you don't have any rotors to change!");
+        } else {
+            System.out.println("Which rotor would you like to change?");
+            int rotorToChange = scanIntFromRange(1, encryptionBox.getRotorCount());
+            System.out.println("What would you like the new setting to be?");
+            int newSetting = scanIntFromRange(0, 25);
+            scanner.nextLine();
+            encryptionBox.resetRotorDetails(rotorToChange, newSetting);
+        }
+    }
+
+    private void removeRotor() {
+        if (encryptionBox.getRotorCount() <= 1) {
+            System.out.println("Sorry, you can't delete a rotor or you wont have any to encrypt with!");
+        } else {
+            System.out.println("Which rotor would you like to delete?");
+            int rotorToDelete = scanIntFromRange(1, encryptionBox.getRotorCount());
+            scanner.nextLine();
+            encryptionBox.deleteRotor(rotorToDelete);
+        }
     }
 
     //REQUIRES: input of a string comprised of only of alphabetic characters and spaces

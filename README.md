@@ -22,6 +22,7 @@ machine would be a very compelling way of learning the ins and outs of Java.
 ## The User Stories:
 
 - as a user I want the ability to add an arbitrary number of (class:) Rotors to (class:) InUseRotors **(Xs to Y)**
+  - these rotors are used to encrypt a message and even a single change produces drastically different results
 - as a user I want to be able to assign the starting point of each rotor individually
 - as a user I want to be able to use this encryption method to produce different outcomes, for the same string,  
 based on the initial settings

@@ -99,6 +99,21 @@ public class InUseRotors {
         return builder.toString();
     }
 
+    //REQUIRES: rotorNum is accessing a rotor that is already added to inUse
+    //MODIFIES: this
+    //EFFECTS: sets a rotor's start point and current setting after it has already been set and added
+    public void resetRotorDetails(int rotorNum, int newSetting) {
+        int i = rotorNum - 1;
+        inUse.get(i).setRotor(newSetting);
+    }
+
+    //REQUIRES: rotorNum must refer to a rotor that has already been added to inUse
+    //MODIFIES: this
+    //EFFECTS: removes the given rotor from the inUse list
+    public void deleteRotor(int rotorNum) {
+        int i = rotorNum - 1;
+        inUse.remove(i);
+    }
 
     //EFFECTS: returns an ordered list of start points for the rotors used in the encryption
     public List<Integer> returnStartPoints() {

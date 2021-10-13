@@ -158,4 +158,29 @@ public class InUseRotorsTest {
         assertEquals(12, testStartReturn.get(2));
         assertEquals(3, testStartReturn.get(3));
     }
+
+    @Test
+    void testRotorReset() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,16);
+        testCase.addRotor(3,12);
+        testCase.addRotor(2,3);
+
+        testCase.resetRotorDetails(1, 12);
+        testCase.resetRotorDetails(2, 8);
+        testCase.resetRotorDetails(3, 22);
+        testCase.resetRotorDetails(4, 16);
+
+        List<Integer> testSettingReturn = testCase.returnCurrentSettings();
+        assertEquals(12, testSettingReturn.get(0));
+        assertEquals(8, testSettingReturn.get(1));
+        assertEquals(22, testSettingReturn.get(2));
+        assertEquals(16, testSettingReturn.get(3));
+
+        List<Integer> testStartReturn = testCase.returnStartPoints();
+        assertEquals(12, testStartReturn.get(0));
+        assertEquals(8, testStartReturn.get(1));
+        assertEquals(22, testStartReturn.get(2));
+        assertEquals(16, testStartReturn.get(3));
+    }
 }
