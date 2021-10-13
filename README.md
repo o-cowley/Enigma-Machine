@@ -20,18 +20,14 @@ encryption algorithms that protect our data today. When the project was announce
 machine would be a very compelling way of learning the ins and outs of Java.
 
 ## The User Stories:
-- **Xs to Y**
-  - as a user I want the ability to add an arbitrary number of Rotors to InUseRotors 
-- **X to Y**
-  - as a user I want to be able to assign the starting point to each of the added rotors
-- **X to Y**
-  - as a user I want to be able to use this encryption method repeatedly to encode the same message with it  
-    producing different outcomes based on the initial settings
-- **X to Y**
-  - as a user I want to be able to decrypt a message using the same settings that were used to encrypt the message,  
-  and then simply passing the ciphertext through the program 
-- **X to Y**
-  - as a user I want the option to review my initial selected settings, upon completion of encryption 
+
+- as a user I want the ability to add an arbitrary number of (class:) Rotors to (class:) InUseRotors **(Xs to Y)**
+- as a user I want to be able to assign the starting point of each rotor individually
+- as a user I want to be able to use this encryption method to produce different outcomes, for the same string,  
+based on the initial settings
+- as a user I want to be able to decrypt a message by using the same settings that were used to encrypt the message,  
+and then simply passing the message through the program 
+- as a user I want the option to review my initial selected settings, upon completion of encryption 
 
 
 

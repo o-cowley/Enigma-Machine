@@ -60,7 +60,7 @@ public class UserSystem {
     }
 
     //REQUIRES: input of a string comprised of only of alphabetic characters and spaces
-    //MODIFIES: this  TODO: CHECK ABOUT THIS BECAUSE IT MODIFIES STEPS BUT IN ANOTHER METHOD
+    //MODIFIES: this
     //EFFECTS: encrypts/decrypts received message and returns the message to user
     private void getAndEncryptInput() {
         System.out.println("Please enter the text that you would like to encode/decode: "

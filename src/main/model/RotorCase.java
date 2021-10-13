@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//This class represents all the necesary data for the encryption process, each array contains the associated
+//This class represents all the necessary data for the encryption process, each array contains the associated
 // shift for each letter of the alphabet which can be accessed by calling the data in the 0 based index of the
 // letters (A-Z: 0-25). The reflector is kept separate as it has a different style of encrypting which requires it to
 // be used differently

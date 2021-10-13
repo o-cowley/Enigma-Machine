@@ -31,7 +31,7 @@ public class InUseRotors {
     //EFFECTS: step all rotors, if a rotor has completes a rotation then the next rotor is also stepped etc.
     public void stepRotors() {
         inUse.get(0).stepRotor();
-        if ((inUse.size() > 1) && (inUse.get(0).getSteps() == 0)) {
+        if (inUse.get(0).getSteps() == 0) {
             for (int i = 1; i < inUse.size(); i++) {
                 inUse.get(i).stepRotor();
                 if (inUse.get(i).getSteps() != 0) {
