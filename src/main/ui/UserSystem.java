@@ -36,7 +36,7 @@ public class UserSystem {
             settingChoice = scanIntFromRange(0, 25);
             scanner.nextLine();
             encryptionBox.addRotor(rotorChoice, settingChoice);
-            if (encryptionBox.getRotorCount() > 8) {
+            if (encryptionBox.getRotorCount() == 8) {
                 break;
             }
             System.out.println("Would you like to add more rotors? Reply 'done' if complete, or any input to "
@@ -49,8 +49,8 @@ public class UserSystem {
         }
     }
 
-    //REQUIRES: min and max that correspond to the valid ranges for either rotor choice or setting selection
-    //EFFECTS: Requests input of a valid integer for program progression, repeats until valid input is received
+    //EFFECTS: Checks input of a valid integer for program progression, repeats request until valid input is
+    // received, valid range is min to max inclusive
     private Integer scanIntFromRange(int min, int max) {
         int output = scanner.nextInt();
         while ((output > max) || (output < min)) {
@@ -60,7 +60,7 @@ public class UserSystem {
         return output;
     }
 
-    //REQUIRES:
+    //REQUIRES:TODO
     //MODIFIES:
     //EFFECTS:
     private void verifyRotorSettings() {
@@ -71,6 +71,7 @@ public class UserSystem {
 
     //TODO#1: add the int range guard function to the different input things
     //TODO#2: add necessary details so that the user knows what the options are for edit and delete (rotor counts etc)
+    //TODO#3: think about helper for printing rotor details to cut down on complexity of this method
     //REQUIRES:
     //MODIFIES:
     //EFFECTS:
@@ -87,29 +88,38 @@ public class UserSystem {
                 installRotors();
             } else if (input.equalsIgnoreCase("done")) {
                 break;
+            } else {
+                System.out.println("Make sure to give pick a valid input: edit, delete, add, or done");
             }
-            System.out.println("Make sure to give pick a valid input: edit, delete, add, or done");
+            System.out.println("Here are your current rotor settings:");
+            printRotorsAndStartData();
         }
     }
 
+    //REQUIRES: TODO
+    //MODIFIES:
+    //EFFECTS:
     private void changeRotorSetting() {
         if (encryptionBox.getRotorCount() == 0) {
             System.out.println("Sorry, you don't have any rotors to change!");
         } else {
-            System.out.println("Which rotor would you like to change?");
+            System.out.println("Which rotor would you like to change? (1 - " + encryptionBox.getRotorCount() + ")");
             int rotorToChange = scanIntFromRange(1, encryptionBox.getRotorCount());
-            System.out.println("What would you like the new setting to be?");
+            System.out.println("What would you like the new setting to be? (0-25)");
             int newSetting = scanIntFromRange(0, 25);
             scanner.nextLine();
             encryptionBox.resetRotorDetails(rotorToChange, newSetting);
         }
     }
 
+    //REQUIRES:
+    //MODIFIES:
+    //EFFECTS: TODO
     private void removeRotor() {
         if (encryptionBox.getRotorCount() <= 1) {
             System.out.println("Sorry, you can't delete a rotor or you wont have any to encrypt with!");
         } else {
-            System.out.println("Which rotor would you like to delete?");
+            System.out.println("Which rotor would you like to delete? (1 - " + encryptionBox.getRotorCount() + ")");
             int rotorToDelete = scanIntFromRange(1, encryptionBox.getRotorCount());
             scanner.nextLine();
             encryptionBox.deleteRotor(rotorToDelete);
@@ -129,8 +139,7 @@ public class UserSystem {
         System.out.println(returnedString);
     }
 
-    //REQUIRES: user input
-    //EFFECTS: triggers return of initial rotor settings method if requested by user
+    //EFFECTS: triggers return of initial rotor labels and settings method if requested by user
     private void returnSettingsToUser() {
         System.out.println("Would you like to know the settings you used? Type 'yes' or 'no'");
         String input = scanner.next();
@@ -148,11 +157,5 @@ public class UserSystem {
         for (int i = 0; i < starts.size(); i++) {
             System.out.println("Rotor #" + (i + 1) + " was: " + names.get(i) + " with setting: " + starts.get(i));
         }
-    }
-
-    //MODIFIES: this
-    //EFFECTS: Starts program
-    public static void main(String[] args) {
-        new UserSystem();
     }
 }

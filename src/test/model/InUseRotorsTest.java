@@ -183,4 +183,26 @@ public class InUseRotorsTest {
         assertEquals(22, testStartReturn.get(2));
         assertEquals(16, testStartReturn.get(3));
     }
+
+    @Test
+    void testRotorDelete() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,16);
+        testCase.addRotor(3,12);
+        testCase.addRotor(2,3);
+        assertEquals(4, testCase.getRotorCount());
+
+        testCase.deleteRotor(1);
+        assertEquals(3, testCase.getRotorCount());
+        List<Integer> testNameReturn = testCase.returnRotorNames();
+        assertEquals(2, testNameReturn.get(0));
+        assertEquals(3, testNameReturn.get(1));
+        assertEquals(2, testNameReturn.get(2));
+
+        testCase.deleteRotor(3);
+        assertEquals(2, testCase.getRotorCount());
+        testNameReturn = testCase.returnRotorNames();
+        assertEquals(2, testNameReturn.get(0));
+        assertEquals(3, testNameReturn.get(1));
+    }
 }

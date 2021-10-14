@@ -11,7 +11,8 @@ public class InUseRotors {
     private ArrayList<Rotor> inUse = new ArrayList<>();
     private Rotor reflector;
 
-    //EFFECTS: Constructs an empty inUse ArrayList and initializes its static reflector
+    //MODIFIES: this
+    //EFFECTS: Initializes and sets the reflector, since it functions differently than the basic rotors
     public InUseRotors() {
         this.reflector = new Rotor();
         reflector.setReflector();
@@ -20,8 +21,8 @@ public class InUseRotors {
     //REQUIRES: i is between 1 and #ofAvailableRotors inclusive, setting is between 0 and 25 inclusive
     //MODIFIES: this
     //EFFECTS: adds a new Rotor to the end of inUse with setting as initial steps setting
-    public void addRotor(Integer i, Integer setting) {
-        Rotor rotor = new Rotor(i);
+    public void addRotor(Integer rotorLabel, Integer setting) {
+        Rotor rotor = new Rotor(rotorLabel);
         rotor.setRotor(setting);
         inUse.add(rotor);
     }
@@ -30,13 +31,10 @@ public class InUseRotors {
     //MODIFIES: this
     //EFFECTS: step all rotors, if a rotor has completes a rotation then the next rotor is also stepped etc.
     public void stepRotors() {
-        inUse.get(0).stepRotor();
-        if (inUse.get(0).getSteps() == 0) {
-            for (int i = 1; i < inUse.size(); i++) {
-                inUse.get(i).stepRotor();
-                if (inUse.get(i).getSteps() != 0) {
-                    break;
-                }
+        for (Rotor r: inUse) {
+            r.stepRotor();
+            if (r.getSteps() != 0) {
+                break;
             }
         }
     }
