@@ -8,16 +8,15 @@ the Rotors according to their actual wiring from the original Enigma I, used fro
 The rotor wiring details came from Wikepedia, from information written and organized by *Graham Ellsbury*,  
 much of it can be found here: [Enigma Information](http://www.ellsbury.com/enigmabombe.htm)
 
-This program will be used by anyone who has an interest in encryption and wand to feel what it was like to use one  
+This program will be used by anyone who has an interest in encryption and wants to feel what it was like to use one  
 of the more significant cryptographic tools from the past century. The Enigma has unique operation in that it  
 is bi-directional, with encryption and decryption working by passing the plaintext and ciphertext through  
 the machine in the same manner, simply using the same rotors and start settings does both jobs. To me this is  
 incredibly interesting as it represented a major step in cryptography in the 1900s. As well, it instigated some  
 groundbreaking work on computing by Alan Turing, a man I find infinitely fascinating and who inspired my passion  
-for computing and cryptography. Consequently, building this program was very appealing to me. In the past, I  
-have written some small programs that use simplified version of some of the encryption algorithms that protect  
-our data today. When the project was announced, I felt like modelling the Enigma machine would be a very compelling  
-way of learning the ins and outs of Java.
+for computing and cryptography. In the past, I have written some small programs that use simplified version of  
+some of the encryption algorithms that protect our data today. When the project was announced, I felt like  
+modelling the Enigma machine would be a very compelling way of learning the ins and outs of Java
 
 ## The User Stories:
 
