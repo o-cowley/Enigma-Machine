@@ -22,7 +22,7 @@ way of learning the ins and outs of Java.
 ## The User Stories:
 
 - As a user, I want the ability to add an arbitrary number of (class:) Rotor to (class:) InUseRotors **(Xs to Y)**
-  - the rotors contain data to encrypt a message
+  - the rotors contain the data to encrypt a message, as well as keeping track of its setting (rotation)
 - As a user, I want to be able to assign the starting point of each rotor individually
 - As a user, I want to be able to review my rotor selections, and then adjust/delete/add to the rotors
 - As a user, I should be able to encrypt and decrypt a message by passing it through the machine with  
