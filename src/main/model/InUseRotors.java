@@ -27,9 +27,8 @@ public class InUseRotors {
         inUse.add(rotor);
     }
 
-    //REQUIRES: At least one rotor is in the inUse rotor array
     //MODIFIES: this
-    //EFFECTS: step all rotors, if a rotor has completes a rotation then the next rotor is also stepped etc.
+    //EFFECTS: step all rotors, if a rotor has completes a rotation then the next rotor along is also stepped etc.
     public void stepRotors() {
         for (Rotor r: inUse) {
             r.stepRotor();

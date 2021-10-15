@@ -42,7 +42,8 @@ public class Rotor {
     }
 
     //MODIFIES: this
-    //EFFECTS: Sets the required Reflector array for this rotor to be used as the reflector
+    //EFFECTS: Sets the rotor as the Reflector array, for this rotor to be used as the reflector which has slightly
+    // different functionality from a normal rotor
     public void setReflector() {
         this.rotorOutData = rotorCase.getReflector();
         this.rotorReturnData = rotorCase.getReflector();
@@ -64,10 +65,11 @@ public class Rotor {
     }
 
     //MODIFIES: this
-    //EFFECTS: increases the rotor steps by 1, modulo 26
+    //EFFECTS: increases the rotor steps field by 1, modulo 26
     public void stepRotor() {
         this.steps = (this.steps + 1) % 26;
     }
+
 
     public int getSteps() {
         return this.steps;

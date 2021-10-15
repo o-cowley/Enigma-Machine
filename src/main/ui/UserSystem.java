@@ -11,7 +11,8 @@ public class UserSystem {
     private InUseRotors encryptionBox;
 
     //MODIFIES: this
-    //EFFECTS: instantiates scanner and encryptionBox, triggers rotor install, encryption, and return settings methods
+    //EFFECTS: instantiates scanner and encryptionBox, triggers rotor install, edit phase, encryption, and return
+    // settings methods
     public UserSystem() {
         scanner = new Scanner(System.in);
         encryptionBox = new InUseRotors();
@@ -19,12 +20,13 @@ public class UserSystem {
         verifyRotorSettings();
         getAndEncryptInput();
         returnSettingsToUser();
+        scanner.close();
     }
 
     //the use of scanner.nextLine() to clear the carriage return to allow scanner.nextLine() to read the
     // next input comes from the simple-calculator lecture lab
     //MODIFIES: this
-    //EFFECTS: accepts user input to pick rotors and initial settings for encryption in next step
+    //EFFECTS: accepts user input to pick rotors and initial settings for encryption
     private void installRotors() {
         int rotorChoice;
         int settingChoice;
@@ -36,7 +38,7 @@ public class UserSystem {
             settingChoice = scanIntFromRange(0, 25);
             scanner.nextLine();
             encryptionBox.addRotor(rotorChoice, settingChoice);
-            if (encryptionBox.getRotorCount() == 8) {
+            if (encryptionBox.getRotorCount() >= 8) {
                 break;
             }
             System.out.println("Would you like to add more rotors? Reply 'done' if complete, or any input to "
@@ -60,23 +62,13 @@ public class UserSystem {
         return output;
     }
 
-    //REQUIRES:TODO
-    //MODIFIES:
-    //EFFECTS:
+    //MODIFIES: this
+    //EFFECTS: displays current rotors and then gives the user the option to change rotor settings,
+    // delete rotors, or add more rotors, unlimited changes allowed before user choice to proceed to encryption phase
     private void verifyRotorSettings() {
-        System.out.println("Here are your current rotor settings:");
-        printRotorsAndStartData();
-        changeInstalledRotors();
-    }
-
-    //TODO#1: add the int range guard function to the different input things
-    //TODO#2: add necessary details so that the user knows what the options are for edit and delete (rotor counts etc)
-    //TODO#3: think about helper for printing rotor details to cut down on complexity of this method
-    //REQUIRES:
-    //MODIFIES:
-    //EFFECTS:
-    private void changeInstalledRotors() {
         while (true) {
+            System.out.println("Here are your current rotor settings:");
+            printRotorsAndStartData(true);
             System.out.println("Enter 'edit' to change the setting of a rotor, 'delete' to remove a rotor, 'add' "
                     + "to continue adding rotors, or 'done' to move on to encryption");
             String input = scanner.nextLine();
@@ -89,16 +81,14 @@ public class UserSystem {
             } else if (input.equalsIgnoreCase("done")) {
                 break;
             } else {
-                System.out.println("Make sure to give pick a valid input: edit, delete, add, or done");
+                System.out.println("Make sure to enter a valid input.");
             }
-            System.out.println("Here are your current rotor settings:");
-            printRotorsAndStartData();
         }
     }
 
-    //REQUIRES: TODO
-    //MODIFIES:
-    //EFFECTS:
+    //MODIFIES: this
+    //EFFECTS: changes the start setting of a rotor that has already been picked and added to the encryptionBox,
+    // rotor and new setting chosen by user, if no rotors installed, the edit command is rejected
     private void changeRotorSetting() {
         if (encryptionBox.getRotorCount() == 0) {
             System.out.println("Sorry, you don't have any rotors to change!");
@@ -112,9 +102,9 @@ public class UserSystem {
         }
     }
 
-    //REQUIRES:
-    //MODIFIES:
-    //EFFECTS: TODO
+    //MODIFIES: this
+    //EFFECTS: allows the user to select an already installed rotor to delete, or refuses if there are not enough
+    // rotors to have at least one left after deletion
     private void removeRotor() {
         if (encryptionBox.getRotorCount() <= 1) {
             System.out.println("Sorry, you can't delete a rotor or you wont have any to encrypt with!");
@@ -128,7 +118,7 @@ public class UserSystem {
 
     //REQUIRES: input of a string comprised of only of alphabetic characters and spaces
     //MODIFIES: this
-    //EFFECTS: encrypts/decrypts received message and returns the message to user
+    //EFFECTS: encrypts/decrypts received message and returns the message as a String to user
     private void getAndEncryptInput() {
         System.out.println("Please enter the text that you would like to encode/decode: "
                 + "(only letters and spaces are valid inputs)");
@@ -141,21 +131,28 @@ public class UserSystem {
 
     //EFFECTS: triggers return of initial rotor labels and settings method if requested by user
     private void returnSettingsToUser() {
-        System.out.println("Would you like to know the settings you used? Type 'yes' or 'no'");
+        System.out.println("Would you like to know the settings you picked? Type 'yes' or 'no'");
         String input = scanner.next();
-        if (input.equals("yes")) {
-            printRotorsAndStartData();
+        if (input.equalsIgnoreCase("yes")) {
+            printRotorsAndStartData(false);
         } else {
             System.out.println("Ok! Thanks for encrypting.");
         }
     }
 
-    //EFFECTS: prints rotor label and initial settings to console for user
-    private void printRotorsAndStartData() {
+    //EFFECTS: prints rotor label and initial settings to console for user with present or past tense based
+    // on calling position in program
+    private void printRotorsAndStartData(boolean presentTense) {
+        String tense;
+        if (presentTense) {
+            tense = " is: ";
+        } else {
+            tense = " was: ";
+        }
         List<Integer> names = encryptionBox.returnRotorNames();
         List<Integer> starts = encryptionBox.returnStartPoints();
         for (int i = 0; i < starts.size(); i++) {
-            System.out.println("Rotor #" + (i + 1) + " was: " + names.get(i) + " with setting: " + starts.get(i));
+            System.out.println("Rotor #" + (i + 1) + tense + names.get(i) + " with setting: " + starts.get(i));
         }
     }
 }

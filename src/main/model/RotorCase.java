@@ -43,7 +43,7 @@ public class RotorCase {
     }
 
     //Requires: an integer between 0 and #ofAvailableArrays - 1
-    //Effects: returns the required array of integers based on the input request
+    //Effects: returns the requested array of integers based on the input request
     public ArrayList<Integer> getRotorArray(Integer i) {
         return rotorBox.get(i);
     }
