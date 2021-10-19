@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 //This represents a single rotor with the required methods to pass a letter in and receive the encrypted/decrypted
@@ -92,4 +95,56 @@ public class Rotor {
     }
 
 
+    //TODO NEW CONSTRUCTOR, IN WRONG PLACE
+    //MODIFIES: this
+    //EFFECTS: converts a JSON object in to a new rotor, includes all array data to be stored
+    // in case of changing RotorCase information...MAY NOT BE NECESSARY
+    public Rotor(JSONObject json) {
+        this.label = (int) json.get("label");
+        setRotor((int) json.get("start point"));
+
+        JSONArray outArray = (JSONArray) json.get("out array");
+        this.rotorOutData = jsonToArray(outArray);
+
+        JSONArray inArray = (JSONArray) json.get("out array");
+        this.rotorReturnData = jsonToArray(inArray);
+
+    }
+
+    //REQUIRES: JSON Array of Integers
+    //TODO: Probably needs to be adjusted to be more robust than just assuming array is okay
+    //EFFECTS: receives a JSON Array and converts it to an ArrayList<Integer> to be used as rotor data
+    private ArrayList<Integer> jsonToArray(JSONArray jsonArray) {
+        ArrayList<Integer> returnArray = new ArrayList<>();
+        for (Object o: jsonArray) {
+            int toAdd = (int) o;
+            returnArray.add(toAdd);
+        }
+
+        return returnArray;
+    }
+
+    //EFFECTS: Produces a JSON object that represents a complete rotor--includes full array data for out and return
+    // everything is stored individually--current setting not necessary for how this will be used
+    public JSONObject toJson() {
+        JSONObject jsonRotor = new JSONObject();
+
+        jsonRotor.put("label", label);
+        jsonRotor.put("start point", startPoint);
+        jsonRotor.put("out array", rotorDataToJson(rotorOutData));
+        jsonRotor.put("return array", rotorDataToJson(rotorReturnData));
+
+        return jsonRotor;
+    }
+
+    //EFFECTS: Returns JSON Array containing all data from a single ArrayList<Integer> used to store a full rotor
+    // of data in a JSON Array to be stored in the JSON Object that will be written for each rotor
+    private JSONArray rotorDataToJson(ArrayList<Integer> array) {
+        JSONArray jsonArray = new JSONArray();
+        for (Integer i: array) {
+            jsonArray.put(i);
+        }
+
+        return jsonArray;
+    }
 }
