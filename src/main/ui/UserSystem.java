@@ -1,14 +1,22 @@
 package ui;
 
 import model.InUseRotors;
+import persistence.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 //User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
 public class UserSystem {
+    private static final String destination = "./data/encryptionSettings.json";
+
     private Scanner scanner;
     private InUseRotors encryptionBox;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
 
     //MODIFIES: this
     //EFFECTS: instantiates scanner and encryptionBox, triggers rotor install, edit phase, encryption, and return
@@ -16,11 +24,48 @@ public class UserSystem {
     public UserSystem() {
         scanner = new Scanner(System.in);
         encryptionBox = new InUseRotors();
-        installRotors();
+        jsonWriter = new JsonWriter(destination);
+        jsonReader = new JsonReader(destination);
+
+        runSystem();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: runs the program
+    private void runSystem() {
+        loadOrInstallRotors();
         verifyRotorSettings();
         getAndEncryptInput();
+        askToSave();
         returnSettingsToUser();
         scanner.close();
+    }
+
+    //TODO FINISH THIS...ask for choice to load or to select rotors
+    private void loadOrInstallRotors() {
+        System.out.println("Would you like to load your rotors from last save? enter 'yes' to load");
+        String input = scanner.next();
+        scanner.nextLine();
+        if (input.equalsIgnoreCase("yes")) {
+            try {
+                readRotorsFromFile();
+            } catch (IOException e) {
+                System.out.println("Sorry, I couldn't get your rotor data from before!");
+                System.out.println("You will have to input them by hand.");
+                installRotors();
+            }
+        } else {
+            installRotors();
+        }
+    }
+
+    private void askToSave() {
+        System.out.println("Would you like to save your rotors for next time? enter 'yes' to do so");
+        String input = scanner.next();
+        scanner.nextLine();
+        if (input.equalsIgnoreCase("yes")) {
+            writeRotorsToFile();
+        }
     }
 
     //the use of scanner.nextLine() to clear the carriage return to allow scanner.nextLine() to read the
@@ -155,4 +200,21 @@ public class UserSystem {
             System.out.println("Rotor #" + (i + 1) + tense + names.get(i) + " with setting: " + starts.get(i));
         }
     }
+
+    private void writeRotorsToFile() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(encryptionBox);
+            jsonWriter.close();
+            System.out.println("Rotors saved to file");
+        } catch (FileNotFoundException e) {
+            System.out.println("Sorry, the destination file wasn't found");
+        }
+
+    }
+
+    private void readRotorsFromFile() throws IOException {
+        jsonReader.readFile();
+    }
+
 }

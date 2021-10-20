@@ -106,7 +106,7 @@ public class Rotor {
         JSONArray outArray = (JSONArray) json.get("out array");
         this.rotorOutData = jsonToArray(outArray);
 
-        JSONArray inArray = (JSONArray) json.get("out array");
+        JSONArray inArray = (JSONArray) json.get("return array");
         this.rotorReturnData = jsonToArray(inArray);
 
     }
