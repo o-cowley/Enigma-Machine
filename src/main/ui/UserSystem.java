@@ -214,7 +214,7 @@ public class UserSystem {
     }
 
     private void readRotorsFromFile() throws IOException {
-        jsonReader.readFile();
+        encryptionBox = jsonReader.readFile();
     }
 
 }
