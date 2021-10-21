@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.NoRotorsLoadedException;
 import model.InUseRotors;
 import persistence.*;
 
@@ -44,7 +45,7 @@ public class UserSystem {
     }
 
     //MODIFIES: this
-    //EFFECTS: requests user to decide to load encryptionBox from file or set rotor by rotor, executes accordingly
+    //EFFECTS: requests user to choose to load encryptionBox from file or set manually, executes accordingly
     private void loadOrInstallRotors() {
         System.out.println("Would you like to load your rotors from last save? enter 'yes' to load");
         String input = scanner.next();
@@ -52,8 +53,12 @@ public class UserSystem {
         if (input.equalsIgnoreCase("yes")) {
             try {
                 readRotorsFromFile();
+                printRotorsAndStartData(true);
             } catch (IOException e) {
                 System.out.println("Sorry, I couldn't get your rotor data, you will have to input them yourself!");
+                customRotorSetup();
+            } catch (NoRotorsLoadedException e) {
+                System.out.println("There weren't any rotors saved, you will need to input them.");
                 customRotorSetup();
             }
         } else {
@@ -122,6 +127,7 @@ public class UserSystem {
     //MODIFIES: this
     //EFFECTS: displays current rotors and then gives the user the option to change rotor settings,
     // delete rotors, or add more rotors, unlimited changes allowed before user choice to proceed to encryption phase
+    //TODO catch so you can't go add more than 8 through this menu
     private void verifyRotorSettings() {
         while (true) {
             System.out.println("Here are your current rotor settings:");
@@ -229,7 +235,9 @@ public class UserSystem {
 
     //MODIFIES: this
     //EFFECTS: reads rotor settings from file and sets up encryptionBox accordingly
-    private void readRotorsFromFile() throws IOException {
+    //         Throws IOException if file not found
+    //         Throws NoRotorsLoadedException if save file did not have any rotors loaded
+    private void readRotorsFromFile() throws IOException, NoRotorsLoadedException {
         encryptionBox = jsonReader.readFile();
     }
 
