@@ -11,12 +11,12 @@ import java.util.Scanner;
 //User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
 public class UserSystem {
     private static final String destination = "./data/encryptionSettings.json";
-    private static final String fileForRotorCase = "./data/rotorArrays.json";
 
     private Scanner scanner;
-    private InUseRotors encryptionBox;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    private InUseRotors encryptionBox;
+    private int availableRotorTypes;
 
 
     //MODIFIES: this
@@ -24,9 +24,11 @@ public class UserSystem {
     // settings methods
     public UserSystem() {
         scanner = new Scanner(System.in);
-        encryptionBox = new InUseRotors();
         jsonWriter = new JsonWriter(destination);
         jsonReader = new JsonReader(destination);
+
+        encryptionBox = new InUseRotors();
+        availableRotorTypes = encryptionBox.getAvailableRotorTypes();
 
         runSystem();
     }
@@ -86,8 +88,9 @@ public class UserSystem {
         int settingChoice;
         String input;
         while (true) {
-            System.out.println("Please let me know which number rotor you would like to add (1-3):");
-            rotorChoice = scanIntFromRange(1, 3);
+            System.out.println("Please let me know which number rotor you would like to add (1-"
+                    + availableRotorTypes + "):");
+            rotorChoice = scanIntFromRange(1, availableRotorTypes);
             System.out.println("And what would you like the setting to be? (0-25)");
             settingChoice = scanIntFromRange(0, 25);
             scanner.nextLine();

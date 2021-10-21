@@ -14,18 +14,14 @@ import java.util.Arrays;
 public class RotorCase {
     private static final String destination = "./data/rotorArrays.json";
 
-    private JsonReader jsonReader;
-
     private static final ArrayList<Integer> rotor1Out = new ArrayList(Arrays.asList(4, 9, 10, 2, 7, 1, -3, 9, 13, 16,
             3, 8, 2, 9, 10, -8, 7, 3, 0, -4, -20, -13, -21, -6, -22, -16));
     private static final ArrayList<Integer> rotor1Return = new ArrayList(Arrays.asList(20, 21, 22, 3, -4, -2, -1, 8,
             13, 16, -9, -7, -10, -3, -2, 4, -9, 6, 0, -8, -3, -13, -9, -7, -10, -16));
-
     private static final ArrayList<Integer> rotor2Out = new ArrayList(Arrays.asList(0, 8, 1, 7, 14, 3, 11, 13, 15, -8,
             1, -4, 10, 6, -2, -13, 0, -11, 7, -6, -5, 3, -17, -2, -10, -21));
     private static final ArrayList<Integer> rotor2Return = new ArrayList(Arrays.asList(0, 8, 13, -1, 21, 17, 11, 4, -3,
             -8, -7, -1, 2, 6, 10, 5, 0, -11, -14, -6, -13, 2, -10, -15, -3, -7));
-
     private static final ArrayList<Integer> rotor3Out = new ArrayList(Arrays.asList(1, 2, 3, 4, 5, 6, -4, 8, 9, 10, 13,
             10, 13, 0, 10, -11, -8, 5, -12, -19, -10, -9, -2, -5, -8, -11));
     private static final ArrayList<Integer> rotor3Return = new ArrayList(Arrays.asList(19, -1, 4, -2, 11, -3, 12, -4,
@@ -35,32 +31,36 @@ public class RotorCase {
             13, -8, 12, -6, -10, 4, 2, 5, -2, -4, 1, -1, -5, -13, -12, -16, -18, -22));
 
     private ArrayList<ArrayList<Integer>> rotorBox;
+    private JsonReader jsonReader;
 
     //Modifies: this
     //Effects: Instantiates a RotorBox and adds all the necessary arrays of shift data for the
     // encryption process, to the rotorBox array. They are in numerical order to allow getting of the needed
     //arrays of data
+//    public RotorCase() {
+//        rotorBox = new ArrayList<>();
+//
+//        rotorBox.add(rotor1Out);
+//        rotorBox.add(rotor1Return);
+//        rotorBox.add(rotor2Out);
+//        rotorBox.add(rotor2Return);
+//        rotorBox.add(rotor3Out);
+//        rotorBox.add(rotor3Return);
+//
+//    }
+
+    //MODIFIES: this
+    //EFFECTS: reads rotors from file and loads them to rotorBox for use to set up a Rotor, if file is not found
+    // then only 3 are loaded instead using static class data
     public RotorCase() {
-        rotorBox = new ArrayList<>();
-
-        rotorBox.add(rotor1Out);
-        rotorBox.add(rotor1Return);
-        rotorBox.add(rotor2Out);
-        rotorBox.add(rotor2Return);
-        rotorBox.add(rotor3Out);
-        rotorBox.add(rotor3Return);
-
-    }
-
-    //TODO maybe need to catch the exception higher up to call the other constructor if we can't make the file work
-    // ALSO need to alter the way this constructor works because I don't have the ability to control which one runs
-    public RotorCase(boolean thing) {
         jsonReader = new JsonReader(destination);
         rotorBox = new ArrayList<>();
         try {
             jsonReader.addRotorDataFromFile(rotorBox);
         } catch (IOException e) {
-            System.out.println("We couldn't get your rotor data from the main file, please check it's there!");
+            System.out.println("We couldn't get the rotor data from file, reduced number of rotors "
+                    + "available as a result");
+            loadArraysFromClass();
         }
     }
 
@@ -76,5 +76,26 @@ public class RotorCase {
         return staticReflector;
     }
 
+    //EFFECTS: returns the number of available rotors, rotorBox contains two arrays per available
+    // rotor (out and return)
+    public Integer availableArrays() {
+        return rotorBox.size() / 2;
+    }
+
+    //Modifies: this
+    //Effects: Instantiates a RotorBox ArrayList and adds a reduced version of the necessary arrays for the
+    // encryption process, to the rotorBox array. They are in numerical order to allow getting of the needed
+    // arrays of data
+    public void loadArraysFromClass() {
+        rotorBox = new ArrayList<>();
+
+        rotorBox.add(rotor1Out);
+        rotorBox.add(rotor1Return);
+        rotorBox.add(rotor2Out);
+        rotorBox.add(rotor2Return);
+        rotorBox.add(rotor3Out);
+        rotorBox.add(rotor3Return);
+
+    }
 
 }

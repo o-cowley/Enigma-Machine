@@ -10,6 +10,7 @@ import java.util.ArrayList;
 // simulated in the encryption process
 public class Rotor {
     private static final RotorCase rotorCase = new RotorCase();
+    private static final int availableRotors = rotorCase.availableArrays();
 
     private int label;
     private int steps;
@@ -143,5 +144,9 @@ public class Rotor {
 
     public int getRotorReturnData(int i) {
         return rotorReturnData.get(i);
+    }
+
+    public int getAvailableRotors() {
+        return availableRotors;
     }
 }

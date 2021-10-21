@@ -13,12 +13,15 @@ public class InUseRotors {
 
     private ArrayList<Rotor> inUse = new ArrayList<>();
     private Rotor reflector;
+    private int availableRotorTypes;
 
     //MODIFIES: this
     //EFFECTS: Initializes and sets the reflector, since it functions differently than the basic rotors
     public InUseRotors() {
         this.reflector = new Rotor();
         reflector.setReflector();
+
+        availableRotorTypes = reflector.getAvailableRotors();
     }
 
     //REQUIRES: i is between 1 and #ofAvailableRotors inclusive, setting is between 0 and 25 inclusive
@@ -175,5 +178,10 @@ public class InUseRotors {
             rotorLabels.add(r.getLabel());
         }
         return rotorLabels;
+    }
+
+    //EFFECTS: return the available different rotors from RotorCase
+    public int getAvailableRotorTypes() {
+        return availableRotorTypes;
     }
 }
