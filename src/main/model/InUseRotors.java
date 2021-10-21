@@ -115,6 +115,34 @@ public class InUseRotors {
         inUse.remove(i);
     }
 
+    //EFFECTS: returns a new JSON Object of all rotors in the current inUse, rotors are represented in JSON Array
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("rotors", rotorsToJson());
+        return json;
+    }
+
+
+    //EFFECTS: goes through inUse and converts each rotor in to a JSON object and then adds it to a
+    // JSON Array, returns array
+    private JSONArray rotorsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Rotor r: inUse) {
+            jsonArray.put(r.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    //MODIFIES this
+    //EFFECTS: adds an already made rotor to inUse, takes advantage of JSON data and new Rotor constructor
+    public void addCompleteRotor(Rotor r) {
+        inUse.add(r);
+    }
+
+    //Getters for this class:
+
     //EFFECTS: returns an ordered list of start points for the rotors used in the encryption
     public List<Integer> returnStartPoints() {
         List<Integer> originalSettings = new ArrayList<>();
@@ -147,31 +175,5 @@ public class InUseRotors {
             rotorLabels.add(r.getLabel());
         }
         return rotorLabels;
-    }
-
-    //EFFECTS: returns a new JSON Object of all rotors in the current inUse, rotors are represented in JSON Array
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("rotors", rotorsToJson());
-        return json;
-    }
-
-
-    //EFFECTS: goes through inUse and converts each rotor in to a JSON object and then adds it to a
-    // JSON Array, returns array
-    private JSONArray rotorsToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Rotor r: inUse) {
-            jsonArray.put(r.toJson());
-        }
-
-        return jsonArray;
-    }
-
-    //MODIFIES this
-    //EFFECTS: adds an already made rotor to inUse, takes advantage of JSON data and new Rotor constructor
-    public void addCompleteRotor(Rotor r) {
-        inUse.add(r);
     }
 }

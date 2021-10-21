@@ -9,7 +9,7 @@ import java.util.ArrayList;
 // version back. The field data includes its rotation point so that the necessary shifting of the rotor can be
 // simulated in the encryption process
 public class Rotor {
-    private final RotorCase rotorCase = new RotorCase();
+    private static final RotorCase rotorCase = new RotorCase();
 
     private int label;
     private int steps;
@@ -27,6 +27,20 @@ public class Rotor {
         this.startPoint = 0;
         this.rotorOutData = rotorCase.getRotorArray((2 * i - 2));
         this.rotorReturnData = rotorCase.getRotorArray((2 * i - 1));
+    }
+
+    //MODIFIES: this
+    //EFFECTS: converts a JSON object in to a new rotor, includes all array data to be stored
+    // in case of changing RotorCase information...MAY NOT BE NECESSARY
+    public Rotor(JSONObject json) {
+        this.label = (int) json.get("label");
+        setRotor((int) json.get("start point"));
+
+        JSONArray outArray = (JSONArray) json.get("out array");
+        this.rotorOutData = jsonToArray(outArray);
+
+        JSONArray inArray = (JSONArray) json.get("return array");
+        this.rotorReturnData = jsonToArray(inArray);
     }
 
     //REQUIRES: called only to initialize the reflector rotor
@@ -73,46 +87,8 @@ public class Rotor {
         this.steps = (this.steps + 1) % 26;
     }
 
-
-    public int getSteps() {
-        return this.steps;
-    }
-
-    public int getStartPoint() {
-        return this.startPoint;
-    }
-
-    public int getLabel() {
-        return label;
-    }
-
-    public int getRotorOutData(int i) {
-        return rotorOutData.get(i);
-    }
-
-    public int getRotorReturnData(int i) {
-        return rotorReturnData.get(i);
-    }
-
-
-    //TODO NEW CONSTRUCTOR, IN WRONG PLACE
-    //MODIFIES: this
-    //EFFECTS: converts a JSON object in to a new rotor, includes all array data to be stored
-    // in case of changing RotorCase information...MAY NOT BE NECESSARY
-    public Rotor(JSONObject json) {
-        this.label = (int) json.get("label");
-        setRotor((int) json.get("start point"));
-
-        JSONArray outArray = (JSONArray) json.get("out array");
-        this.rotorOutData = jsonToArray(outArray);
-
-        JSONArray inArray = (JSONArray) json.get("return array");
-        this.rotorReturnData = jsonToArray(inArray);
-
-    }
-
     //REQUIRES: JSON Array of Integers
-    //TODO: Probably needs to be adjusted to be more robust than just assuming array is okay
+    //TODO: Maybe needs to be adjusted to be more robust than just assuming array is okay
     //EFFECTS: receives a JSON Array and converts it to an ArrayList<Integer> to be used as rotor data
     private ArrayList<Integer> jsonToArray(JSONArray jsonArray) {
         ArrayList<Integer> returnArray = new ArrayList<>();
@@ -146,5 +122,26 @@ public class Rotor {
         }
 
         return jsonArray;
+    }
+
+    //Getters:
+    public int getSteps() {
+        return this.steps;
+    }
+
+    public int getStartPoint() {
+        return this.startPoint;
+    }
+
+    public int getLabel() {
+        return label;
+    }
+
+    public int getRotorOutData(int i) {
+        return rotorOutData.get(i);
+    }
+
+    public int getRotorReturnData(int i) {
+        return rotorReturnData.get(i);
     }
 }

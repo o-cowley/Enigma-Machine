@@ -6,11 +6,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
+// A class with the tools necessary to get JSON data from file as a string, and provide it to necessary methods
+// that can parse it and upload the settings accordingly
+//Basic structure for this class was modelled off of JsonSerializationDemo from the project files
 public class JsonReader {
     private String sourceFile;
 
@@ -21,6 +26,7 @@ public class JsonReader {
 
     //EFFECTS: reads an InUseRotors from the file and returns it
     // converts string from file in to a JSON Object then hands it off to be turned in to an InUseRotor
+    //         Throws IOException if file is not found at sourceFile destination provided
     public InUseRotors readFile() throws IOException {
         String jsonData = readFile(sourceFile);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -28,7 +34,8 @@ public class JsonReader {
         return parseInUseRotors(jsonObject);
     }
 
-    //EFFECTS: reads from source file and returns as a single string
+    //EFFECTS: reads JSONObject from source file and returns as a single string
+    //         Throws IOException it file is not found according to the path provided
     private String readFile(String source) throws IOException {
         StringBuilder jsonString = new StringBuilder();
 
@@ -65,5 +72,33 @@ public class JsonReader {
     private void addJsonRotor(InUseRotors iur, JSONObject json) {
         Rotor toAdd = new Rotor(json);
         iur.addCompleteRotor(toAdd);
+    }
+
+    //MODIFIES: rotorBox
+    //EFFECTS: Takes a JSONObject as string and converts JSONArrays inside to right array format then adds to rotorBox
+    //         Throws IOException if file is not found
+    public void addRotorDataFromFile(ArrayList<ArrayList<Integer>> rotorBox) throws IOException {
+        String jsonData = readFile(sourceFile);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        JSONArray jsonArray = (JSONArray) jsonObject.get("rotors");
+
+        ArrayList<Integer> toAdd;
+
+        for (Object json: jsonArray) {
+            JSONArray nextRotor = (JSONArray) json;
+            toAdd = jsonToArray(nextRotor);
+            rotorBox.add(toAdd);
+        }
+    }
+
+    //EFFECTS: Takes a JSONArray of int and produces a new ArrayList<Integer> of the data
+    private ArrayList<Integer> jsonToArray(JSONArray jsonArray) {
+        ArrayList<Integer> returnArray = new ArrayList<>();
+        for (Object o : jsonArray) {
+            int toAdd = (int) o;
+            returnArray.add(toAdd);
+        }
+
+        return returnArray;
     }
 }

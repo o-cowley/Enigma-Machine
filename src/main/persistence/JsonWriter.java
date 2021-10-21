@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+//A class that contains the methods necessary to write an InUseRotor object to a file as a String in JSONObject
+// format. This class requests external class methods to get different parts, but does the writing itself
+//Basic structure for this class was modelled off of JsonSerializationDemo from the project files
 public class JsonWriter {
     private PrintWriter writer;
     private String destination;

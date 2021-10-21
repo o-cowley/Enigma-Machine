@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONArray;
+import persistence.JsonReader;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,6 +12,9 @@ import java.util.Arrays;
 // letters (A-Z: 0-25). The reflector is kept separate as it has a different style of encrypting which requires it to
 // be used differently
 public class RotorCase {
+    private static final String destination = "./data/rotorArrays.json";
+
+    private JsonReader jsonReader;
 
     private static final ArrayList<Integer> rotor1Out = new ArrayList(Arrays.asList(4, 9, 10, 2, 7, 1, -3, 9, 13, 16,
             3, 8, 2, 9, 10, -8, 7, 3, 0, -4, -20, -13, -21, -6, -22, -16));
@@ -24,22 +31,37 @@ public class RotorCase {
     private static final ArrayList<Integer> rotor3Return = new ArrayList(Arrays.asList(19, -1, 4, -2, 11, -3, 12, -4,
             8, -5, 10, -6, 9, 0, 11, -8, 8, -9, 5, -10, 2, -10, -5, -13, -10, -13));
 
-    private final ArrayList<Integer> staticReflector = new ArrayList(Arrays.asList(4, 8, 10, 22, -4, 6, 18, 16, 13,
-            -8, 12, -6, -10, 4, 2, 5, -2, -4, 1, -1, -5, -13, -12, -16, -18, -22));
+    private static final ArrayList<Integer> staticReflector = new ArrayList(Arrays.asList(4, 8, 10, 22, -4, 6, 18, 16,
+            13, -8, 12, -6, -10, 4, 2, 5, -2, -4, 1, -1, -5, -13, -12, -16, -18, -22));
 
-    private ArrayList<ArrayList<Integer>> rotorBox = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> rotorBox;
 
     //Modifies: this
     //Effects: Instantiates a RotorBox and adds all the necessary arrays of shift data for the
     // encryption process, to the rotorBox array. They are in numerical order to allow getting of the needed
     //arrays of data
     public RotorCase() {
+        rotorBox = new ArrayList<>();
+
         rotorBox.add(rotor1Out);
         rotorBox.add(rotor1Return);
         rotorBox.add(rotor2Out);
         rotorBox.add(rotor2Return);
         rotorBox.add(rotor3Out);
         rotorBox.add(rotor3Return);
+
+    }
+
+    //TODO maybe need to catch the exception higher up to call the other constructor if we can't make the file work
+    // ALSO need to alter the way this constructor works because I don't have the ability to control which one runs
+    public RotorCase(boolean thing) {
+        jsonReader = new JsonReader(destination);
+        rotorBox = new ArrayList<>();
+        try {
+            jsonReader.addRotorDataFromFile(rotorBox);
+        } catch (IOException e) {
+            System.out.println("We couldn't get your rotor data from the main file, please check it's there!");
+        }
     }
 
     //Requires: an integer between 0 and #ofAvailableArrays - 1
@@ -53,5 +75,6 @@ public class RotorCase {
     public ArrayList<Integer> getReflector() {
         return staticReflector;
     }
+
 
 }

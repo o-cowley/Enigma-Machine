@@ -11,6 +11,7 @@ import java.util.Scanner;
 //User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
 public class UserSystem {
     private static final String destination = "./data/encryptionSettings.json";
+    private static final String fileForRotorCase = "./data/rotorArrays.json";
 
     private Scanner scanner;
     private InUseRotors encryptionBox;
@@ -34,14 +35,14 @@ public class UserSystem {
     //EFFECTS: runs the program
     private void runSystem() {
         loadOrInstallRotors();
-        verifyRotorSettings();
         getAndEncryptInput();
         askToSave();
         returnSettingsToUser();
         scanner.close();
     }
 
-    //TODO FINISH THIS...ask for choice to load or to select rotors
+    //MODIFIES: this
+    //EFFECTS: requests user to decide to load encryptionBox from file or set rotor by rotor, executes accordingly
     private void loadOrInstallRotors() {
         System.out.println("Would you like to load your rotors from last save? enter 'yes' to load");
         String input = scanner.next();
@@ -50,15 +51,23 @@ public class UserSystem {
             try {
                 readRotorsFromFile();
             } catch (IOException e) {
-                System.out.println("Sorry, I couldn't get your rotor data from before!");
-                System.out.println("You will have to input them by hand.");
-                installRotors();
+                System.out.println("Sorry, I couldn't get your rotor data, you will have to input them yourself!");
+                customRotorSetup();
             }
         } else {
-            installRotors();
+            customRotorSetup();
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: allows user to select rotors and settings and add them to encryptionBox
+    private void customRotorSetup() {
+        installRotors();
+        verifyRotorSettings();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: asks user if they want to save the settings they used for encryption to file, executes accordingly
     private void askToSave() {
         System.out.println("Would you like to save your rotors for next time? enter 'yes' to do so");
         String input = scanner.next();
@@ -201,6 +210,8 @@ public class UserSystem {
         }
     }
 
+    //MODIFIES:
+    //EFFECTS: writes the encryptionBox to file as JSON, to be used next time
     private void writeRotorsToFile() {
         try {
             jsonWriter.open();
@@ -213,6 +224,8 @@ public class UserSystem {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: reads rotor settings from file and sets up encryptionBox accordingly
     private void readRotorsFromFile() throws IOException {
         encryptionBox = jsonReader.readFile();
     }
