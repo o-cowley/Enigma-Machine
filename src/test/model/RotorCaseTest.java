@@ -14,7 +14,7 @@ public class RotorCaseTest {
 
     @BeforeEach
     public void setUpRotorCase() {
-        rc = new RotorCase();
+        rc = new RotorCase("./data/rotorArrays.json");
     }
 
     @Test
@@ -36,4 +36,6 @@ public class RotorCaseTest {
             assertEquals(expectedData.get(i), rotor4.get(i));
         }
     }
+
+
 }

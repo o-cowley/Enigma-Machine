@@ -9,7 +9,8 @@ import java.util.ArrayList;
 // version back. The field data includes its rotation point so that the necessary shifting of the rotor can be
 // simulated in the encryption process
 public class Rotor {
-    private static final RotorCase rotorCase = new RotorCase();
+    private static final String destination = "./data/rotorArrays.json";
+    private static final RotorCase rotorCase = new RotorCase(destination);
     private static final int availableRotors = rotorCase.availableArrays();
 
     private int label;

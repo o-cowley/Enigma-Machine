@@ -12,7 +12,6 @@ import java.util.Arrays;
 // letters (A-Z: 0-25). The reflector is kept separate as it has a different style of encrypting which requires it to
 // be used differently
 public class RotorCase {
-    private static final String destination = "./data/rotorArrays.json";
 
     private static final ArrayList<Integer> rotor1Out = new ArrayList(Arrays.asList(4, 9, 10, 2, 7, 1, -3, 9, 13, 16,
             3, 8, 2, 9, 10, -8, 7, 3, 0, -4, -20, -13, -21, -6, -22, -16));
@@ -52,7 +51,7 @@ public class RotorCase {
     //MODIFIES: this
     //EFFECTS: reads rotors from file and loads them to rotorBox for use to set up a Rotor, if file is not found
     // then only 3 are loaded instead using static class data
-    public RotorCase() {
+    public RotorCase(String destination) {
         jsonReader = new JsonReader(destination);
         rotorBox = new ArrayList<>();
         try {

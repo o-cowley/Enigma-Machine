@@ -73,7 +73,7 @@ public class JsonReader {
 
     //MODIFIES: iur
     //EFFECTS: parses a single rotor from a JSON object then adds it to InUseRotors
-    // calls on new type of rotor constructor that creates a compelte rotor from a JSON object
+    // calls on new type of rotor constructor that creates a compel`te rotor from a JSON object
     private void addJsonRotor(InUseRotors iur, JSONObject json) {
         Rotor toAdd = new Rotor(json);
         iur.addCompleteRotor(toAdd);

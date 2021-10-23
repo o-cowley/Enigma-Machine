@@ -10,6 +10,7 @@ import java.util.List;
 // user would pick rotors from the RotorCase and add them to the InUseRotor to be actively used in the letter
 // shifting process
 public class InUseRotors {
+    private static final String destination = "asd";
 
     private ArrayList<Rotor> inUse = new ArrayList<>();
     private Rotor reflector;

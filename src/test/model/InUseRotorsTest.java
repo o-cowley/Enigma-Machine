@@ -205,4 +205,10 @@ public class InUseRotorsTest {
         assertEquals(2, testNameReturn.get(0));
         assertEquals(3, testNameReturn.get(1));
     }
+
+    @Test
+    void testAvailableRotors() {
+        Rotor r = new Rotor();
+        assertEquals(r.getAvailableRotors(), testCase.getAvailableRotorTypes());
+    }
 }
