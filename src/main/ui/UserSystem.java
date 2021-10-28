@@ -12,6 +12,7 @@ import java.util.Scanner;
 //User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
 public class UserSystem {
     private static final String destination = "./data/encryptionSettings.json";
+    private final int maxRotorCount = 8;
 
     private Scanner scanner;
     private JsonWriter jsonWriter;
@@ -100,11 +101,11 @@ public class UserSystem {
             settingChoice = scanIntFromRange(0, 25);
             scanner.nextLine();
             encryptionBox.addRotor(rotorChoice, settingChoice);
-            if (encryptionBox.getRotorCount() >= 8) {
+            if (encryptionBox.getRotorCount() >= maxRotorCount) {
                 break;
             }
             System.out.println("Would you like to add more rotors? Reply 'done' if complete, or any input to "
-                    + "continue adding rotors, up to 8 rotors is allowed.");
+                    + "continue adding rotors, up to " + maxRotorCount + " rotors is allowed.");
             input = scanner.next();
             scanner.nextLine();
             if (input.equalsIgnoreCase("done")) {
@@ -127,7 +128,6 @@ public class UserSystem {
     //MODIFIES: this
     //EFFECTS: displays current rotors and then gives the user the option to change rotor settings,
     // delete rotors, or add more rotors, unlimited changes allowed before user choice to proceed to encryption phase
-    //TODO catch so you can't go add more than 8 through this menu
     private void verifyRotorSettings() {
         while (true) {
             System.out.println("Here are your current rotor settings:");
@@ -140,7 +140,7 @@ public class UserSystem {
             } else if (input.equalsIgnoreCase("delete")) {
                 removeRotor();
             } else if (input.equalsIgnoreCase("add")) {
-                installRotors();
+                addRotorsFromEdit();
             } else if (input.equalsIgnoreCase("done")) {
                 break;
             } else {
@@ -179,9 +179,21 @@ public class UserSystem {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: checks if rotor count is at maxRotorCount, if so, does not permit adding more, otherwise calls method
+    // to install additional rotors
+    private void addRotorsFromEdit() {
+        if (encryptionBox.getRotorCount() >= maxRotorCount) {
+            System.out.println("You already have " + maxRotorCount + " rotors, you can't add any more than that.");
+        } else {
+            installRotors();
+        }
+    }
+
     //REQUIRES: input of a string comprised of only of alphabetic characters and spaces
     //MODIFIES: this
-    //EFFECTS: encrypts/decrypts received message and returns the message as a String to user
+    //EFFECTS: encrypts/decrypts received message and returns the message as a String to user, rotors are
+    // stepped each letter
     private void getAndEncryptInput() {
         System.out.println("Please enter the text that you would like to encode/decode: "
                 + "(only letters and spaces are valid inputs)");
@@ -203,8 +215,7 @@ public class UserSystem {
         }
     }
 
-    //EFFECTS: prints rotor label and initial settings to console for user with present or past tense based
-    // on calling position in program
+    //EFFECTS: prints rotor label and initial settings to console for user with present or past tense
     private void printRotorsAndStartData(boolean presentTense) {
         String tense;
         if (presentTense) {
@@ -219,7 +230,7 @@ public class UserSystem {
         }
     }
 
-    //MODIFIES:
+    //MODIFIES: this
     //EFFECTS: writes the encryptionBox to file as JSON, to be used next time
     private void writeRotorsToFile() {
         try {

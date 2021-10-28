@@ -15,17 +15,18 @@ import java.util.stream.Stream;
 
 // A class with the tools necessary to get JSON data from file as a string, and provide it to necessary methods
 // that can parse it and upload the settings accordingly
-//Basic structure for this class was modelled off of JsonSerializationDemo from the project files
+// Basic structure for this class was modelled off of JsonSerializationDemo from the project files
 public class JsonReader {
     private String sourceFile;
 
+    //MODIFIES: this
     //EFFECTS: Constructs a reader to read from the sourceFile
     public JsonReader(String sourceFile) {
         this.sourceFile = sourceFile;
     }
 
     //EFFECTS: reads an InUseRotors from the file and returns it
-    // converts string from file in to a JSON Object then hands it off to be turned in to an InUseRotor
+    //         converts string from file in to a JSON Object then hands it off to be turned in to an InUseRotor
     //         Throws IOException if file is not found at sourceFile destination provided
     //         Throws NoRotorsLoadedException if no rotors were loaded from the save file
     public InUseRotors readFile() throws IOException, NoRotorsLoadedException {
@@ -47,7 +48,6 @@ public class JsonReader {
         return jsonString.toString();
     }
 
-    //MODIFIES: iur
     //EFFECTS: Creates a new InUseRotors from the JSON object and returns it
     //         creates new iur and then passes it to addRotors with necessary data to add all the rotors
     //         Throws NoRotorsLoadedException if no rotors could be loaded from the file
@@ -73,7 +73,7 @@ public class JsonReader {
 
     //MODIFIES: iur
     //EFFECTS: parses a single rotor from a JSON object then adds it to InUseRotors
-    // calls on new type of rotor constructor that creates a compel`te rotor from a JSON object
+    // calls on the rotor constructor that creates a complete rotor from a JSON object
     private void addJsonRotor(InUseRotors iur, JSONObject json) {
         Rotor toAdd = new Rotor(json);
         iur.addCompleteRotor(toAdd);
@@ -82,8 +82,6 @@ public class JsonReader {
     //MODIFIES: rotorBox
     //EFFECTS: Takes a JSONObject as string and converts JSONArrays inside to right array format then adds to rotorBox
     //         Throws IOException if file is not found
-    //TODO figure out a way to catch if the rotorArrays is accidentally empty? though it might not be necessary
-    // because that file is never changed
     public void addRotorDataFromFile(ArrayList<ArrayList<Integer>> rotorBox) throws IOException {
         String jsonData = readFile(sourceFile);
         JSONObject jsonObject = new JSONObject(jsonData);

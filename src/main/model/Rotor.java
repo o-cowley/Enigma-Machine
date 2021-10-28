@@ -31,9 +31,9 @@ public class Rotor {
         this.rotorReturnData = rotorCase.getRotorArray((2 * i - 1));
     }
 
+    //REQUIRES: json is a JSONObject that contains the required data for a rotor, as established by jsonWriter
     //MODIFIES: this
-    //EFFECTS: converts a JSON object in to a new rotor, includes all array data to be stored
-    // in case of changing RotorCase information...MAY NOT BE NECESSARY
+    //EFFECTS: constructs a new rotor from a JSON object containing the data
     public Rotor(JSONObject json) {
         this.label = (int) json.get("label");
         setRotor((int) json.get("start point"));
@@ -89,8 +89,7 @@ public class Rotor {
         this.steps = (this.steps + 1) % 26;
     }
 
-    //REQUIRES: JSON Array of Integers
-    //TODO: Maybe needs to be adjusted to be more robust than just assuming array is okay
+    //REQUIRES: JSONArray of Integers
     //EFFECTS: receives a JSON Array and converts it to an ArrayList<Integer> to be used as rotor data
     private ArrayList<Integer> jsonToArray(JSONArray jsonArray) {
         ArrayList<Integer> returnArray = new ArrayList<>();
@@ -102,22 +101,22 @@ public class Rotor {
         return returnArray;
     }
 
-    //EFFECTS: Produces a JSON object that represents a complete rotor--includes full array data for out and return
+    //EFFECTS: Produces a JSONObject that represents a complete rotor--includes array data for out and return arrays
     // everything is stored individually--current setting not necessary for how this will be used
     public JSONObject toJson() {
         JSONObject jsonRotor = new JSONObject();
 
         jsonRotor.put("label", label);
         jsonRotor.put("start point", startPoint);
-        jsonRotor.put("out array", rotorDataToJson(rotorOutData));
-        jsonRotor.put("return array", rotorDataToJson(rotorReturnData));
+        jsonRotor.put("out array", intArrayToJson(rotorOutData));
+        jsonRotor.put("return array", intArrayToJson(rotorReturnData));
 
         return jsonRotor;
     }
 
-    //EFFECTS: Returns JSON Array containing all data from a single ArrayList<Integer> used to store a full rotor
+    //EFFECTS: Returns JSONArray containing all data from a single ArrayList<Integer> used to store a full rotor
     // of data in a JSON Array to be stored in the JSON Object that will be written for each rotor
-    private JSONArray rotorDataToJson(ArrayList<Integer> array) {
+    private JSONArray intArrayToJson(ArrayList<Integer> array) {
         JSONArray jsonArray = new JSONArray();
         for (Integer i: array) {
             jsonArray.put(i);

@@ -29,5 +29,5 @@ the same initial settings, any changes to the settings or rotors will mean that 
 - As a user, I want the option to review my selected settings upon completion of encryption 
 
 - As a user, I want the choice to save the rotor settings that I used to file, or not do so
-- As a user, I want the choice to load my last saved rotor settings from file, or not do so and pick them  
-myself
+- As a user, I want the choice to load and use my last saved rotor settings from file, or not do so and pick  
+them myself

@@ -1,6 +1,5 @@
 package model;
 
-import org.json.JSONArray;
 import persistence.JsonReader;
 
 import java.io.IOException;
@@ -32,25 +31,9 @@ public class RotorCase {
     private ArrayList<ArrayList<Integer>> rotorBox;
     private JsonReader jsonReader;
 
-    //Modifies: this
-    //Effects: Instantiates a RotorBox and adds all the necessary arrays of shift data for the
-    // encryption process, to the rotorBox array. They are in numerical order to allow getting of the needed
-    //arrays of data
-//    public RotorCase() {
-//        rotorBox = new ArrayList<>();
-//
-//        rotorBox.add(rotor1Out);
-//        rotorBox.add(rotor1Return);
-//        rotorBox.add(rotor2Out);
-//        rotorBox.add(rotor2Return);
-//        rotorBox.add(rotor3Out);
-//        rotorBox.add(rotor3Return);
-//
-//    }
-
     //MODIFIES: this
-    //EFFECTS: reads rotors from file and loads them to rotorBox for use to set up a Rotor, if file is not found
-    // then only 3 are loaded instead using static class data
+    //EFFECTS: Constructor, reads rotors from file and loads them to rotorBox,
+    //          if file is not found then only 3 are loaded instead using static class data
     public RotorCase(String destination) {
         jsonReader = new JsonReader(destination);
         rotorBox = new ArrayList<>();
@@ -59,8 +42,21 @@ public class RotorCase {
         } catch (IOException e) {
             System.out.println("We couldn't get the rotor data from file, reduced number of rotors "
                     + "available as a result");
-            loadArraysFromClass();
+            loadArraysDirectlyFromClass();
         }
+    }
+
+    //Modifies: this
+    //Effects: adds a reduced version of the necessary arrays for the encryption process, to the rotorBox array.
+    // In numerical order to facilitate getting of the needed arrays of data
+    public void loadArraysDirectlyFromClass() {
+        rotorBox.add(rotor1Out);
+        rotorBox.add(rotor1Return);
+        rotorBox.add(rotor2Out);
+        rotorBox.add(rotor2Return);
+        rotorBox.add(rotor3Out);
+        rotorBox.add(rotor3Return);
+
     }
 
     //Requires: an integer between 0 and #ofAvailableArrays - 1
@@ -79,22 +75,6 @@ public class RotorCase {
     // rotor (out and return)
     public Integer availableArrays() {
         return rotorBox.size() / 2;
-    }
-
-    //Modifies: this
-    //Effects: Instantiates a RotorBox ArrayList and adds a reduced version of the necessary arrays for the
-    // encryption process, to the rotorBox array. They are in numerical order to allow getting of the needed
-    // arrays of data
-    public void loadArraysFromClass() {
-        rotorBox = new ArrayList<>();
-
-        rotorBox.add(rotor1Out);
-        rotorBox.add(rotor1Return);
-        rotorBox.add(rotor2Out);
-        rotorBox.add(rotor2Return);
-        rotorBox.add(rotor3Out);
-        rotorBox.add(rotor3Return);
-
     }
 
 }

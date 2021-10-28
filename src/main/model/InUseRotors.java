@@ -6,18 +6,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-//this is a representation of the active rotors that are being used for the encryption process. Functioning as if a
+//This is a representation of the active rotors that are being used for the encryption process. Functioning as if a
 // user would pick rotors from the RotorCase and add them to the InUseRotor to be actively used in the letter
 // shifting process
 public class InUseRotors {
-    private static final String destination = "asd";
 
     private ArrayList<Rotor> inUse = new ArrayList<>();
     private Rotor reflector;
     private int availableRotorTypes;
 
     //MODIFIES: this
-    //EFFECTS: Initializes and sets the reflector, since it functions differently than the basic rotors
+    //EFFECTS: Constructor, initializes and sets the reflector rotor, retrieves number of different rotors
+    // available for selection
     public InUseRotors() {
         this.reflector = new Rotor();
         reflector.setReflector();
@@ -45,6 +45,7 @@ public class InUseRotors {
         }
     }
 
+    //REQUIRES: i be between 0 and 25, inclusive
     //EFFECTS: passes given Integer through each rotor, then reflector, and back again, shifting value
     // according to each rotor's given pattern
     public int encodeSingle(Integer i) {
@@ -103,15 +104,15 @@ public class InUseRotors {
         return builder.toString();
     }
 
-    //REQUIRES: rotorNum is accessing a rotor that is already added to inUse
+    //REQUIRES: rotorNum refers to a rotor that is in inUse
     //MODIFIES: this
-    //EFFECTS: sets a rotor's start point and current setting after it has already been set and added
+    //EFFECTS: sets a rotor's start point and current setting to newSetting after it has already been set and added
     public void resetRotorDetails(int rotorNum, int newSetting) {
         int i = rotorNum - 1;
         inUse.get(i).setRotor(newSetting);
     }
 
-    //REQUIRES: rotorNum must refer to a rotor that has already been added to inUse
+    //REQUIRES: rotorNum refers to a rotor that is in inUse
     //MODIFIES: this
     //EFFECTS: removes the given rotor from the inUse list
     public void deleteRotor(int rotorNum) {
@@ -139,13 +140,14 @@ public class InUseRotors {
         return jsonArray;
     }
 
+    //REQUIRES: r to not be a rotor set as reflector
     //MODIFIES this
     //EFFECTS: adds an already made rotor to inUse, takes advantage of JSON data and new Rotor constructor
     public void addCompleteRotor(Rotor r) {
         inUse.add(r);
     }
 
-    //Getters for this class:
+    //Getters:
 
     //EFFECTS: returns an ordered list of start points for the rotors used in the encryption
     public List<Integer> returnStartPoints() {
