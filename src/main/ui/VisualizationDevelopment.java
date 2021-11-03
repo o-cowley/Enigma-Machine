@@ -1,7 +1,11 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.event.ListDataListener;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VisualizationDevelopment extends JFrame {
     private JDesktopPane desktop;
@@ -41,6 +45,22 @@ public class VisualizationDevelopment extends JFrame {
         setVisible(true);
     }
 
+    public VisualizationDevelopment(boolean a) {
+        DefaultComboBoxModel<Integer> name = new DefaultComboBoxModel<>();
+        name.addElement(1);
+        name.addElement(2);
+        name.addElement(3);
+        name.addElement(4);
+        name.addElement(5);
+        JComboBox jc = new JComboBox(name);	//initialzing combo box with list of name.
+        add(jc);				//adding JComboBox to frame.
+        setLayout(new FlowLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
+        setVisible(true);
+    }
+
+
     private void addButtons(JPanel p) {
         keys = new JButton[12];
 
@@ -61,10 +81,20 @@ public class VisualizationDevelopment extends JFrame {
     }
 
 
+    private void makeList() {
+        DefaultListModel<Integer> cityList = new DefaultListModel();
+        cityList.addElement(1);
+        cityList.addElement(2);
+        cityList.addElement(3);
+        cityList.addElement(4);
+        cityList.addElement(6);
+        JList cities = new JList(cityList);
+
+    }
 
 
     public static void main(String[] args) {
-        new VisualizationDevelopment();
+        new VisualizationDevelopment(true);
     }
 
 
