@@ -1,20 +1,17 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.EventObject;
 
 public class RotorPane extends JPanel {
 
     private int value = 0;
 
     public RotorPane() {
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        setPreferredSize(new Dimension(100,100));
 
         makeRotorInteraction();
-
-        setLayout(new GridLayout(1, 1));
-        setVisible(true);
     }
 
     private void makeRotorInteraction() {
@@ -23,12 +20,20 @@ public class RotorPane extends JPanel {
         SpinnerModel spinnerModel = new SpinnerNumberModel(0,0,25,1);
         JSpinner spinner = new JSpinner(spinnerModel);
 
+        spinner.setMaximumSize(new Dimension(50,50));
+        spinner.setPreferredSize(new Dimension(20,20));
+
+
+        label.setMaximumSize(new Dimension(300,20));
+        label.setPreferredSize(new Dimension(100,20));
+
+        button.setMaximumSize(new Dimension(60,60));
+        button.setPreferredSize(new Dimension(20,20));
+
         button.addActionListener((event) -> {
             value = 0;
             spinner.setValue(value);
         });
-
-        spinner.setMaximumSize(new Dimension(100,100));
         spinner.addChangeListener((event) -> {
             value = (int) spinner.getValue();
             label.setText("This is the value: " + value);
@@ -37,21 +42,16 @@ public class RotorPane extends JPanel {
         add(spinner);
         add(button);
         add(label);
-
-
-
-    }
-
-    private void changeThing(EventObject e) {
-
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Frame Demo");
         RotorPane rp = new RotorPane();
 
-        frame.setSize(600,100);
-        frame.add(rp);
+        frame.setLayout(new BorderLayout());
+        frame.setSize(500,150);
+        frame.setLocationRelativeTo(null);
+        frame.add(rp, BorderLayout.CENTER);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
