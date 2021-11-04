@@ -1,11 +1,8 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class VisualizationDevelopment extends JFrame {
     private JDesktopPane desktop;
