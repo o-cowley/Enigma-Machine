@@ -5,22 +5,24 @@ import model.InUseRotors;
 import javax.swing.*;
 import java.awt.*;
 
-// A PopUp window that prompts a user to adjust a selected rotor's internal setting before encryption
-public class EditPopUp extends JFrame {
+// A PopUp window that prompts a user to select the type of rotor to add to their current inUseRotors
+//  the selected rotor is then added to the system
+public class AddPopUp extends JFrame {
     //TODO: needs to know the main managing frame for functionality access
 
     JPanel pane;
-    JSpinner spinner;
+    JComboBox dropDown;
     JButton done;
     JButton close;
     JLabel label;
 
-    //EFFECTS: A constructor that initializes an Edit popup to allow a user to set a rotor's internal setting
-    public EditPopUp(Point p, int rotor, int initialSetting) {
+    //EFFECTS: Constructs a PopUp that requests user input to select a rotor to add to the rotorBox
+    public AddPopUp(Point p, int rotorRange) {
         this.setLayout(new GridBagLayout());
+        this.setTitle("Add Rotor");
 
         pane = new JPanel(new GridBagLayout());
-        initializeButtons(rotor, initialSetting);
+        initializeButtons(rotorRange);
         addButtons();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,51 +34,52 @@ public class EditPopUp extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: sets up the buttons, text, settings, size, and components to display on the popup
-    private void initializeButtons(int rotorLabel, int initialSetting) {
-        SpinnerModel spinnerModel = new SpinnerNumberModel(0,0,25,1);
-        spinner = new JSpinner(spinnerModel);
-        setDimensions(spinner,75,50);
+    //EFFECTS: sets up the buttons and dropdown menu for user selection of a rotor to add
+    private void initializeButtons(int range) {
+        DefaultComboBoxModel<Integer> intList = new DefaultComboBoxModel<>();
+        for (int i = 1; i <= range; i++) {
+            intList.addElement(i);
+        }
 
-        JComponent editor = spinner.getEditor();
-        JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
-        tf.setColumns(4);
+        dropDown = new JComboBox(intList);
+        dropDown.setPrototypeDisplayValue("XX");
+        dropDown.setPreferredSize(dropDown.getPreferredSize());
 
-        label = new JLabel("<html>This is for rotor type: " + rotorLabel + "<br> the previous setting was: "
-                + initialSetting + "</html>");
-        setDimensions(label, 50, 50);
+        label = new JLabel("Please select a Rotor type to add:");
+        label.setPreferredSize(label.getPreferredSize());
 
         done = new JButton("Done");
         setDimensions(done, 50, 50);
         done.addActionListener((event) -> {
-            System.out.println(spinner.getValue());
+            System.out.println(dropDown.getSelectedIndex());
         });
 
         close = new JButton("Close");
-        setDimensions(spinner,50,50);
         close.addActionListener((event) -> {
             this.dispose();
         });
     }
 
     //MODIFIES: this
-    //EFFECTS: adds the buttons and other Swing components to the panel
+    //EFFECTS: Positions the buttons on the panel and then puts panel on to the JFrame
     private void addButtons() {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,5,5,5);
         c.weightx = 1;
-        setGridPos(c,0,0);
-        c.gridwidth = 2;
-        pane.add(spinner, c);
-        c.gridwidth = 1;
-        setGridPos(c,2,0);
-        pane.add(close, c);
-        setGridPos(c,3,0);
-        pane.add(done, c);
         setGridPos(c,0,1);
-        c.gridwidth = 4;
+        c.gridwidth = 2;
+        pane.add(dropDown, c);
+        c.gridwidth = 1;
+        setGridPos(c,2,1);
+        pane.add(close, c);
+        setGridPos(c,3,1);
+        pane.add(done, c);
+
         c.fill = GridBagConstraints.HORIZONTAL;
+        setGridPos(c, 0, 0);
+        c.gridwidth = 4;
         pane.add(label, c);
+
         setGridPos(c,0,0);
         add(pane, c);
     }
@@ -103,8 +106,8 @@ public class EditPopUp extends JFrame {
 
         JButton but = new JButton("pop");
         but.setPreferredSize(new Dimension(100,100));
-        but.addActionListener((event) -> new EditPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
-                5, 5));
+        but.addActionListener((event) -> new AddPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
+                6));
 
         mainFrame.add(but);
 
@@ -112,8 +115,12 @@ public class EditPopUp extends JFrame {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
 
+
     }
 
 
-
 }
+
+
+
+

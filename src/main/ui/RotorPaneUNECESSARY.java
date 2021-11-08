@@ -3,11 +3,11 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class RotorPane extends JPanel {
+public class RotorPaneUNECESSARY extends JPanel {
 
     private int value = 0;
 
-    public RotorPane() {
+    public RotorPaneUNECESSARY() {
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setPreferredSize(new Dimension(100,100));
 
@@ -46,7 +46,7 @@ public class RotorPane extends JPanel {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Frame Demo");
-        RotorPane rp = new RotorPane();
+        RotorPaneUNECESSARY rp = new RotorPaneUNECESSARY();
 
         frame.setLayout(new BorderLayout());
         frame.setSize(500,150);

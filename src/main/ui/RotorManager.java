@@ -1,101 +1,104 @@
 package ui;
 
+import model.InUseRotors;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
+// The panel that displays the Rotors that are currently installed in the machine, as well as gives the internal
+// settings on the ToolTipText
 public class RotorManager extends JPanel {
+    //TODO: needs to know the main managing frame for functionality access
+
     JList list;
     JScrollPane scrollPane;
-    JButton button;
-    DefaultListModel<String> sports;
+    JButton delete;
+    JButton add;
+    DefaultListModel<String> stuff;
 
-
+    //MODIFIES: this
+    //EFFECTS: constructs new RotorManager rotor display pane to be added to the main GUI
     public RotorManager() {
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(200,200));
-
         makeList();
-        makeButton();
 
-        add(scrollPane);
-        add(button);
-        setVisible(true);
+        scrollPane = new JScrollPane(list);
+        delete = new JButton("Delete Selected");
+        delete.addActionListener((event) -> removeThing(list.getSelectedIndex()));
+
+        add = new JButton("Add Unnecessary");
+        add.addActionListener((event) -> addThing());
+        add.setPreferredSize(new Dimension(150,30));
+
+        add(scrollPane, BorderLayout.CENTER);
+        add(delete,BorderLayout.SOUTH);
+        add(add,BorderLayout.EAST);
+
+        setPreferredSize(getPreferredSize());
     }
 
-    public RotorManager(boolean t) {
-        JFrame frame = new JFrame("JList Demo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        sports = new DefaultListModel<>();
+    // help for the tooltip Text was found on
+    // https://www.tutorialspoint.com/how-to-set-a-tooltip-text-for-each-item-of-a-jlist-in-java
+    //MODIFIES: this
+    //EFFECTS: Fills the visible list according to the specifications provided, will be empty at start if not loading
+    // from file
+    private void makeList() {
+        stuff = new DefaultListModel<>();
         String[] sports1 = new String[]{"Tennis", "Archery", "Football", "Fencing", "Cricket", "Squash", "Hockey",
                 "Rugby"};
         for (String s: sports1) {
-            sports.addElement(s);
+            stuff.addElement(s);
         }
-        list = new JList(sports);
-        JScrollPane scrollPane = new JScrollPane(list);
-        button = new JButton("Delete Selected");
-        button.addActionListener((event) -> removeThing());
-
-        JButton button2 = new JButton("Add Unnecessary");
-        button2.addActionListener((event) -> addThing());
-
-        Container contentPane = frame.getContentPane();
-        contentPane.add(scrollPane, BorderLayout.CENTER);
-        contentPane.add(button,BorderLayout.SOUTH);
-        contentPane.add(button2,BorderLayout.EAST);
-
-        frame.setSize(400,400);
-        frame.setVisible(true);
+        list = new JList(stuff) {
+            public String getToolTipText(MouseEvent me) {
+                Point point = me.getPoint();
+                int index = locationToIndex(point);
+                Rectangle selected = list.getCellBounds(index, index);
+                if (index > -1 && selected.contains(point))  {
+                    String str = (String) getModel().getElementAt(index);
+                    return "Name is " + str;
+                }
+                return null;
+            }
+        };
+        list.setToolTipText("");
     }
 
-    private void makeList() {
-
-        DefaultListModel listToAdd = new DefaultListModel();
-
-        listToAdd.add(0, "Abc");
-        listToAdd.add(1, "def");
-        listToAdd.add(2, "ghi");
-
-        list = new JList<String>(listToAdd);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        scrollPane = new JScrollPane(list);
-
-
+    //MODIFIES: this
+    //EFFECTS: removes the selected rotor from the list, renames all following rotors accordingly to maintain
+    // continuity of counting
+    public void removeThing(int selected) {
+        if (selected < list.getModel().getSize() && selected >= 0) {
+            stuff.remove(selected);
+            for (int i = selected; i < stuff.size(); i++) {
+                stuff.set(i, "Rotor #" + (i + 1));
+            }
+        }
     }
 
-    public void makeButton() {
-        button = new JButton();
-        button.setPreferredSize(new Dimension(20,20));
-        button.addActionListener((event) -> {
-            removeThing();
-        });
+
+    //MODIFIES: this
+    //EFFECTS: adds a rotor to the end of the visible list
+    public void addThing() {
+        stuff.addElement("Rotor #" + (stuff.size() + 1));
+    }
+
+    //MODIFIES:
+    //EFFECTS: returns the index of what is currently selected in the list of rotors
+    public int returnSelected() {
+        return list.getSelectedIndex();
     }
 
     public static void main(String[] args) {
-//        JFrame frame = new JFrame("Test scroll");
-//        RotorManager rm = new RotorManager();
-//        frame.getContentPane().setLayout(new BorderLayout());
-//
-//        frame.setSize(new Dimension(500,500));
-//        frame.setLocationRelativeTo(null);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//
-//        frame.getContentPane().add(rm, BorderLayout.NORTH);
-//        frame.setVisible(true);
-        new RotorManager(true);
-    }
+        JFrame frame = new JFrame("JList Demo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    public void removeThing() {
-        int selected = list.getSelectedIndex();
-        if (selected < list.getModel().getSize() && selected >= 0) {
-            sports.remove(selected);
-        }
-    }
+        RotorManager rman = new RotorManager();
 
-    public void addThing() {
-        sports.addElement("Heloooooooo");
+        frame.add(rman);
+        frame.setSize(300,300);
+        frame.setVisible(true);
     }
 
 }
