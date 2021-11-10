@@ -25,7 +25,6 @@ public class TextPane extends JPanel {
         addToPane();
 
         setPreferredSize(getPreferredSize());
-
     }
 
     //MODIFIES: this
@@ -45,8 +44,8 @@ public class TextPane extends JPanel {
         scrollOuput = new JScrollPane(textAreaOutput);
         scrollOuput.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        scrollInput.setPreferredSize(new Dimension(200,200));
-        scrollOuput.setPreferredSize(new Dimension(200,200));
+        scrollInput.setPreferredSize(new Dimension(550,200));
+        scrollOuput.setPreferredSize(new Dimension(550,100));
     }
 
     //MODIFIES: this

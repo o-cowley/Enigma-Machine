@@ -116,8 +116,7 @@ public class InUseRotors {
     //MODIFIES: this
     //EFFECTS: removes the given rotor from the inUse list
     public void deleteRotor(int rotorNum) {
-        int i = rotorNum - 1;
-        inUse.remove(i);
+        inUse.remove(rotorNum);
     }
 
     //EFFECTS: returns a new JSON Object of all rotors in the current inUse, rotors are represented in JSON Array
@@ -156,6 +155,11 @@ public class InUseRotors {
             originalSettings.add(r.getStartPoint());
         }
         return originalSettings;
+    }
+
+    //EFFECTS: returns the startpoint of a given rotor in the inUse array
+    public int returnStartPoint(int rotorIndex) {
+        return inUse.get(rotorIndex).getStartPoint();
     }
 
     //EFFECTS: returns number of rotors in inUse array

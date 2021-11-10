@@ -24,7 +24,7 @@ public class RotorManager extends JPanel {
         makeList(size);
 
         scrollPane = new JScrollPane(list);
-        scrollPane.setPreferredSize(scrollPane.getPreferredSize());
+        scrollPane.setPreferredSize(new Dimension(75,300));
 
         delete = new JButton("Delete Selected");
         delete.addActionListener((event) -> removeSelectedElement());
@@ -34,10 +34,11 @@ public class RotorManager extends JPanel {
         add.setPreferredSize(new Dimension(150,30));
 
         add(scrollPane, BorderLayout.CENTER);
-        add(delete,BorderLayout.SOUTH);
-        add(add,BorderLayout.EAST);
+        //add(delete,BorderLayout.SOUTH);
+        add(add,BorderLayout.SOUTH);
 
         setPreferredSize(getPreferredSize());
+        //setPreferredSize(new Dimension(100,400));
     }
 
     // help for the tooltip Text was found on
@@ -92,6 +93,12 @@ public class RotorManager extends JPanel {
     //EFFECTS: returns the index of what is currently selected in the list of rotors
     public int returnSelected() {
         return list.getSelectedIndex();
+    }
+
+    public void updateList(int size) {
+        for (int i = 0; i < size; i++) {
+            addNewElement();
+        }
     }
 
     public static void main(String[] args) {

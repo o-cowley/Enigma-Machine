@@ -1,21 +1,23 @@
 package ui.Tools;
 
 import model.InUseRotors;
+import ui.GuiManager;
 
 import javax.swing.*;
 import java.lang.reflect.Array;
 
 // A PopUp that prompts a user to either load saved rotor settings, or to save the settings at the end
 public class SaveLoadPopUp extends JFrame {
-    //TODO: needs to know the main managing frame for functionality access
+    GuiManager manager;
 
     JOptionPane buttons;
     int result;
 
     //EFFECTS: a constructor triggering a popup to ask if the user wants to load saved rotors at the start
     // or save at the end, based on the boolean input save
-    public SaveLoadPopUp(boolean save) {
+    public SaveLoadPopUp(boolean save, GuiManager guiManager) {
         buttons = new JOptionPane();
+        manager = guiManager;
         initAction(save);
     }
 
@@ -25,7 +27,9 @@ public class SaveLoadPopUp extends JFrame {
         if (save) {
             result = buttons.showConfirmDialog(this, "Would you like to load your settings?",
                     "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
+            if (result == JOptionPane.YES_OPTION) {
+                manager.loadRotors();
+            }
         } else {
             result = buttons.showConfirmDialog(this, "Would you like to save your settings?",
                     "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -42,17 +46,15 @@ public class SaveLoadPopUp extends JFrame {
     //com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel
 
     //com.apple.laf.AquaLookAndFeel  mac only
-    // com.sun.java.swing.plaf.gtk.GTKLookAndFeel   note windows i think
+    // com.sun.java.swing.plaf.gtk.GTKLookAndFeel   not mac i think
 
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            System.out.println("couldn't load what you wanted");
-        }
-        new SaveLoadPopUp(true);
-        for (UIManager.LookAndFeelInfo e: UIManager.getInstalledLookAndFeels()) {
-            System.out.println(e.getName());
-        }
+//        try {
+//            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+//        } catch (Exception e) {
+//            System.out.println("couldn't load what you wanted");
+//        }
+
+        //new SaveLoadPopUp(true);
     }
 }

@@ -58,7 +58,7 @@ public class ButtonPanel extends JPanel {
         c.fill = GridBagConstraints.NONE;
         setGridPos(c,0,0);
         c.gridheight = 3;
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         add(encrypt, c);
     }
 

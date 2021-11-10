@@ -174,6 +174,7 @@ public class UserSystem {
         } else {
             System.out.println("Which rotor would you like to delete? (1 - " + encryptionBox.getRotorCount() + ")");
             int rotorToDelete = scanIntFromRange(1, encryptionBox.getRotorCount());
+            rotorToDelete--;
             scanner.nextLine();
             encryptionBox.deleteRotor(rotorToDelete);
         }
