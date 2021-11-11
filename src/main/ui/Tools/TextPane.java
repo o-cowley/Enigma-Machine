@@ -1,13 +1,17 @@
 package ui.Tools;
 
 import ui.GuiExceptions.ContainsNonWordCharactersException;
+import ui.GuiManager;
 
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 //The text area to add the input to be encrypted, with another pane below to display the output once encrypted
 public class TextPane extends JPanel {
-    //TODO: add parent frame for functionality
+    GuiManager manager;
 
     private final String inputMessage = "Enter your text to encrypt in this area";
 
@@ -18,10 +22,13 @@ public class TextPane extends JPanel {
     JTextArea textAreaOutput;
 
     //EFFECTS: Constructs the text pane with both TextAreas, input area is editable and output is not
-    public TextPane() {
+    public TextPane(GuiManager manager) {
         setLayout(new GridBagLayout());
+        this.manager = manager;
+
 
         initTextArea();
+        enableActions();
         addToPane();
 
         setPreferredSize(getPreferredSize());
@@ -31,6 +38,7 @@ public class TextPane extends JPanel {
     //EFFECTS: initializes all the textareas and adds them to scroll panes to allow visibility of text
     // added beyond window size
     private void initTextArea() {
+
         textAreaInput = new JTextArea(inputMessage);
         textAreaInput.setLineWrap(true);
         textAreaInput.setWrapStyleWord(true);
@@ -41,6 +49,7 @@ public class TextPane extends JPanel {
         textAreaOutput.setLineWrap(true);
         textAreaOutput.setWrapStyleWord(true);
         textAreaOutput.setEditable(false);
+
         scrollOuput = new JScrollPane(textAreaOutput);
         scrollOuput.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -88,22 +97,40 @@ public class TextPane extends JPanel {
         }
     }
 
+    //The design of this code comes from the website
+    //https://www.programcreek.com/java-api-examples/?api=javax.swing.text.DefaultEditorKit
+    private void enableActions() {
+        Action copyAction = this.textAreaInput.getActionMap().get(DefaultEditorKit.copyAction);
+        copyAction.setEnabled(true);
+        copyAction = this.textAreaOutput.getActionMap().get(DefaultEditorKit.copyAction);
+        copyAction.setEnabled(true);
+        Action cutAction = this.textAreaInput.getActionMap().get(DefaultEditorKit.cutAction);
+        cutAction.setEnabled(true);
+        cutAction = this.textAreaOutput.getActionMap().get(DefaultEditorKit.cutAction);
+        cutAction.setEnabled(true);
+    }
+
+    public void disableInput() {
+        textAreaInput.setEnabled(false);
+    }
+
+    public void enableOutput() {
+        textAreaOutput.setEnabled(true);
+    }
+
     //MODIFIES: this
     //EFFECTS: sets the output text to be str, intended to be used as
-    public void returnEncryptedMessage(String str) {
+    public void printEncryptedString(String str) {
         textAreaOutput.setText(str);
     }
 
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame();
-        mainFrame.setLocationRelativeTo(null);
-        TextPane tp = new TextPane();
-
-        mainFrame.add(tp);
-
-        mainFrame.setSize(mainFrame.getPreferredSize());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        JFrame mainFrame = new JFrame();
+//        mainFrame.setLocationRelativeTo(null);
+//
+//        mainFrame.setSize(mainFrame.getPreferredSize());
+//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        mainFrame.setVisible(true);
+//    }
 
 }

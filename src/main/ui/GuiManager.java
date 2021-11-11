@@ -4,9 +4,8 @@ import exceptions.NoRotorsLoadedException;
 import model.InUseRotors;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.Tools.ButtonPanel;
-import ui.Tools.SaveLoadPopUp;
-import ui.Tools.TextPane;
+import ui.GuiExceptions.ContainsNonWordCharactersException;
+import ui.Tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,9 +39,9 @@ public class GuiManager extends JFrame {
     }
 
     private void initPanels() {
-        buttons = new ButtonPanel();
-        textPane = new TextPane();
-        rotorManager = new RotorManager(0);
+        buttons = new ButtonPanel(this);
+        textPane = new TextPane(this);
+        rotorManager = new RotorManager(0, this);
     }
 
     private void addPanels() {
@@ -85,6 +84,44 @@ public class GuiManager extends JFrame {
         } catch (Exception e) {
             //TODO: popup to indicate something failed in the reading
         }
+    }
+
+    public void deleteRotor() {
+        int i = rotorManager.returnSelected();
+        encryptionBox.deleteRotor(i);
+        rotorManager.removeSelectedElement();
+    }
+
+    public void triggerAddPop() {
+        new AddPopUp(this.getLocation(), encryptionBox.getAvailableRotorTypes(), this);
+    }
+
+    public void reactAddPop(int i) {
+        encryptionBox.addRotor(i, 0);
+        rotorManager.addNewElement();
+    }
+
+    public void triggerEditPop() {
+        int i = rotorManager.returnSelected();
+        if (i >= 0) {
+            new EditPopUp(this.getLocation(), encryptionBox.getRotorType(i),
+                    encryptionBox.returnStartPoint(i), this);
+        }
+    }
+
+    public void reactEditPop(int newSetting) {
+        encryptionBox.resetRotorDetails(rotorManager.returnSelected(), newSetting);
+    }
+
+    public void triggerEncrypt() {
+        try {
+            String plainText = textPane.getTextToEncrypt();
+            String cypherText = encryptionBox.encodeFullMessage(plainText);
+            textPane.printEncryptedString(cypherText);
+        } catch (ContainsNonWordCharactersException e) {
+            //TODO deal with the bad text exception
+        }
+
     }
 
     //MODIFIES: this

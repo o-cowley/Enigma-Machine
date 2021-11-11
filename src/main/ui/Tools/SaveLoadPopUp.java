@@ -48,7 +48,7 @@ public class SaveLoadPopUp extends JFrame {
     //com.apple.laf.AquaLookAndFeel  mac only
     // com.sun.java.swing.plaf.gtk.GTKLookAndFeel   not mac i think
 
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
 //        try {
 //            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 //        } catch (Exception e) {
@@ -56,5 +56,5 @@ public class SaveLoadPopUp extends JFrame {
 //        }
 
         //new SaveLoadPopUp(true);
-    }
+    //}
 }

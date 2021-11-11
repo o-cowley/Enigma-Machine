@@ -161,7 +161,7 @@ public class UserSystem {
             System.out.println("What would you like the new setting to be? (0-25)");
             int newSetting = scanIntFromRange(0, 25);
             scanner.nextLine();
-            encryptionBox.resetRotorDetails(rotorToChange, newSetting);
+            encryptionBox.resetRotorDetails((rotorToChange - 1), newSetting);
         }
     }
 

@@ -1,18 +1,22 @@
 package ui.Tools;
 
+import ui.GuiManager;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ButtonPanel extends JPanel {
-    //TODO: add parent frame for functionality
+    GuiManager manager;
 
     JButton add;
     JButton delete;
     JButton edit;
     JButton encrypt;
+    JButton clearInvalid;
 
-    public ButtonPanel() {
+    public ButtonPanel(GuiManager guiManager) {
         setLayout(new GridBagLayout());
+        manager = guiManager;
 
         initButtons();
         addButtons();
@@ -27,19 +31,23 @@ public class ButtonPanel extends JPanel {
     private void initButtons() {
         delete = new JButton("Delete Selected");
         delete.setPreferredSize(delete.getPreferredSize());
-        delete.addActionListener((event) -> doThing());
+        delete.addActionListener((event) -> deletePress());
 
         add = new JButton("Add Rotor");
         add.setPreferredSize(delete.getPreferredSize());
-        add.addActionListener((event) -> doThing());
+        add.addActionListener((event) -> addNewRotor());
 
         edit = new JButton("Edit Setting");
         edit.setPreferredSize(delete.getPreferredSize());
-        edit.addActionListener((event) -> doThing());
+        edit.addActionListener((event) -> editPop());
 
         encrypt = new JButton("Encrypt Text");
         encrypt.setPreferredSize(encrypt.getPreferredSize());
-        encrypt.addActionListener((event) -> doThing());
+        encrypt.addActionListener((event) -> encryptPress());
+
+        clearInvalid = new JButton("Clear Invalid Characters");
+        clearInvalid.setPreferredSize(encrypt.getPreferredSize());
+        clearInvalid.addActionListener((event) -> doThing());
     }
 
     private void addButtons() {
@@ -55,10 +63,11 @@ public class ButtonPanel extends JPanel {
         add(edit, c);
         setGridPos(c,1,2);
         add(delete, c);
-        c.fill = GridBagConstraints.NONE;
-        setGridPos(c,0,0);
-        c.gridheight = 3;
         c.fill = GridBagConstraints.BOTH;
+        setGridPos(c,0,0);
+        add(clearInvalid, c);
+        setGridPos(c,0,1);
+        c.gridheight = 2;
         add(encrypt, c);
     }
 
@@ -76,17 +85,32 @@ public class ButtonPanel extends JPanel {
         //TODO: set individual action methods
     }
 
-
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame();
-        mainFrame.setLocationRelativeTo(null);
-
-        ButtonPanel buttonPanel = new ButtonPanel();
-        mainFrame.add(buttonPanel);
-        mainFrame.setPreferredSize(mainFrame.getPreferredSize());
-
-        mainFrame.setSize(mainFrame.getPreferredSize());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
+    private void addNewRotor() {
+        manager.triggerAddPop();
     }
+
+    private void deletePress() {
+        manager.deleteRotor();
+    }
+
+    private void editPop() {
+        manager.triggerEditPop();
+    }
+
+    private void encryptPress() {
+        manager.triggerEncrypt();
+    }
+
+//    public static void main(String[] args) {
+//        JFrame mainFrame = new JFrame();
+//        mainFrame.setLocationRelativeTo(null);
+//
+//        //ButtonPanel buttonPanel = new ButtonPanel();
+//        //mainFrame.add(buttonPanel);
+//        mainFrame.setPreferredSize(mainFrame.getPreferredSize());
+//
+//        mainFrame.setSize(mainFrame.getPreferredSize());
+//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        mainFrame.setVisible(true);
+//    }
 }

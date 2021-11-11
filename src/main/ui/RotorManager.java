@@ -9,7 +9,7 @@ import java.util.Arrays;
 // The panel that displays the Rotors that are currently installed in the machine, as well as gives the internal
 // settings on the ToolTipText
 public class RotorManager extends JPanel {
-    //TODO: needs to know the main managing frame for functionality access
+    GuiManager manager;
 
     JList list;
     JScrollPane scrollPane;
@@ -19,8 +19,9 @@ public class RotorManager extends JPanel {
 
     //MODIFIES: this
     //EFFECTS: constructs new RotorManager rotor display pane to be added to the main GUI
-    public RotorManager(int size) {
+    public RotorManager(int size, GuiManager guiManager) {
         setLayout(new BorderLayout());
+        manager = guiManager;
         makeList(size);
 
         scrollPane = new JScrollPane(list);
@@ -101,18 +102,16 @@ public class RotorManager extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("JList Demo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ArrayList sports1 = new ArrayList(Arrays.asList("Tennis", "Archery", "Football", "Fencing", "Cricket",
-                "Squash", "Hockey","Rugby"));
-
-        ArrayList sports2 = new ArrayList(Arrays.asList(1,2,3,4,5,6));
-        RotorManager rman = new RotorManager(10);
-
-        frame.add(rman);
-        frame.setSize(300,300);
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("JList Demo");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        ArrayList sports1 = new ArrayList(Arrays.asList("Tennis", "Archery", "Football", "Fencing", "Cricket",
+//                "Squash", "Hockey","Rugby"));
+//
+//        ArrayList sports2 = new ArrayList(Arrays.asList(1,2,3,4,5,6));
+//
+//        frame.setSize(300,300);
+//        frame.setVisible(true);
+//    }
 
 }

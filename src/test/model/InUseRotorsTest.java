@@ -166,10 +166,10 @@ public class InUseRotorsTest {
         testCase.addRotor(3,12);
         testCase.addRotor(2,3);
 
-        testCase.resetRotorDetails(1, 12);
-        testCase.resetRotorDetails(2, 8);
-        testCase.resetRotorDetails(3, 22);
-        testCase.resetRotorDetails(4, 16);
+        testCase.resetRotorDetails(0, 12);
+        testCase.resetRotorDetails(1, 8);
+        testCase.resetRotorDetails(2, 22);
+        testCase.resetRotorDetails(3, 16);
 
         List<Integer> testSettingReturn = testCase.returnCurrentSettings();
         assertEquals(12, testSettingReturn.get(0));

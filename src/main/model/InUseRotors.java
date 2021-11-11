@@ -108,8 +108,7 @@ public class InUseRotors {
     //MODIFIES: this
     //EFFECTS: sets a rotor's start point and current setting to newSetting after it has already been set and added
     public void resetRotorDetails(int rotorNum, int newSetting) {
-        int i = rotorNum - 1;
-        inUse.get(i).setRotor(newSetting);
+        inUse.get(rotorNum).setRotor(newSetting);
     }
 
     //REQUIRES: rotorNum refers to a rotor that is in inUse
@@ -165,6 +164,11 @@ public class InUseRotors {
     //EFFECTS: returns number of rotors in inUse array
     public Integer getRotorCount() {
         return inUse.size();
+    }
+
+    //EFFECTS: returns the current type of rotor that is at a given position in inUse
+    public int getRotorType(int rotor) {
+        return inUse.get(rotor).getLabel();
     }
 
     //EFFECTS: Returns the current step setting of each rotor in the array as a List<Integer>

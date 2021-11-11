@@ -1,6 +1,6 @@
 package ui.Tools;
 
-import model.InUseRotors;
+import ui.GuiManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.*;
 // A PopUp window that prompts a user to select the type of rotor to add to their current inUseRotors
 //  the selected rotor is then added to the system
 public class AddPopUp extends JFrame {
-    //TODO: needs to know the main managing frame for functionality access
+    GuiManager manager;
 
     JPanel pane;
     JComboBox dropDown;
@@ -17,9 +17,10 @@ public class AddPopUp extends JFrame {
     JLabel label;
 
     //EFFECTS: Constructs a PopUp that requests user input to select a rotor to add to the rotorBox
-    public AddPopUp(Point p, int rotorRange) {
+    public AddPopUp(Point p, int rotorRange, GuiManager manager) {
         this.setLayout(new GridBagLayout());
         this.setTitle("Add Rotor");
+        this.manager = manager;
 
         pane = new JPanel(new GridBagLayout());
         initializeButtons(rotorRange);
@@ -27,6 +28,7 @@ public class AddPopUp extends JFrame {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(pane.getPreferredSize());
+        pack();
         setResizable(false);
         setLocation(p);
         setVisible(true);
@@ -49,9 +51,10 @@ public class AddPopUp extends JFrame {
         label.setPreferredSize(label.getPreferredSize());
 
         done = new JButton("Done");
-        setDimensions(done, 50, 50);
+        done.setPreferredSize(done.getPreferredSize());
         done.addActionListener((event) -> {
-            System.out.println(dropDown.getSelectedIndex());
+            manager.reactAddPop(intList.getElementAt(dropDown.getSelectedIndex()));
+            this.dispose();
         });
 
         close = new JButton("Close");
@@ -85,12 +88,6 @@ public class AddPopUp extends JFrame {
     }
 
     //MODIFIES: this, c
-    //EFFECTS: sets a given components preferred size according to x and y dimensions
-    private void setDimensions(Component c, int x, int y) {
-        c.setPreferredSize(new Dimension(x, y));
-    }
-
-    //MODIFIES: this, c
     //EFFECTS: sets the constraints of x and y position to use the GridBagConstraints object to add a component to
     // the main panel
     private void setGridPos(GridBagConstraints c, int x, int y) {
@@ -100,23 +97,23 @@ public class AddPopUp extends JFrame {
 
 
 
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame();
-        mainFrame.setLocationRelativeTo(null);
-
-        JButton but = new JButton("pop");
-        but.setPreferredSize(new Dimension(100,100));
-        but.addActionListener((event) -> new AddPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
-                6));
-
-        mainFrame.add(but);
-
-        mainFrame.setSize(mainFrame.getPreferredSize());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-
-
-    }
+//    public static void main(String[] args) {
+//        JFrame mainFrame = new JFrame();
+//        mainFrame.setLocationRelativeTo(null);
+//
+//        JButton but = new JButton("pop");
+//        but.setPreferredSize(new Dimension(100,100));
+//        //but.addActionListener((event) -> new AddPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
+//         //       6));
+//
+//        mainFrame.add(but);
+//
+//        mainFrame.setSize(mainFrame.getPreferredSize());
+//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        mainFrame.setVisible(true);
+//
+//
+//    }
 
 
 }

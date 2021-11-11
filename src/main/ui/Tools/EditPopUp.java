@@ -1,30 +1,31 @@
 package ui.Tools;
 
-import model.InUseRotors;
+import ui.GuiManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 // A PopUp window that prompts a user to adjust a selected rotor's internal setting before encryption
 public class EditPopUp extends JFrame {
-    //TODO: needs to know the main managing frame for functionality access
+    GuiManager manager;
 
-    JPanel pane;
     JSpinner spinner;
     JButton done;
     JButton close;
     JLabel label;
 
     //EFFECTS: A constructor that initializes an Edit popup to allow a user to set a rotor's internal setting
-    public EditPopUp(Point p, int rotor, int initialSetting) {
+    public EditPopUp(Point p, int rotor, int initialSetting, GuiManager guiManager) {
         this.setLayout(new GridBagLayout());
+        manager = guiManager;
 
-        pane = new JPanel(new GridBagLayout());
         initializeButtons(rotor, initialSetting);
         addButtons();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(pane.getPreferredSize());
+
+        pack();
+        setPreferredSize(getPreferredSize());
         setResizable(false);
         setLocation(p);
         setVisible(true);
@@ -36,7 +37,7 @@ public class EditPopUp extends JFrame {
     private void initializeButtons(int rotorLabel, int initialSetting) {
         SpinnerModel spinnerModel = new SpinnerNumberModel(0,0,25,1);
         spinner = new JSpinner(spinnerModel);
-        setDimensions(spinner,75,50);
+        spinner.setPreferredSize(spinner.getPreferredSize());
 
         JComponent editor = spinner.getEditor();
         JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
@@ -44,16 +45,17 @@ public class EditPopUp extends JFrame {
 
         label = new JLabel("<html>This is for rotor type: " + rotorLabel + "<br> the previous setting was: "
                 + initialSetting + "</html>");
-        setDimensions(label, 50, 50);
+        label.setPreferredSize(new Dimension(100,50));
 
         done = new JButton("Done");
-        setDimensions(done, 50, 50);
+        done.setPreferredSize(done.getPreferredSize());
         done.addActionListener((event) -> {
-            System.out.println(spinner.getValue());
+            doneButtonPush((int) spinner.getValue());
+            this.dispose();
         });
 
         close = new JButton("Close");
-        setDimensions(spinner,50,50);
+        close.setPreferredSize(close.getPreferredSize());
         close.addActionListener((event) -> {
             this.dispose();
         });
@@ -64,28 +66,21 @@ public class EditPopUp extends JFrame {
     private void addButtons() {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,5,5,5);
-        c.weightx = 1;
-        setGridPos(c,0,0);
         c.gridwidth = 2;
-        pane.add(spinner, c);
+        setGridPos(c,0,0);
+        add(spinner, c);
         c.gridwidth = 1;
         setGridPos(c,2,0);
-        pane.add(close, c);
+        add(close, c);
         setGridPos(c,3,0);
-        pane.add(done, c);
+        add(done, c);
         setGridPos(c,0,1);
         c.gridwidth = 4;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        pane.add(label, c);
-        setGridPos(c,0,0);
-        add(pane, c);
+        c.fill = GridBagConstraints.BOTH;
+        add(label, c);
+
     }
 
-    //MODIFIES: this, c
-    //EFFECTS: sets a given components preferred size according to x and y dimensions
-    private void setDimensions(Component c, int x, int y) {
-        c.setPreferredSize(new Dimension(x, y));
-    }
 
     //MODIFIES: this, c
     //EFFECTS: sets the constraints of x and y position to use the GridBagConstraints object to add a component to
@@ -95,24 +90,28 @@ public class EditPopUp extends JFrame {
         c.gridy = y;
     }
 
-
-
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame();
-        mainFrame.setLocationRelativeTo(null);
-
-        JButton but = new JButton("pop");
-        but.setPreferredSize(new Dimension(100,100));
-        but.addActionListener((event) -> new EditPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
-                5, 5));
-
-        mainFrame.add(but);
-
-        mainFrame.setSize(mainFrame.getPreferredSize());
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-
+    private void doneButtonPush(int setting) {
+        manager.reactEditPop(setting);
     }
+
+
+
+//    public static void main(String[] args) {
+//        JFrame mainFrame = new JFrame();
+//        mainFrame.setLocationRelativeTo(null);
+//
+//        JButton but = new JButton("pop");
+//        but.setPreferredSize(new Dimension(100,100));
+//        but.addActionListener((event) -> new EditPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
+//                5, 5));
+//
+//        mainFrame.add(but);
+//
+//        mainFrame.setSize(mainFrame.getPreferredSize());
+//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        mainFrame.setVisible(true);
+//
+//    }
 
 
 
