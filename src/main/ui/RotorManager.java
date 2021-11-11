@@ -84,6 +84,19 @@ public class RotorManager extends JPanel {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: locks rotor display so that nothing can be changed while editing
+    public void lockRotors() {
+        list.setEnabled(false);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: unlocks rotor display so that nothing can be changed while editing
+    public void unlockRotors() {
+        list.setEnabled(true);
+    }
+
+
 
     //MODIFIES: this
     //EFFECTS: adds a new rotor to the end of the list

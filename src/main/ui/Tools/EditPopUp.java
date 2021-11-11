@@ -4,6 +4,8 @@ import ui.GuiManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // A PopUp window that prompts a user to adjust a selected rotor's internal setting before encryption
 public class EditPopUp extends JFrame {
@@ -21,15 +23,28 @@ public class EditPopUp extends JFrame {
 
         initializeButtons(rotor, initialSetting);
         addButtons();
+        setUpClose();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         pack();
         setPreferredSize(getPreferredSize());
         setResizable(false);
+
         setLocation(p);
         setVisible(true);
 
+    }
+
+    //how to use a window listener came from code suggestions from this page:
+    //https://stackoverflow.com/questions/9093448/how-to-capture-a-jframes-close-button-click-event
+    private void setUpClose() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                manager.unlockRotorManager();
+            }
+        });
     }
 
     //MODIFIES: this
@@ -56,9 +71,7 @@ public class EditPopUp extends JFrame {
 
         close = new JButton("Close");
         close.setPreferredSize(close.getPreferredSize());
-        close.addActionListener((event) -> {
-            this.dispose();
-        });
+        close.addActionListener((event) -> this.dispose());
     }
 
     //MODIFIES: this
@@ -91,7 +104,7 @@ public class EditPopUp extends JFrame {
     }
 
     private void doneButtonPush(int setting) {
-        manager.reactEditPop(setting);
+        manager.reactToEditPop(setting);
     }
 
 

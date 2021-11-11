@@ -33,6 +33,7 @@ public class SaveLoadPopUp extends JFrame {
         } else {
             result = buttons.showConfirmDialog(this, "Would you like to save your settings?",
                     "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            manager.triggerSave(result == JOptionPane.YES_OPTION);
         }
 
     }

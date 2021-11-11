@@ -35,11 +35,11 @@ public class ButtonPanel extends JPanel {
 
         add = new JButton("Add Rotor");
         add.setPreferredSize(delete.getPreferredSize());
-        add.addActionListener((event) -> addNewRotor());
+        add.addActionListener((event) -> addPress());
 
         edit = new JButton("Edit Setting");
         edit.setPreferredSize(delete.getPreferredSize());
-        edit.addActionListener((event) -> editPop());
+        edit.addActionListener((event) -> editPress());
 
         encrypt = new JButton("Encrypt Text");
         encrypt.setPreferredSize(encrypt.getPreferredSize());
@@ -47,7 +47,7 @@ public class ButtonPanel extends JPanel {
 
         clearInvalid = new JButton("Clear Invalid Characters");
         clearInvalid.setPreferredSize(encrypt.getPreferredSize());
-        clearInvalid.addActionListener((event) -> doThing());
+        clearInvalid.addActionListener((event) -> clearPress());
     }
 
     private void addButtons() {
@@ -81,11 +81,11 @@ public class ButtonPanel extends JPanel {
 
     //MODIFIES: THEMAINSYSTEM
     //EFFECTS: general handler method for compiler check
-    private void doThing() {
-        //TODO: set individual action methods
+    private void clearPress() {
+        //TODO: create cleanup text method methods
     }
 
-    private void addNewRotor() {
+    private void addPress() {
         manager.triggerAddPop();
     }
 
@@ -93,7 +93,7 @@ public class ButtonPanel extends JPanel {
         manager.deleteRotor();
     }
 
-    private void editPop() {
+    private void editPress() {
         manager.triggerEditPop();
     }
 

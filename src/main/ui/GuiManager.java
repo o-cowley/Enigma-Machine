@@ -9,6 +9,8 @@ import ui.Tools.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -24,9 +26,10 @@ public class GuiManager extends JFrame {
         encryptionBox = new InUseRotors();
 
         setLayout(new GridBagLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         initPanels();
         addPanels();
+        setUpClose(this);
 
         pack();
 
@@ -64,8 +67,10 @@ public class GuiManager extends JFrame {
         add(buttons, c);
     }
 
+    //MODIFIES: this
+    //EFFECTS: triggers the popup that prompts a user to load data from a file
     private void startProgram() {
-        //TODO WELCOME SCREEN
+        //TODO WELCOME SCREEN and make sure to lock access until after save and load popup
         new SaveLoadPopUp(true, this);
     }
 
@@ -77,6 +82,8 @@ public class GuiManager extends JFrame {
         c.gridy = y;
     }
 
+    //MODIFIES: this
+    //EFFECTS: responds to user input to load rotors saved in file at the beginning of encryption process
     public void loadRotors() {
         try {
             readRotorsFromFile();
@@ -86,9 +93,14 @@ public class GuiManager extends JFrame {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: if a rotor is selected, removes that rotor from the rotorManager pane and removes corresponding
+    // rotor from encryptionBox
     public void deleteRotor() {
         int i = rotorManager.returnSelected();
-        encryptionBox.deleteRotor(i);
+        if (i >= 0) {
+            encryptionBox.deleteRotor(i);
+        }
         rotorManager.removeSelectedElement();
     }
 
@@ -96,23 +108,39 @@ public class GuiManager extends JFrame {
         new AddPopUp(this.getLocation(), encryptionBox.getAvailableRotorTypes(), this);
     }
 
-    public void reactAddPop(int i) {
+    public void reactToAddPop(int i) {
         encryptionBox.addRotor(i, 0);
         rotorManager.addNewElement();
     }
 
+    //MODIFIES: this
+    //EFFECTS: initiates a popup to prompt for a change in user settings, locks rotorManager pane so users can't
+    // change highlighted input
     public void triggerEditPop() {
         int i = rotorManager.returnSelected();
         if (i >= 0) {
+            rotorManager.lockRotors();
             new EditPopUp(this.getLocation(), encryptionBox.getRotorType(i),
                     encryptionBox.returnStartPoint(i), this);
         }
     }
 
-    public void reactEditPop(int newSetting) {
+    //MODIFIES: this
+    //EFFECTS: updates a selected rotor to a new setting, reacting to user input from EditPopUp
+    public void reactToEditPop(int newSetting) {
         encryptionBox.resetRotorDetails(rotorManager.returnSelected(), newSetting);
+        unlockRotorManager();
     }
 
+    //MODIFIES: this
+    //EFFECTS: allows user access to the rotorManager pane
+    public void unlockRotorManager() {
+        rotorManager.unlockRotors();
+    }
+
+    //MODIFIES: encryptionBox
+    //EFFECTS: responds to user request to encrypt text from textArea, encrypts if possible, triggers warning if
+    // un-encryptable characters are in the input field
     public void triggerEncrypt() {
         try {
             String plainText = textPane.getTextToEncrypt();
@@ -124,6 +152,27 @@ public class GuiManager extends JFrame {
 
     }
 
+    //MODIFIES: this, manager
+    //EFFECTS: adds a windowClosing listener, triggers the save popup instead of closing
+    private void setUpClose(GuiManager manager) {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                new SaveLoadPopUp(false, manager);
+            }
+        });
+    }
+
+    //MODIFIES: this
+    //EFFECTS: responds to user input, saves system if desired, then exits program
+    public void triggerSave(boolean save) {
+        if (save) {
+            writeRotorsToFile();
+        }
+        System.exit(0);
+
+    }
+
     //MODIFIES: this
     //EFFECTS: writes the encryptionBox to file as JSON, to be used next time
     private void writeRotorsToFile() {
@@ -132,7 +181,6 @@ public class GuiManager extends JFrame {
             jsonWriter.open();
             jsonWriter.write(encryptionBox);
             jsonWriter.close();
-            //System.out.println("Rotors saved to file");
         } catch (FileNotFoundException e) {
             //System.out.println("Sorry, the destination file wasn't found");
         }

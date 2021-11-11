@@ -53,7 +53,7 @@ public class AddPopUp extends JFrame {
         done = new JButton("Done");
         done.setPreferredSize(done.getPreferredSize());
         done.addActionListener((event) -> {
-            manager.reactAddPop(intList.getElementAt(dropDown.getSelectedIndex()));
+            manager.reactToAddPop(intList.getElementAt(dropDown.getSelectedIndex()));
             this.dispose();
         });
 

@@ -6,8 +6,6 @@ import ui.GuiManager;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 
 //The text area to add the input to be encrypted, with another pane below to display the output once encrypted
 public class TextPane extends JPanel {
@@ -99,6 +97,8 @@ public class TextPane extends JPanel {
 
     //The design of this code comes from the website
     //https://www.programcreek.com/java-api-examples/?api=javax.swing.text.DefaultEditorKit
+    //MODIFIES: this
+    //EFFECTS: turns on Cut/Copy/Paste to system clipboard for the text areas--triggered by ctrl-x/c/v
     private void enableActions() {
         Action copyAction = this.textAreaInput.getActionMap().get(DefaultEditorKit.copyAction);
         copyAction.setEnabled(true);
@@ -108,14 +108,6 @@ public class TextPane extends JPanel {
         cutAction.setEnabled(true);
         cutAction = this.textAreaOutput.getActionMap().get(DefaultEditorKit.cutAction);
         cutAction.setEnabled(true);
-    }
-
-    public void disableInput() {
-        textAreaInput.setEnabled(false);
-    }
-
-    public void enableOutput() {
-        textAreaOutput.setEnabled(true);
     }
 
     //MODIFIES: this
