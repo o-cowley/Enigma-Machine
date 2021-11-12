@@ -2,30 +2,39 @@ package ui.Tools;
 
 import ui.GuiManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class StartProgram extends JPanel {
+    private final int ballWidth = 20;
+    private final int ballHeight = 20;
+
+    private BufferedImage basket;
+    private Image basketResized;
+
     JFrame frame;
     Timer timer;
 
     private int oneX = 20;
     private int oneY = 20;
-    private int ballWidth = 20;
-    private int ballHeight = 20;
-    private int randomizer = 0;
-    private Random rn;
+    boolean up = false;
+    boolean down = true;
+    boolean left = false;
+    boolean right = true;
 
     private int mouseX = 0;
     private int mouseY = 0;
     private boolean catcherVisible = false;
 
-    boolean up = false;
-    boolean down = true;
-    boolean left = false;
-    boolean right = true;
+    private int randomizer = 0;
+    private Random rn;
 
     public StartProgram() {
         setBackground(new Color(112, 245, 205));
@@ -39,6 +48,7 @@ public class StartProgram extends JPanel {
         frame.setVisible(true);
 
         rn = new Random();
+        initPicture();
 
         initMouseListener();
         initMouseMotionListener();
@@ -46,6 +56,15 @@ public class StartProgram extends JPanel {
 
         timer.start();
 
+    }
+
+    private void initPicture() {
+        try {
+            basket = ImageIO.read(new File("./data/basket.png"));
+            basketResized = basket.getScaledInstance(50,50, 1);
+        } catch (IOException e) {
+            //
+        }
     }
 
     private void initTimer() {
@@ -105,8 +124,7 @@ public class StartProgram extends JPanel {
         g.setColor(new Color(255, 0, 0));
         g.fillOval(oneX, oneY, ballWidth, ballHeight);
         if (catcherVisible) {
-            g.setColor(Color.gray);
-            g.fillRect(mouseX - 10, mouseY - 10, 20, 20);
+            g.drawImage(basketResized, mouseX - 25, mouseY - 25, this);
         }
     }
 
@@ -156,15 +174,21 @@ public class StartProgram extends JPanel {
         randomizer = rn.nextInt(100);
     }
 
+    //TODO  set up proper overlap dimensions
     private void checkWinState() {
         if (catcherVisible) {
-            if (((mouseX + ballHeight >= oneX) && (mouseX <= oneX + ballWidth))
-                    && ((mouseY + ballHeight >= oneY) && (mouseY <= oneY + ballHeight))) {
+            if (((mouseX - 25 >= oneX + ballWidth) && (mouseX + 25 <= oneX)) //TODO fix this
+                    && ((mouseY + 25 <= oneY + ballHeight) && (mouseY + 50 >= oneY))) {
                 timer.stop();
                 JOptionPane.showMessageDialog(frame, "Congrats! You can use the program now.");
                 frame.dispose();
                 new GuiManager();
             }
         }
+    }
+
+
+    public static void main(String[] args) {
+        new StartProgram();
     }
 }
