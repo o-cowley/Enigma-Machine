@@ -195,4 +195,9 @@ public class InUseRotors {
     public int getAvailableRotorTypes() {
         return availableRotorTypes;
     }
+
+    //EFFECTS: returns string version of a rotor's label and startSetting
+    public String getRotorName(int index) {
+        return inUse.get(index).toString();
+    }
 }

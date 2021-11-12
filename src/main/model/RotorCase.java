@@ -29,19 +29,16 @@ public class RotorCase {
             13, -8, 12, -6, -10, 4, 2, 5, -2, -4, 1, -1, -5, -13, -12, -16, -18, -22));
 
     private ArrayList<ArrayList<Integer>> rotorBox;
-    private JsonReader jsonReader;
 
     //MODIFIES: this
     //EFFECTS: Constructor, reads rotors from file and loads them to rotorBox,
     //          if file is not found then only 3 are loaded instead using static class data
     public RotorCase(String destination) {
-        jsonReader = new JsonReader(destination);
+        JsonReader jsonReader = new JsonReader(destination);
         rotorBox = new ArrayList<>();
         try {
             jsonReader.addRotorDataFromFile(rotorBox);
         } catch (IOException e) {
-            System.out.println("We couldn't get the rotor data from file, reduced number of rotors "
-                    + "available as a result");
             loadArraysDirectlyFromClass();
         }
     }

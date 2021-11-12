@@ -5,6 +5,7 @@ import ui.GuiManager;
 import javax.swing.*;
 import java.awt.*;
 
+//The main button panel class/pane for the GUI
 public class ButtonPanel extends JPanel {
     GuiManager manager;
 
@@ -14,6 +15,8 @@ public class ButtonPanel extends JPanel {
     JButton encrypt;
     JButton clearInvalid;
 
+    //MODIFIES: this
+    //EFFECTS: constructor, initializes all buttons and adds them to the pane, sets preferred size
     public ButtonPanel(GuiManager guiManager) {
         setLayout(new GridBagLayout());
         manager = guiManager;
@@ -22,12 +25,14 @@ public class ButtonPanel extends JPanel {
         addButtons();
 
         Dimension bigger = getPreferredSize();
-        bigger.height = bigger.height + 10;
-        bigger.width = bigger.width + 5;
+//        bigger.height = bigger.height + 10;
+//        bigger.width = bigger.width + 5;
         setPreferredSize(bigger);
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes all buttons with required action listeners and size constraints
     private void initButtons() {
         delete = new JButton("Delete Selected");
         delete.setPreferredSize(delete.getPreferredSize());
@@ -45,25 +50,26 @@ public class ButtonPanel extends JPanel {
         encrypt.setPreferredSize(encrypt.getPreferredSize());
         encrypt.addActionListener((event) -> encryptPress());
 
-        clearInvalid = new JButton("Clear Invalid Characters");
+        clearInvalid = new JButton("Clean Up Text");
         clearInvalid.setPreferredSize(encrypt.getPreferredSize());
         clearInvalid.addActionListener((event) -> clearPress());
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds buttons in the correct positions to the ButtonPanel
     private void addButtons() {
         GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(0,5,2,5);
         c.weightx = 1;
         c.weighty = 1;
-        c.ipady = 5;
         c.gridheight = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         setGridPos(c,1,0);
         add(add, c);
         setGridPos(c,1,1);
         add(edit, c);
         setGridPos(c,1,2);
         add(delete, c);
-        c.fill = GridBagConstraints.BOTH;
         setGridPos(c,0,0);
         add(clearInvalid, c);
         setGridPos(c,0,1);
@@ -79,38 +85,49 @@ public class ButtonPanel extends JPanel {
         c.gridy = y;
     }
 
-    //MODIFIES: THEMAINSYSTEM
+    //MODIFIES: this
     //EFFECTS: general handler method for compiler check
     private void clearPress() {
-        //TODO: create cleanup text method methods
+        manager.triggerTextClean();
     }
 
+    //EFFECTS: passes event to manager when the add button is pressed
     private void addPress() {
         manager.triggerAddPop();
     }
 
+    //EFFECTS: passes event to manager when the delete button is pressed
     private void deletePress() {
         manager.deleteRotor();
     }
 
+    //EFFECTS: passes event to manager when the edit button is pressed
     private void editPress() {
         manager.triggerEditPop();
     }
 
+    //EFFECTS: passes event to manager when the encrypt button is pressed
     private void encryptPress() {
         manager.triggerEncrypt();
     }
 
-//    public static void main(String[] args) {
-//        JFrame mainFrame = new JFrame();
-//        mainFrame.setLocationRelativeTo(null);
-//
-//        //ButtonPanel buttonPanel = new ButtonPanel();
-//        //mainFrame.add(buttonPanel);
-//        mainFrame.setPreferredSize(mainFrame.getPreferredSize());
-//
-//        mainFrame.setSize(mainFrame.getPreferredSize());
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.setVisible(true);
-//    }
+    //MODIFIES: this
+    //EFFECTS: locks all buttons to ensure no additional inputs disrupt the settings while other events are handled
+    public void lockForPopUp() {
+        add.setEnabled(false);
+        delete.setEnabled(false);
+        edit.setEnabled(false);
+        encrypt.setEnabled(false);
+        clearInvalid.setEnabled(false);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: unlocks all buttons to allow inputs
+    public void unlockForPopUp() {
+        add.setEnabled(true);
+        delete.setEnabled(true);
+        edit.setEnabled(true);
+        encrypt.setEnabled(true);
+        clearInvalid.setEnabled(true);
+    }
 }

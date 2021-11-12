@@ -125,6 +125,12 @@ public class Rotor {
         return jsonArray;
     }
 
+    //EFFECTS: returns a string representation of a rotor
+    @Override
+    public String toString() {
+        return "Rotor: " + label + " Setting: " + startPoint;
+    }
+
     //Getters:
     public int getSteps() {
         return this.steps;

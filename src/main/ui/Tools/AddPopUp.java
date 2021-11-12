@@ -4,6 +4,8 @@ import ui.GuiManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // A PopUp window that prompts a user to select the type of rotor to add to their current inUseRotors
 //  the selected rotor is then added to the system
@@ -25,6 +27,7 @@ public class AddPopUp extends JFrame {
         pane = new JPanel(new GridBagLayout());
         initializeButtons(rotorRange);
         addButtons();
+        setUpClose();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(pane.getPreferredSize());
@@ -59,6 +62,7 @@ public class AddPopUp extends JFrame {
 
         close = new JButton("Close");
         close.addActionListener((event) -> {
+            manager.unlockForPopUps();
             this.dispose();
         });
     }
@@ -93,6 +97,18 @@ public class AddPopUp extends JFrame {
     private void setGridPos(GridBagConstraints c, int x, int y) {
         c.gridx = x;
         c.gridy = y;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets the behaviour for when the window is closed, should unlock the various components that were locked
+    // upon triggering
+    private void setUpClose() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                manager.unlockForPopUps();
+            }
+        });
     }
 
 

@@ -5,6 +5,7 @@ import model.InUseRotors;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.GuiExceptions.ContainsNonWordCharactersException;
+import ui.GuiExceptions.NoNewTextException;
 import ui.Tools.*;
 
 import javax.swing.*;
@@ -14,6 +15,9 @@ import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+//Main GUI manager component, receives input from the three main components and triggers different popup actions
+// as well as reacts to input from the popups. Used to centralize the encryption tools from InUseRotors, as well as
+// to keep consistency in even handling
 public class GuiManager extends JFrame {
     private static final String destination = "./data/encryptionSettings.json";
 
@@ -22,6 +26,9 @@ public class GuiManager extends JFrame {
     private TextPane textPane;
     private RotorManager rotorManager;
 
+    //MODIFIES: this
+    //EFFECTS: constructor that initializes all fields and sets up component placement/settings, triggers start of gui
+    // at the end of the setup process
     public GuiManager() {
         encryptionBox = new InUseRotors();
 
@@ -41,12 +48,16 @@ public class GuiManager extends JFrame {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets up the three main component panels, providing them with necessary association to this manager
     private void initPanels() {
         buttons = new ButtonPanel(this);
         textPane = new TextPane(this);
         rotorManager = new RotorManager(0, this);
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds the different component panels to this frame to display
     private void addPanels() {
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1;
@@ -104,13 +115,18 @@ public class GuiManager extends JFrame {
         rotorManager.removeSelectedElement();
     }
 
+    //EFFECTS: triggers a popup that prompts a user to select the type of rotor to add to their encryption box
     public void triggerAddPop() {
+        lockForPopUps();
         new AddPopUp(this.getLocation(), encryptionBox.getAvailableRotorTypes(), this);
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds a new rotor to the visible manager pane and the encryption box, reacting to user input
     public void reactToAddPop(int i) {
         encryptionBox.addRotor(i, 0);
         rotorManager.addNewElement();
+        unlockForPopUps();
     }
 
     //MODIFIES: this
@@ -119,7 +135,7 @@ public class GuiManager extends JFrame {
     public void triggerEditPop() {
         int i = rotorManager.returnSelected();
         if (i >= 0) {
-            rotorManager.lockRotors();
+            lockForPopUps();
             new EditPopUp(this.getLocation(), encryptionBox.getRotorType(i),
                     encryptionBox.returnStartPoint(i), this);
         }
@@ -129,26 +145,48 @@ public class GuiManager extends JFrame {
     //EFFECTS: updates a selected rotor to a new setting, reacting to user input from EditPopUp
     public void reactToEditPop(int newSetting) {
         encryptionBox.resetRotorDetails(rotorManager.returnSelected(), newSetting);
-        unlockRotorManager();
+        unlockForPopUps();
     }
 
     //MODIFIES: this
-    //EFFECTS: allows user access to the rotorManager pane
-    public void unlockRotorManager() {
+    //EFFECTS: locks user access to the rotorManager pane and buttons while pop ups are being interacted with
+    public void lockForPopUps() {
+        rotorManager.lockRotors();
+        buttons.lockForPopUp();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: allows user access to the rotorManager pane and buttons
+    public void unlockForPopUps() {
         rotorManager.unlockRotors();
+        buttons.unlockForPopUp();
     }
 
     //MODIFIES: encryptionBox
     //EFFECTS: responds to user request to encrypt text from textArea, encrypts if possible, triggers warning if
     // un-encryptable characters are in the input field
     public void triggerEncrypt() {
-        try {
-            String plainText = textPane.getTextToEncrypt();
-            String cypherText = encryptionBox.encodeFullMessage(plainText);
-            textPane.printEncryptedString(cypherText);
-        } catch (ContainsNonWordCharactersException e) {
-            //TODO deal with the bad text exception
+        if (encryptionBox.getRotorCount() == 0) {
+            JOptionPane.showMessageDialog(this, "You forgot to add rotors!",
+                    "Rotors Missing!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                String plainText = textPane.getTextToEncrypt();
+                String cypherText = encryptionBox.encodeFullMessage(plainText);
+                textPane.printEncryptedString(cypherText);
+            } catch (ContainsNonWordCharactersException e) {
+                JOptionPane.showMessageDialog(this, "<html> You seem to have included "
+                                + "some invalid characters, <br>make sure to use the 'Clean up text' button to get rid "
+                                + "of them before encrypting</html>",
+                        "Un-encryptable characters!", JOptionPane.WARNING_MESSAGE);
+            } catch (NoNewTextException e) {
+                JOptionPane.showMessageDialog(this, "You haven't entered any new text yet!",
+                        "No New Text!", JOptionPane.WARNING_MESSAGE);
+//            } catch (InterruptedException e) {
+//                //nothing
+            }
         }
+
 
     }
 
@@ -196,13 +234,14 @@ public class GuiManager extends JFrame {
         encryptionBox = jsonReader.readFile();
     }
 
+    //MODIFIES: this
+    //EFFECTS:
+    public void triggerTextClean() {
+        textPane.cleanUpInput();
+    }
 
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (Exception e) {
-            System.out.println("couldn't load what you wanted");
-        }
-        new GuiManager();
+    //EFFECTS: gets the String representation of a Rotor to be displayed as toolTipText
+    public String getRotorString(int index) {
+        return encryptionBox.getRotorName(index);
     }
 }

@@ -1,6 +1,7 @@
 package ui.Tools;
 
 import ui.GuiExceptions.ContainsNonWordCharactersException;
+import ui.GuiExceptions.NoNewTextException;
 import ui.GuiManager;
 
 import javax.swing.*;
@@ -84,15 +85,42 @@ public class TextPane extends JPanel {
     }
 
     //EFFECTS: gets the text from the user input to encrypt
-    //      Throws ContainsNonWordCharactersException if the input prompt remains unchanged or if the input field
-    //      is empty
-    public String getTextToEncrypt() throws ContainsNonWordCharactersException {
+    //      Throws NoNewTextException if the input prompt remains unchanged or if the input field is empty
+    //      Throws ContainsNonWordCharactersException if the field has characters that are not spaces or alphabetic
+    public String getTextToEncrypt() throws ContainsNonWordCharactersException, NoNewTextException {
         String toEncrypt = textAreaInput.getText();
         if (toEncrypt.equalsIgnoreCase(inputMessage) || toEncrypt.length() == 0) {
+            throw new NoNewTextException();
+        } else if (containsBadCharacters(toEncrypt)) {
             throw new ContainsNonWordCharactersException();
         } else {
-            return textAreaInput.getText();
+            return toEncrypt;
         }
+    }
+
+    //EFFECTS: returns false if there is a character in the string that is not alphabetic or a space
+    private boolean containsBadCharacters(String toEncrypt) {
+        char[] array = toEncrypt.toCharArray();
+        for (char c: array) {
+            if (!Character.isLetter(c) && !Character.isSpaceChar(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: removes all non-alphabetic or non-space characters from the text input pane
+    public void cleanUpInput() {
+        StringBuilder cleanString = new StringBuilder();
+        char[] characters = textAreaInput.getText().toCharArray();
+        for (char c: characters) {
+            if (Character.isLetter(c) || Character.isSpaceChar(c)) {
+                cleanString.append(c);
+            }
+        }
+        String cleaned = cleanString.toString();
+        textAreaInput.setText(cleaned);
     }
 
     //The design of this code comes from the website
@@ -114,15 +142,15 @@ public class TextPane extends JPanel {
     //EFFECTS: sets the output text to be str, intended to be used as
     public void printEncryptedString(String str) {
         textAreaOutput.setText(str);
+//        String output = "";
+//        String input = textAreaInput.getText();
+//        int i = 0;
+//        while (i < str.length()) {
+//            output = str.substring(0, i) + input.substring(i, str.length());
+//            textAreaOutput.setText(output);
+//            Thread.sleep(1000);
+//            i++;
+//        }
+
     }
-
-//    public static void main(String[] args) {
-//        JFrame mainFrame = new JFrame();
-//        mainFrame.setLocationRelativeTo(null);
-//
-//        mainFrame.setSize(mainFrame.getPreferredSize());
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.setVisible(true);
-//    }
-
 }

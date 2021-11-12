@@ -94,4 +94,16 @@ class RotorTest {
                                         (3, true), true), true), true);
         assertEquals(8, test2);
     }
+
+    @Test
+    public void testToString() {
+        Rotor rotor1 = new Rotor(1);
+        rotor1.setRotor(12);
+        Rotor rotor2 = new Rotor(2);
+        rotor2.setRotor(15);
+
+        assertEquals("Rotor: 1 Setting: 12", rotor1.toString());
+        assertEquals("Rotor: 2 Setting: 15", rotor2.toString());
+
+    }
 }

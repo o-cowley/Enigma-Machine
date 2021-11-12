@@ -223,6 +223,20 @@ public class InUseRotorsTest {
         assertEquals(18, testCase.returnStartPoint(1));
         assertEquals(3, testCase.returnStartPoint(2));
         assertEquals(2, testCase.returnStartPoint(3));
+    }
+
+    @Test
+    void testGetRotorNameType() {
+        testCase.addRotor(1,25);
+        testCase.addRotor(2,18);
+        testCase.addRotor(4,3);
+        testCase.addRotor(2,2);
+
+        assertEquals("Rotor: 1 Setting: 25", testCase.getRotorName(0));
+        assertEquals("Rotor: 4 Setting: 3", testCase.getRotorName(2));
+
+        assertEquals(2, testCase.getRotorType(1));
+        assertEquals(4, testCase.getRotorType(2));
 
     }
 }

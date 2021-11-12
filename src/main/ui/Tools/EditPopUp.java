@@ -30,19 +30,22 @@ public class EditPopUp extends JFrame {
         pack();
         setPreferredSize(getPreferredSize());
         setResizable(false);
-
-        setLocation(p);
+        setLocationRelativeTo(null);
+        //setLocation(p);
         setVisible(true);
 
     }
 
     //how to use a window listener came from code suggestions from this page:
     //https://stackoverflow.com/questions/9093448/how-to-capture-a-jframes-close-button-click-event
+    //MODIFIES: this
+    //EFFECTS: sets the behaviour for when the window is closed, should unlock the various components that were locked
+    // upon triggering
     private void setUpClose() {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
-                manager.unlockRotorManager();
+                manager.unlockForPopUps();
             }
         });
     }
@@ -58,37 +61,39 @@ public class EditPopUp extends JFrame {
         JFormattedTextField tf = ((JSpinner.DefaultEditor) editor).getTextField();
         tf.setColumns(4);
 
-        label = new JLabel("<html>This is for rotor type: " + rotorLabel + "<br> the previous setting was: "
-                + initialSetting + "</html>");
-        label.setPreferredSize(new Dimension(100,50));
+        label = new JLabel("This is for rotor type: " + rotorLabel);
+        label.setPreferredSize(label.getPreferredSize());
 
-        done = new JButton("Done");
+        done = new JButton("Set Rotor");
         done.setPreferredSize(done.getPreferredSize());
         done.addActionListener((event) -> {
             doneButtonPush((int) spinner.getValue());
             this.dispose();
         });
 
-        close = new JButton("Close");
+        close = new JButton("Cancel");
         close.setPreferredSize(close.getPreferredSize());
-        close.addActionListener((event) -> this.dispose());
+        close.addActionListener((event) -> {
+            manager.unlockForPopUps();
+            this.dispose();
+        });
     }
 
     //MODIFIES: this
     //EFFECTS: adds the buttons and other Swing components to the panel
     private void addButtons() {
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5,5,5,5);
+        c.insets = new Insets(10,10,10,10);
         c.gridwidth = 2;
         setGridPos(c,0,0);
         add(spinner, c);
         c.gridwidth = 1;
         setGridPos(c,2,0);
-        add(close, c);
-        setGridPos(c,3,0);
         add(done, c);
+//        setGridPos(c,3,0);
+//        add(close, c);
         setGridPos(c,0,1);
-        c.gridwidth = 4;
+        c.gridwidth = 3;
         c.fill = GridBagConstraints.BOTH;
         add(label, c);
 

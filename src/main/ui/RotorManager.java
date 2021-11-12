@@ -3,8 +3,6 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 // The panel that displays the Rotors that are currently installed in the machine, as well as gives the internal
 // settings on the ToolTipText
@@ -13,8 +11,6 @@ public class RotorManager extends JPanel {
 
     JList list;
     JScrollPane scrollPane;
-    JButton delete;
-    JButton add;
     DefaultListModel<String> displayedRotorList;
 
     //MODIFIES: this
@@ -25,21 +21,12 @@ public class RotorManager extends JPanel {
         makeList(size);
 
         scrollPane = new JScrollPane(list);
-        scrollPane.setPreferredSize(new Dimension(75,300));
+        scrollPane.setPreferredSize(new Dimension(125,300));
 
-        delete = new JButton("Delete Selected");
-        delete.addActionListener((event) -> removeSelectedElement());
-
-        add = new JButton("Add Unnecessary");
-        add.addActionListener((event) -> addNewElement());
-        add.setPreferredSize(new Dimension(150,30));
 
         add(scrollPane, BorderLayout.CENTER);
-        //add(delete,BorderLayout.SOUTH);
-        add(add,BorderLayout.SOUTH);
 
         setPreferredSize(getPreferredSize());
-        //setPreferredSize(new Dimension(100,400));
     }
 
     // help for the tooltip Text was found on
@@ -61,9 +48,8 @@ public class RotorManager extends JPanel {
                 Point point = me.getPoint();
                 int index = locationToIndex(point);
                 Rectangle selected = list.getCellBounds(index, index);
-                if (index > -1 && selected.contains(point))  {
-                    String str = (String) getModel().getElementAt(index);
-                    return "Name is " + str;
+                if (index >= 0 && selected.contains(point))  {
+                    return manager.getRotorString(index);
                 }
                 return null;
             }
@@ -109,22 +95,11 @@ public class RotorManager extends JPanel {
         return list.getSelectedIndex();
     }
 
+    //MODIFIES: this
+    //EFFECTS: fills the visible list with size number of visible rotors
     public void updateList(int size) {
         for (int i = 0; i < size; i++) {
             addNewElement();
         }
     }
-
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("JList Demo");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        ArrayList sports1 = new ArrayList(Arrays.asList("Tennis", "Archery", "Football", "Fencing", "Cricket",
-//                "Squash", "Hockey","Rugby"));
-//
-//        ArrayList sports2 = new ArrayList(Arrays.asList(1,2,3,4,5,6));
-//
-//        frame.setSize(300,300);
-//        frame.setVisible(true);
-//    }
-
 }
