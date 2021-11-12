@@ -1,16 +1,20 @@
 package ui.Tools;
 
+import ui.GuiManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class AnimationScreen extends JPanel {
+public class StartProgram extends JPanel {
     JFrame frame;
     Timer timer;
 
     private int oneX = 20;
     private int oneY = 20;
+    private int ballWidth = 20;
+    private int ballHeight = 20;
     private int randomizer = 0;
     private Random rn;
 
@@ -23,7 +27,7 @@ public class AnimationScreen extends JPanel {
     boolean left = false;
     boolean right = true;
 
-    public AnimationScreen() {
+    public StartProgram() {
         setBackground(new Color(112, 245, 205));
 
         frame = new JFrame();
@@ -74,11 +78,14 @@ public class AnimationScreen extends JPanel {
 
     private void initMouseListener() {
         addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+            }
 
-            public void mousePressed(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {
+            }
 
-            public void mouseReleased(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {
+            }
 
             public void mouseEntered(MouseEvent e) {
                 catcherVisible = true;
@@ -96,13 +103,12 @@ public class AnimationScreen extends JPanel {
 
     public void paintComponent(Graphics g) {
         g.setColor(new Color(255, 0, 0));
-        g.fillOval(oneX,oneY,10,10);
+        g.fillOval(oneX, oneY, ballWidth, ballHeight);
         if (catcherVisible) {
             g.setColor(Color.gray);
-            g.fillRect(mouseX - 10,mouseY - 10,20,20);
+            g.fillRect(mouseX - 10, mouseY - 10, 20, 20);
         }
     }
-
 
 
     private void changeDir() {
@@ -152,14 +158,13 @@ public class AnimationScreen extends JPanel {
 
     private void checkWinState() {
         if (catcherVisible) {
-            if (((mouseX + 20 >= oneX) && (mouseX <= oneX + 10)) && ((mouseY + 20 >= oneY) && (mouseY <= oneY + 10))) {
+            if (((mouseX + ballHeight >= oneX) && (mouseX <= oneX + ballWidth))
+                    && ((mouseY + ballHeight >= oneY) && (mouseY <= oneY + ballHeight))) {
                 timer.stop();
-                //TODO trigger next steps/popup initialize real program
+                JOptionPane.showMessageDialog(frame, "Congrats! You can use the program now.");
+                frame.dispose();
+                new GuiManager();
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new AnimationScreen();
     }
 }

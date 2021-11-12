@@ -1,5 +1,7 @@
 package ui;
 
+import ui.Tools.StartProgram;
+
 import javax.swing.*;
 
 //Main class that is used to start the program
@@ -17,7 +19,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("couldn't load what you wanted");
         }
-        new GuiManager();
+        new StartProgram();
     }
 
     //javax.swing.plaf.metal.MetalLookAndFeel
