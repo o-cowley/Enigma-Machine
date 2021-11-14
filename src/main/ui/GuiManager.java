@@ -4,9 +4,9 @@ import exceptions.NoRotorsLoadedException;
 import model.InUseRotors;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.GuiExceptions.ContainsNonWordCharactersException;
-import ui.GuiExceptions.NoNewTextException;
-import ui.Tools.*;
+import ui.guiexceptions.ContainsNonWordCharactersException;
+import ui.guiexceptions.NoNewTextException;
+import ui.tools.*;
 
 import javax.swing.*;
 import java.awt.*;

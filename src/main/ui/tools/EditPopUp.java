@@ -1,4 +1,4 @@
-package ui.Tools;
+package ui.tools;
 
 import ui.GuiManager;
 

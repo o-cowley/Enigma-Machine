@@ -1,23 +1,24 @@
-package ui.Tools;
+package ui.tools;
 
-import ui.GuiManager;
+import ui.StartGameHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-public class StartProgram extends JPanel {
+public class CatchGame extends JPanel {
     private final int ballWidth = 20;
     private final int ballHeight = 20;
 
     private BufferedImage basket;
     private Image basketResized;
+
+    StartGameHandler startGame;
 
     JFrame frame;
     Timer timer;
@@ -36,7 +37,8 @@ public class StartProgram extends JPanel {
     private int randomizer = 0;
     private Random rn;
 
-    public StartProgram() {
+    public CatchGame(StartGameHandler startGame) {
+        this.startGame = startGame;
         setBackground(new Color(112, 245, 205));
 
         frame = new JFrame();
@@ -55,7 +57,6 @@ public class StartProgram extends JPanel {
         initTimer();
 
         timer.start();
-
     }
 
     private void initPicture() {
@@ -68,14 +69,11 @@ public class StartProgram extends JPanel {
     }
 
     private void initTimer() {
-        timer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeDir();
-                changePos();
-                checkWinState();
-                repaint();
-            }
+        timer = new Timer(10, e -> {
+            changeDir();
+            changePos();
+            checkWinState();
+            repaint();
         });
         timer.setRepeats(true);
     }
@@ -119,15 +117,16 @@ public class StartProgram extends JPanel {
         });
     }
 
-
     public void paintComponent(Graphics g) {
+        g.setColor(new Color(0,100,0));
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+        g.drawString("Catch the ball in the basket!", 10,40);
         g.setColor(new Color(255, 0, 0));
         g.fillOval(oneX, oneY, ballWidth, ballHeight);
         if (catcherVisible) {
             g.drawImage(basketResized, mouseX - 25, mouseY - 25, this);
         }
     }
-
 
     private void changeDir() {
         if (randomizer == 10 || randomizer == 60) {
@@ -174,21 +173,15 @@ public class StartProgram extends JPanel {
         randomizer = rn.nextInt(100);
     }
 
-    //TODO  set up proper overlap dimensions
     private void checkWinState() {
         if (catcherVisible) {
-            if (((mouseX - 25 >= oneX + ballWidth) && (mouseX + 25 <= oneX)) //TODO fix this
-                    && ((mouseY + 25 <= oneY + ballHeight) && (mouseY + 50 >= oneY))) {
+            if ((oneX >= mouseX - 25) && (oneX + ballWidth <= mouseX + 25)
+                    && (oneY + ballHeight >= mouseY + 10) && (oneY + ballHeight <= mouseY + 25) && (down)) {
                 timer.stop();
                 JOptionPane.showMessageDialog(frame, "Congrats! You can use the program now.");
                 frame.dispose();
-                new GuiManager();
+                startGame.doneGame();
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-        new StartProgram();
     }
 }

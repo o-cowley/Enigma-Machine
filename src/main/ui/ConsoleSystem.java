@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //User Interface class that adds rotors, with all required fields set, to the InUseRotors and then converts a string
-public class UserSystem {
+public class ConsoleSystem {
     private static final String destination = "./data/encryptionSettings.json";
     private final int maxRotorCount = 8;
 
@@ -24,7 +24,7 @@ public class UserSystem {
     //MODIFIES: this
     //EFFECTS: instantiates scanner and encryptionBox, triggers rotor install, edit phase, encryption, and return
     // settings methods
-    public UserSystem() {
+    public ConsoleSystem() {
         scanner = new Scanner(System.in);
         jsonWriter = new JsonWriter(destination);
         jsonReader = new JsonReader(destination);

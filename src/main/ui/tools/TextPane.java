@@ -1,7 +1,7 @@
-package ui.Tools;
+package ui.tools;
 
-import ui.GuiExceptions.ContainsNonWordCharactersException;
-import ui.GuiExceptions.NoNewTextException;
+import ui.guiexceptions.ContainsNonWordCharactersException;
+import ui.guiexceptions.NoNewTextException;
 import ui.GuiManager;
 
 import javax.swing.*;
@@ -73,11 +73,7 @@ public class TextPane extends JPanel {
 
         JButton button = new JButton("Disable/Enable");
         button.addActionListener((event) -> {
-            if (textAreaInput.isEnabled()) {
-                textAreaInput.setEnabled(false);
-            } else {
-                textAreaInput.setEnabled(true);
-            }
+            textAreaInput.setEnabled(!textAreaInput.isEnabled());
         });
         c.gridy = 2;
         c.fill = GridBagConstraints.HORIZONTAL;

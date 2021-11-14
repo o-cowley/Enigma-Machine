@@ -1,10 +1,8 @@
-package ui.Tools;
+package ui.tools;
 
-import model.InUseRotors;
 import ui.GuiManager;
 
 import javax.swing.*;
-import java.lang.reflect.Array;
 
 // A PopUp that prompts a user to either load saved rotor settings, or to save the settings at the end
 public class SaveLoadPopUp extends JFrame {
