@@ -1,4 +1,6 @@
-package ui;
+package ui.tools;
+
+import ui.GuiManager;
 
 import javax.swing.*;
 import java.awt.*;

@@ -9,6 +9,7 @@ import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
 
 //The text area to add the input to be encrypted, with another pane below to display the output once encrypted
+//TODO get rid of the stupid disable button
 public class TextPane extends JPanel {
     GuiManager manager;
 
@@ -70,14 +71,6 @@ public class TextPane extends JPanel {
         c.weighty = 0.5;
         c.gridy = 1;
         add(scrollOuput, c);
-
-        JButton button = new JButton("Disable/Enable");
-        button.addActionListener((event) -> {
-            textAreaInput.setEnabled(!textAreaInput.isEnabled());
-        });
-        c.gridy = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        add(button, c);
     }
 
     //EFFECTS: gets the text from the user input to encrypt
@@ -89,6 +82,9 @@ public class TextPane extends JPanel {
             throw new NoNewTextException();
         } else if (containsBadCharacters(toEncrypt)) {
             throw new ContainsNonWordCharactersException();
+        } else if (toEncrypt.equalsIgnoreCase("What is the meaning of life")) {
+            new EasterEgg();
+            return toEncrypt;
         } else {
             return toEncrypt;
         }
@@ -135,7 +131,7 @@ public class TextPane extends JPanel {
     }
 
     //MODIFIES: this
-    //EFFECTS: sets the output text to be str, intended to be used as
+    //EFFECTS: sets the output text field to str
     public void printEncryptedString(String str) {
         textAreaOutput.setText(str);
 //        String output = "";

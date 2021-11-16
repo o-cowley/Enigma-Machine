@@ -79,9 +79,8 @@ public class GuiManager extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: triggers the popup that prompts a user to load data from a file
+    //EFFECTS: triggers the starting popup that prompts a user to load data from a file on opening
     private void startProgram() {
-        //TODO WELCOME SCREEN and make sure to lock access until after save and load popup
         new SaveLoadPopUp(true, this);
     }
 
@@ -94,13 +93,15 @@ public class GuiManager extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: responds to user input to load rotors saved in file at the beginning of encryption process
+    //EFFECTS: responds to user input to load rotors saved in file at the beginning of encryption process, or alerts
+    // the user that they were unable to be loaded
     public void loadRotors() {
         try {
             readRotorsFromFile();
             rotorManager.updateList(encryptionBox.getRotorCount());
         } catch (Exception e) {
-            //TODO: popup to indicate something failed in the reading
+            JOptionPane.showMessageDialog(this, "We couldn't load the rotors from your save. "
+                    + "You will have to add them yourself.", "No Save Found!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -182,8 +183,6 @@ public class GuiManager extends JFrame {
             } catch (NoNewTextException e) {
                 JOptionPane.showMessageDialog(this, "You haven't entered any new text yet!",
                         "No New Text!", JOptionPane.WARNING_MESSAGE);
-//            } catch (InterruptedException e) {
-//                //nothing
             }
         }
 
@@ -212,7 +211,8 @@ public class GuiManager extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: writes the encryptionBox to file as JSON, to be used next time
+    //EFFECTS: writes the encryptionBox to file as JSON, to be used next time, or alerts user if file could not be
+    // found
     private void writeRotorsToFile() {
         JsonWriter jsonWriter = new JsonWriter(destination);
         try {
@@ -220,7 +220,9 @@ public class GuiManager extends JFrame {
             jsonWriter.write(encryptionBox);
             jsonWriter.close();
         } catch (FileNotFoundException e) {
-            //System.out.println("Sorry, the destination file wasn't found");
+            JOptionPane.showMessageDialog(this, "Unable to find the save file! Please verify"
+                            + " that it exists.",
+                    "No Save File!", JOptionPane.WARNING_MESSAGE);
         }
 
     }
@@ -235,12 +237,12 @@ public class GuiManager extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS:
+    //EFFECTS: Triggers the method to remove all un-encryptable characters from the text input pane
     public void triggerTextClean() {
         textPane.cleanUpInput();
     }
 
-    //EFFECTS: gets the String representation of a Rotor to be displayed as toolTipText
+    //EFFECTS: returns the String representation of a Rotor to be displayed as toolTipText
     public String getRotorString(int index) {
         return encryptionBox.getRotorName(index);
     }

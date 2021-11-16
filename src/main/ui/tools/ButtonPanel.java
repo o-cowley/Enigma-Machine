@@ -5,7 +5,7 @@ import ui.GuiManager;
 import javax.swing.*;
 import java.awt.*;
 
-//The main button panel class/pane for the GUI
+//The button panel for the GUI, it controls all aspects of the encryption process
 public class ButtonPanel extends JPanel {
     GuiManager manager;
 
@@ -25,8 +25,6 @@ public class ButtonPanel extends JPanel {
         addButtons();
 
         Dimension bigger = getPreferredSize();
-//        bigger.height = bigger.height + 10;
-//        bigger.width = bigger.width + 5;
         setPreferredSize(bigger);
 
     }

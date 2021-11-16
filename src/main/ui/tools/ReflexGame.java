@@ -1,13 +1,13 @@
-package ui;
+package ui.tools;
+
+import ui.StartGameHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.Random;
 
+//A simple game of whack-a-mole, this is another game to beat for users to gain access to the program
 public class ReflexGame extends JPanel {
     private final int gameWidth = 500;
     private final int gameHeight = 500;
@@ -22,6 +22,8 @@ public class ReflexGame extends JPanel {
     private int oneX;
     private int oneY;
 
+    //MODIFIES: this
+    //EFFECTS: A constructor for the ReflexGame, initializes all fields and visuals and then starts the animation
     public ReflexGame(StartGameHandler startGameHandler) {
         frame = new JFrame();
         rn = new Random();
@@ -33,7 +35,6 @@ public class ReflexGame extends JPanel {
         changeCoords();
         setBackground(new Color(152, 253, 225));
 
-        initClose();
         initTimer();
         initMouse();
 
@@ -43,10 +44,10 @@ public class ReflexGame extends JPanel {
         timer.start();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
     }
 
+    //MODIFIES: this
+    //EFFECTS: starts the timer and adds the two key methods to be executed every cycle
     private void initTimer() {
         timer = new Timer(500, e -> {
             changeCoords();
@@ -55,6 +56,8 @@ public class ReflexGame extends JPanel {
         timer.setRepeats(true);
     }
 
+    //MODIFIES: this
+    //EFFECTS: paints the graphics on to the panel
     public void paintComponent(Graphics g) {
         g.setColor(new Color(0,100,0));
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -63,16 +66,17 @@ public class ReflexGame extends JPanel {
         g.fillRect(oneX, oneY, buttonSide, buttonSide);
     }
 
+    //MODIFIES: this
+    //EFFECTS: Changes the coordinates of the target box
     private void changeCoords() {
         oneX = rn.nextInt(gameWidth - buttonSide);
         oneY = rn.nextInt(gameHeight - buttonSide);
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds the mouse handler to check if the target was caught on a mouse click
     public void initMouse() {
-        addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-            }
-
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (checkWinState(e)) {
@@ -80,20 +84,14 @@ public class ReflexGame extends JPanel {
                     gameFinished();
                 }
             }
-
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseExited(MouseEvent e) {
-            }
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: alerts the user that they successfully got through the game, then disposes of the game frame and
+    // alerts the StartGameHandler to start the encryption phase of the program
     private void gameFinished() {
-        int result = JOptionPane.showConfirmDialog(frame, "Yay, you won", "Done entry game!",
+        int result = JOptionPane.showConfirmDialog(frame, "Yay, you won", "Game won!",
                         JOptionPane.DEFAULT_OPTION);
         if (result == 0) {
             frame.dispose();
@@ -101,33 +99,7 @@ public class ReflexGame extends JPanel {
         }
     }
 
-    private void initClose() {
-        frame.addWindowListener(new WindowListener() {
-            public void windowOpened(WindowEvent e) {
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.out.println("triggered the right thing");
-            }
-
-            public void windowClosed(WindowEvent e) {
-            }
-
-            public void windowIconified(WindowEvent e) {
-            }
-
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            public void windowActivated(WindowEvent e) {
-            }
-
-            public void windowDeactivated(WindowEvent e) {
-            }
-        });
-    }
-
+    //EFFECTS: checks if a mouse click was within the target and therefore satisfies the win condition
     public boolean checkWinState(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();

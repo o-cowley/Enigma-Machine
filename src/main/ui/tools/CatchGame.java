@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+// A splash screen game that the user is required to beat in order to access the encryption tool
 public class CatchGame extends JPanel {
     private final int ballWidth = 20;
     private final int ballHeight = 20;
@@ -37,6 +38,8 @@ public class CatchGame extends JPanel {
     private int randomizer = 0;
     private Random rn;
 
+    //MODIFIES: this
+    //EFFECTS: constructor for the CatchGame class, initializes all aspects and launches the game
     public CatchGame(StartGameHandler startGame) {
         this.startGame = startGame;
         setBackground(new Color(112, 245, 205));
@@ -59,15 +62,19 @@ public class CatchGame extends JPanel {
         timer.start();
     }
 
+    //MODIFIES: this
+    //EFFECTS: loads the picture to be used for the game basket
     private void initPicture() {
         try {
             basket = ImageIO.read(new File("./data/basket.png"));
             basketResized = basket.getScaledInstance(50,50, 1);
         } catch (IOException e) {
-            //
+            //TODO...do something about this
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes the timer and loads the event handler that powers the game and checks for winState
     private void initTimer() {
         timer = new Timer(10, e -> {
             changeDir();
@@ -78,11 +85,12 @@ public class CatchGame extends JPanel {
         timer.setRepeats(true);
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes the mouse motion listener to detect where the mouse is within the bounds of the game
     private void initMouseMotionListener() {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-
             }
 
             @Override
@@ -93,17 +101,10 @@ public class CatchGame extends JPanel {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes mouseAdaptor that checks if the mouse is within the bounds of the game window
     private void initMouseListener() {
-        addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-            }
-
-            public void mousePressed(MouseEvent e) {
-            }
-
-            public void mouseReleased(MouseEvent e) {
-            }
-
+        addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 catcherVisible = true;
                 mouseX = e.getX() - 10;
@@ -117,6 +118,8 @@ public class CatchGame extends JPanel {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates the graphics of the game
     public void paintComponent(Graphics g) {
         g.setColor(new Color(0,100,0));
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -128,6 +131,8 @@ public class CatchGame extends JPanel {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: changes the ball direction according to the randomizer
     private void changeDir() {
         if (randomizer == 10 || randomizer == 60) {
             left = !left;
@@ -140,6 +145,8 @@ public class CatchGame extends JPanel {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: adjusts direction of the ball or bounces the ball if it bounces off a boundary
     private void moveNormal() {
         if (oneX >= this.getWidth() - 10) {
             left = true;
@@ -159,6 +166,9 @@ public class CatchGame extends JPanel {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: moves the X and Y coordinates of the ball according to the direction fields, then generates the next
+    //  randomizer value for direction changes
     private void changePos() {
         if (up) {
             oneY--;
@@ -173,6 +183,9 @@ public class CatchGame extends JPanel {
         randomizer = rn.nextInt(100);
     }
 
+    //MODIFIES: this
+    //EFFECTS: detects if the ball has been caught in the basket. Displays win popup if so, stops timer, closes game
+    // panel and then indicates to the manager that the game has been won
     private void checkWinState() {
         if (catcherVisible) {
             if ((oneX >= mouseX - 25) && (oneX + ballWidth <= mouseX + 25)

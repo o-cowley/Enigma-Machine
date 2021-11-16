@@ -111,26 +111,4 @@ public class EditPopUp extends JFrame {
     private void doneButtonPush(int setting) {
         manager.reactToEditPop(setting);
     }
-
-
-
-//    public static void main(String[] args) {
-//        JFrame mainFrame = new JFrame();
-//        mainFrame.setLocationRelativeTo(null);
-//
-//        JButton but = new JButton("pop");
-//        but.setPreferredSize(new Dimension(100,100));
-//        but.addActionListener((event) -> new EditPopUp(new Point(mainFrame.getX() + 100, mainFrame.getY()),
-//                5, 5));
-//
-//        mainFrame.add(but);
-//
-//        mainFrame.setSize(mainFrame.getPreferredSize());
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.setVisible(true);
-//
-//    }
-
-
-
 }

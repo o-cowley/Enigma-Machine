@@ -1,10 +1,13 @@
 package ui;
 
 import ui.tools.CatchGame;
+import ui.tools.ReflexGame;
 
 import javax.swing.*;
 import java.awt.*;
 
+//The class used to start the program and then launch the desired game that a user has to beat to gain access to the
+// encryption program
 public class StartGameHandler extends JPanel {
 
     JFrame mainFrame;
@@ -13,6 +16,8 @@ public class StartGameHandler extends JPanel {
     JButton buttonReflex;
     JLabel label;
 
+    //MODIFIES: this
+    //EFFECTS: constructor for the StartGameHandler, intializes everything and then prompts the user for input
     public StartGameHandler() {
         setLayout(new GridBagLayout());
         mainFrame = new JFrame("Start the show");
@@ -26,12 +31,10 @@ public class StartGameHandler extends JPanel {
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-
-
-
-
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes all the buttons and adds the required action listeners
     private void initButtons(StartGameHandler main) {
         label = new JLabel("Pick a game! You have to win to get in to the program.");
         label.setPreferredSize(label.getPreferredSize());
@@ -45,6 +48,8 @@ public class StartGameHandler extends JPanel {
         buttonReflex.addActionListener(e -> new ReflexGame(this));
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds the initialized buttons to the panel
     private void addButtons() {
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5,5,5,5);
@@ -62,12 +67,11 @@ public class StartGameHandler extends JPanel {
         add(buttonReflex, c);
     }
 
+    //MODIFIES: this
+    //EFFECTS: causes the StartGameHandler to dispose itself and then trigger the launch of the encryption part
+    // of the program
     public void doneGame() {
         mainFrame.dispose();
         new GuiManager();
-    }
-
-    public static void main(String[] args) {
-        new StartGameHandler();
     }
 }
