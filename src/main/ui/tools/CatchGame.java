@@ -54,7 +54,6 @@ public class CatchGame extends JPanel {
 
         rn = new Random();
         initPicture();
-
         initMouseListener();
         initMouseMotionListener();
         initTimer();

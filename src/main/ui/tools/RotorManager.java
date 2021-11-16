@@ -25,9 +25,7 @@ public class RotorManager extends JPanel {
         scrollPane = new JScrollPane(list);
         scrollPane.setPreferredSize(new Dimension(125,300));
 
-
         add(scrollPane, BorderLayout.CENTER);
-
         setPreferredSize(getPreferredSize());
     }
 

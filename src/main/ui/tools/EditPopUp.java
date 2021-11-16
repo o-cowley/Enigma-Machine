@@ -31,9 +31,7 @@ public class EditPopUp extends JFrame {
         setPreferredSize(getPreferredSize());
         setResizable(false);
         setLocationRelativeTo(null);
-        //setLocation(p);
         setVisible(true);
-
     }
 
     //how to use a window listener came from code suggestions from this page:
@@ -70,13 +68,12 @@ public class EditPopUp extends JFrame {
             doneButtonPush((int) spinner.getValue());
             this.dispose();
         });
-
-        close = new JButton("Cancel");
-        close.setPreferredSize(close.getPreferredSize());
-        close.addActionListener((event) -> {
-            manager.unlockForPopUps();
-            this.dispose();
-        });
+//        close = new JButton("Cancel");
+//        close.setPreferredSize(close.getPreferredSize());
+//        close.addActionListener((event) -> {
+//            manager.unlockForPopUps();
+//            this.dispose();
+//        });
     }
 
     //MODIFIES: this
@@ -96,7 +93,6 @@ public class EditPopUp extends JFrame {
         c.gridwidth = 3;
         c.fill = GridBagConstraints.BOTH;
         add(label, c);
-
     }
 
 

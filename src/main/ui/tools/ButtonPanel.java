@@ -23,10 +23,7 @@ public class ButtonPanel extends JPanel {
 
         initButtons();
         addButtons();
-
-        Dimension bigger = getPreferredSize();
-        setPreferredSize(bigger);
-
+        setPreferredSize(getPreferredSize());
     }
 
     //MODIFIES: this

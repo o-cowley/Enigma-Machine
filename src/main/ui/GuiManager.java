@@ -39,13 +39,11 @@ public class GuiManager extends JFrame {
         setUpClose(this);
 
         pack();
-
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
 
-        startProgram();
-
+        launchLoadOption();
     }
 
     //MODIFIES: this
@@ -79,8 +77,10 @@ public class GuiManager extends JFrame {
     }
 
     //MODIFIES: this
-    //EFFECTS: triggers the starting popup that prompts a user to load data from a file on opening
-    private void startProgram() {
+    //EFFECTS: locks all input buttons and triggers the starting popup that prompts a user to load data from a
+    // file on opening
+    private void launchLoadOption() {
+        lockForPopUps();
         new SaveLoadPopUp(true, this);
     }
 
@@ -99,10 +99,12 @@ public class GuiManager extends JFrame {
         try {
             readRotorsFromFile();
             rotorManager.updateList(encryptionBox.getRotorCount());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "We couldn't load the rotors from your save. "
                     + "You will have to add them yourself.", "No Save Found!", JOptionPane.ERROR_MESSAGE);
         }
+        unlockForPopUps();
     }
 
     //MODIFIES: this
@@ -185,16 +187,16 @@ public class GuiManager extends JFrame {
                         "No New Text!", JOptionPane.WARNING_MESSAGE);
             }
         }
-
-
     }
 
     //MODIFIES: this, manager
-    //EFFECTS: adds a windowClosing listener, triggers the save popup instead of closing
+    //EFFECTS: adds a windowClosing listener, triggers the save popup instead of closing, locks panel to avoid
+    // additional inputs while executing this popup
     private void setUpClose(GuiManager manager) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
+                lockForPopUps();
                 new SaveLoadPopUp(false, manager);
             }
         });
@@ -207,7 +209,6 @@ public class GuiManager extends JFrame {
             writeRotorsToFile();
         }
         System.exit(0);
-
     }
 
     //MODIFIES: this
@@ -224,7 +225,6 @@ public class GuiManager extends JFrame {
                             + " that it exists.",
                     "No Save File!", JOptionPane.WARNING_MESSAGE);
         }
-
     }
 
     //MODIFIES: this

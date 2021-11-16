@@ -35,7 +35,6 @@ public class AddPopUp extends JFrame {
         setResizable(false);
         setLocation(p);
         setVisible(true);
-
     }
 
     //MODIFIES: this

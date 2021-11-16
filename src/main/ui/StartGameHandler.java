@@ -9,7 +9,6 @@ import java.awt.*;
 //The class used to start the program and then launch the desired game that a user has to beat to gain access to the
 // encryption program
 public class StartGameHandler extends JPanel {
-
     JFrame mainFrame;
 
     JButton buttonCatch;
