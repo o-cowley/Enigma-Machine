@@ -13,7 +13,6 @@ public class EditPopUp extends JFrame {
 
     JSpinner spinner;
     JButton done;
-    JButton close;
     JLabel label;
 
     //EFFECTS: A constructor that initializes an Edit popup to allow a user to set a rotor's internal setting
@@ -64,16 +63,10 @@ public class EditPopUp extends JFrame {
 
         done = new JButton("Set Rotor");
         done.setPreferredSize(done.getPreferredSize());
-        done.addActionListener((event) -> {
+        done.addActionListener(e -> {
             doneButtonPush((int) spinner.getValue());
             this.dispose();
         });
-//        close = new JButton("Cancel");
-//        close.setPreferredSize(close.getPreferredSize());
-//        close.addActionListener((event) -> {
-//            manager.unlockForPopUps();
-//            this.dispose();
-//        });
     }
 
     //MODIFIES: this
@@ -87,8 +80,6 @@ public class EditPopUp extends JFrame {
         c.gridwidth = 1;
         setGridPos(c,2,0);
         add(done, c);
-//        setGridPos(c,3,0);
-//        add(close, c);
         setGridPos(c,0,1);
         c.gridwidth = 3;
         c.fill = GridBagConstraints.BOTH;
@@ -104,6 +95,8 @@ public class EditPopUp extends JFrame {
         c.gridy = y;
     }
 
+    //MODIFIES: this
+    //EFFECTS: conveys to the manager the input from the edit popup in order to trigger a change in rotor setting
     private void doneButtonPush(int setting) {
         manager.reactToEditPop(setting);
     }

@@ -13,6 +13,7 @@ public class SaveLoadPopUp extends JFrame {
     JOptionPane buttons;
     int result;
 
+    //MODIFIES: this
     //EFFECTS: a constructor triggering a popup to ask if the user wants to load saved rotors at the start
     // or save at the end, based on the boolean input save
     public SaveLoadPopUp(boolean save, GuiManager guiManager) {
@@ -21,7 +22,7 @@ public class SaveLoadPopUp extends JFrame {
         initAction(save);
     }
 
-    //MODIFIES: this, inUseRotors
+    //MODIFIES: this
     //EFFECTS: based on the user input, either loads or saves the rotor settings to/from file, closes/removes after
     // unlocks the manager after input is received
     public void initAction(boolean save) {

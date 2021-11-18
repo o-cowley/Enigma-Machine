@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-//A popup of a specific picture that is launched when one of a few inputs is provided to encrypt
+//A popup of one of a specific picture that is launched when one of a few specific inputs are provided to encrypt
 public class EasterEgg extends JPanel {
     JFrame frame;
     Image image;
@@ -28,7 +28,7 @@ public class EasterEgg extends JPanel {
     }
 
     //MODIFIES: this
-    //EFFECTS: paints the graphics on the panel
+    //EFFECTS: paints the graphics on the panel, an image if it was loaded, otherwise a message
     public void paintComponent(Graphics g) {
         if (image != null) {
             g.drawImage(image,0,0,null);

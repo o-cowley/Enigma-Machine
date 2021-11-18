@@ -29,7 +29,7 @@ public class RotorManager extends JPanel {
         setPreferredSize(getPreferredSize());
     }
 
-    // help for the tooltip Text was found on
+    // help for the tooltip Text setup was found on
     // https://www.tutorialspoint.com/how-to-set-a-tooltip-text-for-each-item-of-a-jlist-in-java
     //REQUIRES: amount of loaded number of rotors or -1 if none loaded from save
     //MODIFIES: this
@@ -42,7 +42,6 @@ public class RotorManager extends JPanel {
                 displayedRotorList.addElement("Rotor #" + i);
             }
         }
-
         list = new JList(displayedRotorList) {
             public String getToolTipText(MouseEvent me) {
                 Point point = me.getPoint();
@@ -81,8 +80,6 @@ public class RotorManager extends JPanel {
     public void unlockRotors() {
         list.setEnabled(true);
     }
-
-
 
     //MODIFIES: this
     //EFFECTS: adds a new rotor to the end of the list

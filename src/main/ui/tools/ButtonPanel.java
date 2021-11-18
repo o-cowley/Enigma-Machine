@@ -5,7 +5,7 @@ import ui.GuiManager;
 import javax.swing.*;
 import java.awt.*;
 
-//The button panel for the GUI, it controls all aspects of the encryption process
+//The button panel for the GUI, it controls all aspects of the encryption process through its bidirectional association
 public class ButtonPanel extends JPanel {
     GuiManager manager;
 

@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-// A splash screen game that the user is required to beat in order to access the encryption tool
+// A splash screen ball catching game that the user is required to beat in order to access the encryption tool
 public class CatchGame extends JPanel {
     private final int ballWidth = 20;
     private final int ballHeight = 20;
@@ -68,7 +68,7 @@ public class CatchGame extends JPanel {
             basket = ImageIO.read(new File("./data/basket.png"));
             basketResized = basket.getScaledInstance(50,50, 1);
         } catch (IOException e) {
-            //TODO...do something about this
+            basket = null;
         }
     }
 
@@ -87,11 +87,7 @@ public class CatchGame extends JPanel {
     //MODIFIES: this
     //EFFECTS: initializes the mouse motion listener to detect where the mouse is within the bounds of the game
     private void initMouseMotionListener() {
-        addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-            }
-
+        addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 mouseX = e.getX();
@@ -126,7 +122,11 @@ public class CatchGame extends JPanel {
         g.setColor(new Color(255, 0, 0));
         g.fillOval(oneX, oneY, ballWidth, ballHeight);
         if (catcherVisible) {
-            g.drawImage(basketResized, mouseX - 25, mouseY - 25, this);
+            if (basket != null) {
+                g.drawImage(basketResized, mouseX - 25, mouseY - 25, this);
+            } else {
+                g.fillRect(mouseX - 25, mouseY - 25, 50,50);
+            }
         }
     }
 

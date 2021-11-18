@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-//A simple game of whack-a-mole, this is another game to beat for users to gain access to the program
+//A simple game of whack-a-mole, this is another option of a game to beat for users to gain access to the program
 public class ReflexGame extends JPanel {
     private final int gameWidth = 500;
     private final int gameHeight = 500;
@@ -40,9 +40,9 @@ public class ReflexGame extends JPanel {
 
         frame.add(this);
         frame.setSize(gameWidth, gameHeight);
+        frame.setLocationRelativeTo(null);
 
         timer.start();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

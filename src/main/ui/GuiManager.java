@@ -118,6 +118,7 @@ public class GuiManager extends JFrame {
         rotorManager.removeSelectedElement();
     }
 
+    //MODIFIES: this
     //EFFECTS: triggers a popup that prompts a user to select the type of rotor to add to their encryption box
     public void triggerAddPop() {
         lockForPopUps();
@@ -165,7 +166,7 @@ public class GuiManager extends JFrame {
         buttons.unlockForPopUp();
     }
 
-    //MODIFIES: encryptionBox
+    //MODIFIES: this
     //EFFECTS: responds to user request to encrypt text from textArea, encrypts if possible, triggers warning if
     // un-encryptable characters are in the input field
     public void triggerEncrypt() {

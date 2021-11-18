@@ -21,10 +21,10 @@ public class TextPane extends JPanel {
 
     JScrollPane scrollInput;
     JScrollPane scrollOuput;
-
     JTextArea textAreaInput;
     JTextArea textAreaOutput;
 
+    //MODIFIES: this
     //EFFECTS: Constructs the text pane with both TextAreas, input area is editable and output is not
     public TextPane(GuiManager manager) {
         setLayout(new GridBagLayout());
@@ -137,7 +137,7 @@ public class TextPane extends JPanel {
         textAreaInput.setText(cleaned);
     }
 
-    //The design of this code comes from the website
+    //The design of this code is influenced by an example from the website
     //https://www.programcreek.com/java-api-examples/?api=javax.swing.text.DefaultEditorKit
     //MODIFIES: this
     //EFFECTS: turns on Cut/Copy/Paste to system clipboard for the text areas--triggered by ctrl-x/c/v
@@ -156,15 +156,6 @@ public class TextPane extends JPanel {
     //EFFECTS: sets the output text field to str
     public void printEncryptedString(String str) {
         textAreaOutput.setText(str);
-//        String output = "";
-//        String input = textAreaInput.getText();
-//        int i = 0;
-//        while (i < str.length()) {
-//            output = str.substring(0, i) + input.substring(i, str.length());
-//            textAreaOutput.setText(output);
-//            Thread.sleep(1000);
-//            i++;
-//        }
     }
 
     //MODIFIES: this
@@ -174,6 +165,5 @@ public class TextPane extends JPanel {
         bonusInputs.put("what is the meaning of life", "./data/42.png");
         bonusInputs.put("damn daniel", "./data/whiteVans.png");
         bonusInputs.put("hey a dog", "./data/tobs.jpg");
-
     }
 }
