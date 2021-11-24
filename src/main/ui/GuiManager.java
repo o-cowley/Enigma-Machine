@@ -1,6 +1,8 @@
 package ui;
 
 import exceptions.NoRotorsLoadedException;
+import model.EventLog;
+import model.Event;
 import model.InUseRotors;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -209,6 +211,7 @@ public class GuiManager extends JFrame {
         if (save) {
             writeRotorsToFile();
         }
+        printLog(EventLog.getInstance());
         System.exit(0);
     }
 
@@ -246,5 +249,11 @@ public class GuiManager extends JFrame {
     //EFFECTS: returns the String representation of a Rotor to be displayed as toolTipText
     public String getRotorString(int index) {
         return encryptionBox.getRotorName(index);
+    }
+
+    private void printLog(EventLog e) {
+        for (Event event: e) {
+            System.out.println(event.toString());
+        }
     }
 }

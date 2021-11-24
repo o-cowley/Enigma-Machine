@@ -21,7 +21,6 @@ public class InUseRotors {
     public InUseRotors() {
         this.reflector = new Rotor();
         reflector.setReflector();
-
         availableRotorTypes = reflector.getAvailableRotors();
     }
 
@@ -31,6 +30,7 @@ public class InUseRotors {
     public void addRotor(Integer rotorLabel, Integer setting) {
         Rotor rotor = new Rotor(rotorLabel);
         rotor.setRotor(setting);
+        EventLog.getInstance().logEvent(new Event("Added Rotor# " + rotorLabel + ", Setting: " + setting));
         inUse.add(rotor);
     }
 
@@ -108,6 +108,8 @@ public class InUseRotors {
     //MODIFIES: this
     //EFFECTS: sets a rotor's start point and current setting to newSetting after it has already been set and added
     public void resetRotorDetails(int rotorNum, int newSetting) {
+        EventLog.getInstance().logEvent(new Event("Changed Rotor# " + (rotorNum + 1) + ", new setting: "
+                + newSetting));
         inUse.get(rotorNum).setRotor(newSetting);
     }
 
@@ -115,6 +117,7 @@ public class InUseRotors {
     //MODIFIES: this
     //EFFECTS: removes the given rotor from the inUse list
     public void deleteRotor(int rotorNum) {
+        EventLog.getInstance().logEvent(new Event("Deleted Rotor# " + (rotorNum + 1)));
         inUse.remove(rotorNum);
     }
 
@@ -142,6 +145,8 @@ public class InUseRotors {
     //MODIFIES this
     //EFFECTS: adds an already made rotor to inUse, takes advantage of JSON data and new Rotor constructor
     public void addCompleteRotor(Rotor r) {
+        EventLog.getInstance().logEvent(new Event("Added Rotor# " + r.getLabel() + ", Setting: "
+                + r.getStartPoint()));
         inUse.add(r);
     }
 

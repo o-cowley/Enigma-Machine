@@ -31,3 +31,24 @@ the same initial settings, any changes to the settings or rotors will mean that 
 - As a user, I want the choice to save the rotor settings that I used to file, or not do so
 - As a user, I want the choice to load and use my last saved rotor settings from file, or not do so and pick  
 them myself
+
+### Phase 4: Task 2
+
+Wed Nov 24 10:58:07 PST 2021
+Added Rotor# 1, Setting: 0
+Wed Nov 24 10:58:12 PST 2021
+Added Rotor# 3, Setting: 0
+Wed Nov 24 10:58:16 PST 2021
+Added Rotor# 5, Setting: 0
+Wed Nov 24 10:58:23 PST 2021
+Changed Rotor# 2, new setting: 18
+Wed Nov 24 10:58:28 PST 2021
+Changed Rotor# 3, new setting: 5
+Wed Nov 24 10:58:32 PST 2021
+Added Rotor# 4, Setting: 0
+Wed Nov 24 10:58:35 PST 2021
+Deleted Rotor# 2
+Wed Nov 24 10:58:40 PST 2021
+Changed Rotor# 1, new setting: 17
+
+
