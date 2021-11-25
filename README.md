@@ -34,7 +34,7 @@ them myself
 
 ### Phase 4: Task 2
 
-Representative Code Sample:
+Representative Log Sample:
 
 Wed Nov 24 10:58:07 PST 2021  
 Added Rotor# 1, Setting: 0  
