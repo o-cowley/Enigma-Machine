@@ -251,6 +251,7 @@ public class GuiManager extends JFrame {
         return encryptionBox.getRotorName(index);
     }
 
+    //EFFECTS: prints out all of the Xs to Y events that have taken place for this session of the program
     private void printLog(EventLog e) {
         for (Event event: e) {
             System.out.println(event.toString());
