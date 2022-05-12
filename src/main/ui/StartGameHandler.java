@@ -1,6 +1,6 @@
 package ui;
 
-import ui.tools.CatchGame;
+import ui.tools.Catch;
 import ui.tools.ReflexGame;
 
 import javax.swing.*;
@@ -41,7 +41,7 @@ public class StartGameHandler extends JPanel {
 
         buttonCatch = new JButton("Catch Game");
         buttonCatch.setPreferredSize(buttonCatch.getPreferredSize());
-        buttonCatch.addActionListener(e -> new CatchGame(this));
+        buttonCatch.addActionListener(e -> new Catch(this));
 
         buttonReflex = new JButton("Reflex Game");
         buttonReflex.setPreferredSize(buttonReflex.getPreferredSize());
