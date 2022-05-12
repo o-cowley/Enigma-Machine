@@ -164,6 +164,6 @@ public class TextPane extends JPanel {
         bonusInputs = new HashMap<>();
         bonusInputs.put("what is the meaning of life", "./data/42.png");
         bonusInputs.put("damn daniel", "./data/whiteVans.png");
-        bonusInputs.put("hey a dog", "./data/tobs.jpg");
+        bonusInputs.put("hey, a dog", "./data/tobs.jpg");
     }
 }

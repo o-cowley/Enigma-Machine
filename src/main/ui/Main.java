@@ -10,9 +10,9 @@ public class Main {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
-            System.out.println("couldn't load what you wanted");
+            System.out.println("Couldn't load the desired LookAndFeel but it will still run anways!");
         }
-        new StartGameHandler();
+        new GuiManager();
     }
 
     //javax.swing.plaf.metal.MetalLookAndFeel
