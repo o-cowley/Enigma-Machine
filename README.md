@@ -1,4 +1,4 @@
-#The Enigma Machine
+# The Enigma Machine
 
 ## Project Description:
 This project is a working model of the German Enigma machine from WWII. It accurately reflects all of the main  
