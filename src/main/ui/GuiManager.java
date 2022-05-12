@@ -211,7 +211,7 @@ public class GuiManager extends JFrame {
         if (save) {
             writeRotorsToFile();
         }
-        printLog(EventLog.getInstance());
+        //printLog(EventLog.getInstance());
         System.exit(0);
     }
 
