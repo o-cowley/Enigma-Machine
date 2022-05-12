@@ -1,4 +1,4 @@
-# My Personal Project: The Enigma Machine
+#The Enigma Machine
 
 ## Project Description:
 This project is a working model of the German Enigma machine from WWII. It accurately reflects all of the main  
@@ -21,6 +21,8 @@ modelling the Enigma machine would be a very compelling way of learning the ins 
 ## Pictures of the Application in Use:
   
 This is the application:
+
+![Enigma-Machine-InUse](https://user-images.githubusercontent.com/93353002/168152195-8f9769b7-2b9f-4c7c-8fb9-474151860f60.png)
 
 Upon loading, the user will be prompted to load the previously saved set of rotor settings. When the user chooses to close the application, they will be first prompted if they wish to save their settings from the most recent encryption
 
